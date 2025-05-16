@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags: []
   layers:
   - Default
@@ -11,7 +11,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Towers
   - 
   - 
   - 
@@ -41,3 +41,20 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Road
+    uniqueID: 1228631883
+    locked: 0
+  - name: Elavation
+    uniqueID: 4218395063
+    locked: 0
+  - name: Decoration
+    uniqueID: 1722554283
+    locked: 0
+  - name: Towers
+    uniqueID: 4058812693
+    locked: 0
+  - name: Enemy
+    uniqueID: 2995691579
+    locked: 0
+  m_RenderingLayers:
+  - Default
