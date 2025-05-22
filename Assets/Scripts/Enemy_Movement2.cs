@@ -15,7 +15,7 @@ public class Enemy_Movement2 : MonoBehaviour
 
     //######################## Membervariablen ##############################
     public float speed = 1;
-    public int facingDirection = 1;
+    public float attackRange = 2;
 
     private EnemyState enemyState;
     private Rigidbody2D rb;
@@ -30,20 +30,19 @@ public class Enemy_Movement2 : MonoBehaviour
     void Start()
     {
         // wir weisen den Rigidbody vom eigenen Objekt uns zu
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        this.rb = GetComponent<Rigidbody2D>();
+        this.animator = GetComponent<Animator>();
         ChangeState(EnemyState.Idle);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         // auf anderen Charakter zulaufen:
         if (this.enemyState == EnemyState.Moving)
         {
-            // Richtungsvektor
-            Vector2 direction = (this.playerTransform.position - this.transform.position).normalized;
-            rb.linearVelocity = direction * speed;
+            Moving();
         }
     }
 
@@ -51,23 +50,25 @@ public class Enemy_Movement2 : MonoBehaviour
     private void FixedUpdate()
     {
 
-        // aktuelle Bewegung abrufen
-        float horizontal = rb.linearVelocity.x;
-        float vertical = rb.linearVelocity.y;
 
-        // horizontal > 0 --> nach rechts laufen, aber Bild links ausgerichtet
-        // horizontal < 0 --> nach links laufen, aber Bild rechts ausgerichtet
-        if (horizontal > 0 && this.transform.localScale.x < 0 ||
-            horizontal < 0 && this.transform.localScale.x > 0)
-        {
-            Flip();
-        }
+        
 
     }
 
 
 
     //########################### Methoden #############################
+    private void Moving()
+    {
+        // Richtungsvektor
+        Vector2 direction = (this.playerTransform.position - this.transform.position).normalized;
+        this.rb.linearVelocity = direction * speed;
+
+        // aktuelle Bewegung abrufen
+        FlipCharakter(this.rb.linearVelocity.x);
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Player")
@@ -93,13 +94,13 @@ public class Enemy_Movement2 : MonoBehaviour
     {
         // Exit old state
         if (enemyState == EnemyState.Idle)
-            animator.SetBool("isIdle", false);
+            animator.SetBool("isIdling", false);
         else if (enemyState == EnemyState.Moving)
             animator.SetBool("isMoving", false);
 
         // Set new state
         if (newState == EnemyState.Idle)
-            animator.SetBool("isIdle", true);
+            animator.SetBool("isIdling", true);
         else if (newState == EnemyState.Moving)
             animator.SetBool("isMoving", true);
 
@@ -108,10 +109,19 @@ public class Enemy_Movement2 : MonoBehaviour
 
 
 
-    private void Flip()
+    protected void FlipCharakter(float horizontalMovement)
     {
-        facingDirection *= -1;
-        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        // horizontal > 0 --> nach rechts laufen, aber Bild links ausgerichtet
+        // horizontal < 0 --> nach links laufen, aber Bild rechts ausgerichtet
+        if (horizontalMovement > 0 && this.transform.localScale.x < 0 ||
+            horizontalMovement < 0 && this.transform.localScale.x > 0)
+        {
+            Flip();
+        }
+    }
+    protected void Flip()
+    {
+        this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
 }
