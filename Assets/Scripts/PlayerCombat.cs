@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy_Combat : MonoBehaviour
+public class Player_Combat : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     public int damage = 1;
@@ -29,7 +29,7 @@ public class Enemy_Combat : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Enemy")
         {
             collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-damage);
         }

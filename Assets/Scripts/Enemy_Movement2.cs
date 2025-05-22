@@ -1,16 +1,23 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.XR;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
+public enum EnemyState : int
+{
+    Idle,
+    Moving
+}
 
-public class Enemy_Movement : MonoBehaviour
+
+public class Enemy_Movement2 : MonoBehaviour
 {
 
     //######################## Membervariablen ##############################
-    public float speed;
-    private bool isChasing;
+    public float speed = 1;
     public int facingDirection = 1;
 
+    private EnemyState enemyState;
     private Rigidbody2D rb;
     private Transform playerTransform;
     private Animator animator;
@@ -23,18 +30,19 @@ public class Enemy_Movement : MonoBehaviour
     void Start()
     {
         // wir weisen den Rigidbody vom eigenen Objekt uns zu
-        this.rb = GetComponent<Rigidbody2D>();
-        this.animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        ChangeState(EnemyState.Idle);
     }
 
     // Update is called once per frame
     void Update()
     {
         // auf anderen Charakter zulaufen:
-        if (this.isChasing)
+        if (this.enemyState == EnemyState.Moving)
         {
             // Richtungsvektor
-            Vector2 direction = (playerTransform.position - this.transform.position).normalized;
+            Vector2 direction = (this.playerTransform.position - this.transform.position).normalized;
             rb.linearVelocity = direction * speed;
         }
     }
@@ -43,7 +51,7 @@ public class Enemy_Movement : MonoBehaviour
     private void FixedUpdate()
     {
 
-        // Tasten-Input, der in den Einstellungen konfiguriert wurde
+        // aktuelle Bewegung abrufen
         float horizontal = rb.linearVelocity.x;
         float vertical = rb.linearVelocity.y;
 
@@ -54,9 +62,6 @@ public class Enemy_Movement : MonoBehaviour
         {
             Flip();
         }
-
-        this.animator.SetFloat("horizontal", Mathf.Abs(horizontal));
-        this.animator.SetFloat("vertical", Mathf.Abs(vertical));
 
     }
 
@@ -71,7 +76,7 @@ public class Enemy_Movement : MonoBehaviour
             {
                 this.playerTransform = collision.transform;
             }
-            this.isChasing = true;
+            ChangeState(newState: EnemyState.Moving);
         }
     }
 
@@ -79,15 +84,34 @@ public class Enemy_Movement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            this.rb.linearVelocity = Vector2.zero;
-            this.isChasing = false;
+            rb.linearVelocity = Vector2.zero;
+            ChangeState(newState: EnemyState.Idle);
         }
     }
+
+    private void ChangeState(EnemyState newState)
+    {
+        // Exit old state
+        if (enemyState == EnemyState.Idle)
+            animator.SetBool("isIdle", false);
+        else if (enemyState == EnemyState.Moving)
+            animator.SetBool("isMoving", false);
+
+        // Set new state
+        if (newState == EnemyState.Idle)
+            animator.SetBool("isIdle", true);
+        else if (newState == EnemyState.Moving)
+            animator.SetBool("isMoving", true);
+
+        this.enemyState = newState;
+    }
+
+
 
     private void Flip()
     {
         facingDirection *= -1;
-        this.transform.localScale = new Vector3(this.transform.localScale.x * -1, this.transform.localScale.y, this.transform.localScale.z);
+        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
 }
