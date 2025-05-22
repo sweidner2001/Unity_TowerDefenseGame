@@ -4,6 +4,9 @@ public class Enemy_Combat : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     public int damage = 1;
+    public Transform attackPoint;
+    public float weaponRange;
+    public LayerMask playerLayer;       // Spielerebene
 
 
 
@@ -32,6 +35,18 @@ public class Enemy_Combat : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-damage);
+        }
+    }
+
+
+    public void Attack()
+    {
+        // Alle Objekte die in Reichweite sind holen:
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, weaponRange, playerLayer);
+
+        if (hits.Length > 0)
+        {
+            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-damage);
         }
     }
 

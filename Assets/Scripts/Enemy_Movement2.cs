@@ -6,7 +6,8 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 public enum EnemyState : int
 {
     Idle,
-    Moving
+    Move,
+    Attack
 }
 
 
@@ -15,9 +16,11 @@ public class Enemy_Movement2 : MonoBehaviour
 
     //######################## Membervariablen ##############################
     public float speed = 1;
-    public float attackRange = 2;
+    public float attackRange = 0.7f;
+    public float attackCooldown = 2;
 
     private EnemyState enemyState;
+
     private Rigidbody2D rb;
     private Transform playerTransform;
     private Animator animator;
@@ -38,28 +41,36 @@ public class Enemy_Movement2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        // auf anderen Charakter zulaufen:
-        if (this.enemyState == EnemyState.Moving)
+        switch(this.enemyState)
         {
-            Moving();
+            case EnemyState.Move:
+                // auf anderen Charakter zulaufen:
+                Moving();
+                break;
+            case EnemyState.Attack:
+                Attack();
+                break;
+
         }
+
     }
 
 
     private void FixedUpdate()
     {
 
-
-        
-
     }
 
 
 
     //########################### Methoden #############################
-    private void Moving()
+    public void Moving()
     {
+        if (Vector2.Distance(this.transform.position, this.playerTransform.position) <= this.attackRange)
+        {
+            ChangeState(EnemyState.Attack);
+        }
+
         // Richtungsvektor
         Vector2 direction = (this.playerTransform.position - this.transform.position).normalized;
         this.rb.linearVelocity = direction * speed;
@@ -69,7 +80,18 @@ public class Enemy_Movement2 : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Attack()
+    {
+        Debug.Log("Attacking player now");
+        rb.linearVelocity = Vector2.zero;
+    }
+
+
+    /// <summary>
+    /// Damit der Gegner auch verfolgt wird, wenn er sich im Verfolger-Range befindet, nachdem der Angriff erfolgt ist.
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Player")
         {
@@ -77,7 +99,7 @@ public class Enemy_Movement2 : MonoBehaviour
             {
                 this.playerTransform = collision.transform;
             }
-            ChangeState(newState: EnemyState.Moving);
+            ChangeState(newState: EnemyState.Move);
         }
     }
 
@@ -85,26 +107,31 @@ public class Enemy_Movement2 : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            rb.linearVelocity = Vector2.zero;
+            this.rb.linearVelocity = Vector2.zero;
             ChangeState(newState: EnemyState.Idle);
         }
     }
 
-    private void ChangeState(EnemyState newState)
+    public void ChangeState(EnemyState newState)
     {
         // Exit old state
         if (enemyState == EnemyState.Idle)
             animator.SetBool("isIdling", false);
-        else if (enemyState == EnemyState.Moving)
+        else if (enemyState == EnemyState.Move)
             animator.SetBool("isMoving", false);
+        else if (enemyState == EnemyState.Attack)
+            animator.SetBool("isAttacking", false);
 
         // Set new state
-        if (newState == EnemyState.Idle)
-            animator.SetBool("isIdling", true);
-        else if (newState == EnemyState.Moving)
-            animator.SetBool("isMoving", true);
-
         this.enemyState = newState;
+        if (this.enemyState == EnemyState.Idle)
+            animator.SetBool("isIdling", true);
+        else if (this.enemyState == EnemyState.Move)
+            animator.SetBool("isMoving", true);
+        else if (this.enemyState == EnemyState.Attack)
+            animator.SetBool("isAttacking", true);
+
+        
     }
 
 
