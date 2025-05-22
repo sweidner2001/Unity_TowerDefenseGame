@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - Towers
-  - 
+  - Tower
+  - Enemy & Soldier
   - 
   - 
   - 
@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Grass
+    uniqueID: 1741929519
+    locked: 0
+  - name: Water
+    uniqueID: 2632642327
+    locked: 0
   - name: Road
     uniqueID: 1228631883
     locked: 0
@@ -53,7 +59,7 @@ TagManager:
   - name: Towers
     uniqueID: 4058812693
     locked: 0
-  - name: Enemy
+  - name: Enemy & Soldiers
     uniqueID: 2995691579
     locked: 0
   m_RenderingLayers:

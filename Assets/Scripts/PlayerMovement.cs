@@ -4,7 +4,7 @@ using UnityEngine;
 // API: https://docs.unity3d.com/ScriptReference/MonoBehaviour.html
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5;
+    public float speed = 3;
     public int facingDirection = 1;
 
     public Rigidbody2D rb;
@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called 50x frame
     void FixedUpdate()
     {
+        // Tasten-Input, der in den Einstellungen konfiguriert wurde
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
