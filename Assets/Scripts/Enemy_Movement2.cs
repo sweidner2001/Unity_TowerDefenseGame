@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.XR;
@@ -18,7 +19,11 @@ public class Enemy_Movement2 : MonoBehaviour
     public float speed = 1;
     public float attackRange = 0.7f;
     public float attackCooldown = 2;
+    public float playerDetectRange = 1;
+    public Transform detectionPoint;
+    public LayerMask playerLayer;
 
+    private float attackCooldownTimer;
     private EnemyState enemyState;
 
     private Rigidbody2D rb;
@@ -41,8 +46,16 @@ public class Enemy_Movement2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckForPlayer();
+        if(this.attackCooldownTimer > 0)
+        {
+            this.attackCooldownTimer -= Time.deltaTime;
+        }
+
+
         switch(this.enemyState)
         {
+
             case EnemyState.Move:
                 // auf anderen Charakter zulaufen:
                 Moving();
@@ -66,11 +79,6 @@ public class Enemy_Movement2 : MonoBehaviour
     //########################### Methoden #############################
     public void Moving()
     {
-        if (Vector2.Distance(this.transform.position, this.playerTransform.position) <= this.attackRange)
-        {
-            ChangeState(EnemyState.Attack);
-        }
-
         // Richtungsvektor
         Vector2 direction = (this.playerTransform.position - this.transform.position).normalized;
         this.rb.linearVelocity = direction * speed;
@@ -91,25 +99,33 @@ public class Enemy_Movement2 : MonoBehaviour
     /// Damit der Gegner auch verfolgt wird, wenn er sich im Verfolger-Range befindet, nachdem der Angriff erfolgt ist.
     /// </summary>
     /// <param name="collision"></param>
-    private void OnTriggerStay2D(Collider2D collision)
+    private void CheckForPlayer()
     {
-        if(collision.gameObject.tag == "Player")
-        {
-            if(this.playerTransform == null)
-            {
-                this.playerTransform = collision.transform;
-            }
-            ChangeState(newState: EnemyState.Move);
-        }
-    }
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.playerDetectRange, this.playerLayer);
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
+        if (hits.Length > 0) {
+            this.playerTransform = hits[0].transform;
+
+            // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
+            if (Vector2.Distance(this.transform.position, this.playerTransform.position) <= this.attackRange
+                && attackCooldownTimer <= 0)
+            {
+                this.attackCooldownTimer = this.attackCooldown;
+                ChangeState(EnemyState.Attack);
+            }
+            else if(Vector2.Distance(this.transform.position, this.playerTransform.position) > this.attackRange)
+            {
+                ChangeState(EnemyState.Move);
+            }
+
+        }
+        else
         {
             this.rb.linearVelocity = Vector2.zero;
-            ChangeState(newState: EnemyState.Idle);
+            ChangeState(EnemyState.Idle);
         }
+
+
     }
 
     public void ChangeState(EnemyState newState)
@@ -149,6 +165,12 @@ public class Enemy_Movement2 : MonoBehaviour
     protected void Flip()
     {
         this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(this.detectionPoint.position, this.playerDetectRange);
     }
 
 }
