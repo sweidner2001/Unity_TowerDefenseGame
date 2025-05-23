@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.XR;
@@ -98,7 +99,7 @@ public class Enemy_Movement2 : MonoBehaviour
     {
         // zum Angreifen stehen bleiben, Attacke wird durch den Zustandswechsel ausgelöst.
         // Die weitere Logik befindet sich in der Animation und in Enemy_Combat.cs
-        Debug.Log("Attacking player now");
+        //Debug.Log("Attacking player now");
         this.rb.linearVelocity = Vector2.zero;
     }
 
@@ -113,6 +114,7 @@ public class Enemy_Movement2 : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.playerDetectionRange, this.detectionLayer);
 
         if (hits.Length > 0) {
+            
             this.playerTransform = hits[0].transform;
 
             //-------------- Gegner angreifen ------------------
@@ -124,12 +126,21 @@ public class Enemy_Movement2 : MonoBehaviour
                 this.attackCooldownTimer = this.attackCooldown;
                 ChangeState(EnemyState.Attack);
 
-                // Nach den Angriff wird wieder in den "IDle" Status gewechselt
+                // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
+            }
+            if (enemyDistance <= this.attackRange && enemyState == EnemyState.Move)
+            {
+                // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
+                this.rb.linearVelocity = Vector2.zero;
+                ChangeState(EnemyState.Idle);
+                Debug.Log("Gegner gefunden - #Stehen bleiben");
             }
             //-------------- Auf Gegner zulaufen ----------------
-            else if(enemyDistance > this.attackRange)
+            // eine begonenne Attacke soll zuerst zu Ende laufen
+            else if(enemyDistance > this.attackRange && enemyState != EnemyState.Attack)
             {
                 ChangeState(EnemyState.Move);
+                Debug.Log("Gegner gefunden - hinlaufen");
             }
 
         }
