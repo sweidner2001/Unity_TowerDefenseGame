@@ -9,7 +9,8 @@ public enum EnemyState : int
 {
     Idle,
     Move,
-    Attack
+    Attack,
+    Knockback
 }
 
 
@@ -53,6 +54,11 @@ public class Enemy_Movement2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(this.enemyState == EnemyState.Knockback)
+        {
+            return;
+        }
+
         CheckForPlayer();
         if(this.attackCooldownTimer > 0)
         {
@@ -163,6 +169,7 @@ public class Enemy_Movement2 : MonoBehaviour
             animator.SetBool("isMoving", false);
         else if (enemyState == EnemyState.Attack)
             animator.SetBool("isAttacking", false);
+
 
         // Set new state
         this.enemyState = newState;

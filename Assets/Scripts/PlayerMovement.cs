@@ -5,6 +5,7 @@ using UnityEngine;
 // API: https://docs.unity3d.com/ScriptReference/MonoBehaviour.html
 public class PlayerMovement : MonoBehaviour
 {
+    //######################## Membervariablen ##############################
     public float movingSpeed = 3;
     public int facingDirection = 1;
 
@@ -13,11 +14,26 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isKnockedBAck;
 
+    public Player_Combat player_Combat;
+
+
+
+    //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //void Start()
     //{
-        
+
     //}
+
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.K)) // Input.GetButtonDown("UserAttack")
+        {
+            player_Combat.Attack();
+        }
+    }
+
 
     // Update is called 50x frame
     void FixedUpdate()
@@ -46,6 +62,10 @@ public class PlayerMovement : MonoBehaviour
         this.rb.linearVelocity = new Vector2(horizontal, vertical) * this.movingSpeed;
     }
 
+
+
+
+    //########################### Methoden #############################
     private void Flip()
     {
         facingDirection *= -1;
@@ -60,6 +80,9 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(KnockbackCounter(stunTime));
     }
 
+
+
+    //########################### Coroutinen #############################
     private IEnumerator KnockbackCounter(float stunTime)
     {
         // Wartezeit
