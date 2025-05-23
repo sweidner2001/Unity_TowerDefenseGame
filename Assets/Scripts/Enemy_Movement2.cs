@@ -16,18 +16,24 @@ public class Enemy_Movement2 : MonoBehaviour
 {
 
     //######################## Membervariablen ##############################
-    public float speed = 1;
+    // Bewegung:
+    public float moveSpeed = 1;
+
+    // Attacke:
     public float attackRange = 0.7f;
     public float attackCooldown = 2;
-    public float playerDetectRange = 1;
-    public Transform detectionPoint;
-    public LayerMask playerLayer;
-
     private float attackCooldownTimer;
-    private EnemyState enemyState;
 
+    // Gegner Detektion: 
+    public float playerDetectionRange = 1;
+    public Transform detectionPoint;
+    public LayerMask detectionLayer;            // was wollen wir detektieren?
+    private Transform playerTransform;          // Transform-Attr. des detektierten Objektes
+
+
+
+    private EnemyState enemyState;
     private Rigidbody2D rb;
-    private Transform playerTransform;
     private Animator animator;
 
 
@@ -81,7 +87,7 @@ public class Enemy_Movement2 : MonoBehaviour
     {
         // Richtungsvektor
         Vector2 direction = (this.playerTransform.position - this.transform.position).normalized;
-        this.rb.linearVelocity = direction * speed;
+        this.rb.linearVelocity = direction * moveSpeed;
 
         // aktuelle Bewegung abrufen
         FlipCharakter(this.rb.linearVelocity.x);
@@ -90,8 +96,10 @@ public class Enemy_Movement2 : MonoBehaviour
 
     public void Attack()
     {
+        // zum Angreifen stehen bleiben, Attacke wird durch den Zustandswechsel ausgelöst.
+        // Die weitere Logik befindet sich in der Animation und in Enemy_Combat.cs
         Debug.Log("Attacking player now");
-        rb.linearVelocity = Vector2.zero;
+        this.rb.linearVelocity = Vector2.zero;
     }
 
 
@@ -101,19 +109,25 @@ public class Enemy_Movement2 : MonoBehaviour
     /// <param name="collision"></param>
     private void CheckForPlayer()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.playerDetectRange, this.playerLayer);
+        // Alle Gegner detektieren:
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.playerDetectionRange, this.detectionLayer);
 
         if (hits.Length > 0) {
             this.playerTransform = hits[0].transform;
 
+            //-------------- Gegner angreifen ------------------
             // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
-            if (Vector2.Distance(this.transform.position, this.playerTransform.position) <= this.attackRange
-                && attackCooldownTimer <= 0)
+            float enemyDistance = Vector2.Distance(this.transform.position, this.playerTransform.position);
+            if (enemyDistance <= this.attackRange && this.attackCooldownTimer <= 0)
             {
+                // Angreifen:
                 this.attackCooldownTimer = this.attackCooldown;
                 ChangeState(EnemyState.Attack);
+
+                // Nach den Angriff wird wieder in den "IDle" Status gewechselt
             }
-            else if(Vector2.Distance(this.transform.position, this.playerTransform.position) > this.attackRange)
+            //-------------- Auf Gegner zulaufen ----------------
+            else if(enemyDistance > this.attackRange)
             {
                 ChangeState(EnemyState.Move);
             }
@@ -121,6 +135,7 @@ public class Enemy_Movement2 : MonoBehaviour
         }
         else
         {
+            // Stehen bleiben, kein Gegner gefunden
             this.rb.linearVelocity = Vector2.zero;
             ChangeState(EnemyState.Idle);
         }
@@ -151,7 +166,10 @@ public class Enemy_Movement2 : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Dreht das Sprite Bild um 180°, wenn die Figur beim Gehen die Richtung wechselt
+    /// </summary>
+    /// <param name="horizontalMovement">relative Bewegungsrichtung in X-Achse von der Figur aus gesehen</param>
     protected void FlipCharakter(float horizontalMovement)
     {
         // horizontal > 0 --> nach rechts laufen, aber Bild links ausgerichtet
@@ -162,15 +180,28 @@ public class Enemy_Movement2 : MonoBehaviour
             Flip();
         }
     }
+
+
+    /// <summary>
+    /// Dreht das Sprite Bild um 180°
+    /// </summary>
     protected void Flip()
     {
         this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
+
+
+
+
+
+    /// <summary>
+    /// Zeichnet den Detection Point mit Radius für Gegnerische Figuren
+    /// </summary>
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.detectionPoint.position, this.playerDetectRange);
+        Gizmos.DrawWireSphere(this.detectionPoint.position, this.playerDetectionRange);
     }
 
 }

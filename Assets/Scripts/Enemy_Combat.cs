@@ -6,7 +6,7 @@ public class Enemy_Combat : MonoBehaviour
     public int damage = 1;
     public Transform attackPoint;
     public float weaponRange;
-    public LayerMask playerLayer;       // Spielerebene
+    public LayerMask playerLayer;       // Wen wollen wir Schaden zu fügen?
 
 
 
@@ -27,23 +27,28 @@ public class Enemy_Combat : MonoBehaviour
 
     //########################### Methoden #############################
     /// <summary>
-    /// Wird aufgerufen, wenn der Charakter mit einen anderen Collider kollidiert
+    /// Wird aufgerufen, wenn die Figur mit einem anderen Collider kollidiert
     /// </summary>
     /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player")
-        {
-            collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-damage);
-        }
+        // Bei Kollission wird jetzt kein Schaden mehr zugefügt:
+        //if(collision.gameObject.tag == "Player")
+        //{
+        //    collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-damage);
+        //}
     }
 
 
+    /// <summary>
+    /// Fügt den Gegner Schaden zu
+    /// </summary>
     public void Attack()
     {
-        // Alle Objekte die in Reichweite sind holen:
+        // Alle Objekte die in Waffen-Reichweite sind:
         Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, weaponRange, playerLayer);
 
+        // 1 Gegner Schaden zu fügen:
         if (hits.Length > 0)
         {
             hits[0].GetComponent<PlayerHealth>().ChangeHealth(-damage);
