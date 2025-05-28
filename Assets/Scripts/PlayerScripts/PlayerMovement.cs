@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     //######################## Membervariablen ##############################
-    public float movingSpeed = 3;
+    //public float movingSpeed = 3;
     public int facingDirection = 1;
 
     public Rigidbody2D rb;
@@ -20,10 +20,10 @@ public class PlayerMovement : MonoBehaviour
 
     //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    //void Start()
-    //{
+    void Start()
+    {
 
-    //}
+    }
 
 
     private void Update()
@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         this.animator.SetFloat("horizontal", Mathf.Abs(horizontal));
         this.animator.SetFloat("vertical", Mathf.Abs(vertical));
 
-        this.rb.linearVelocity = new Vector2(horizontal, vertical) * this.movingSpeed;
+        this.rb.linearVelocity = new Vector2(horizontal, vertical) * PlayerStatsManager.Instance.movingSpeed;
     }
 
 

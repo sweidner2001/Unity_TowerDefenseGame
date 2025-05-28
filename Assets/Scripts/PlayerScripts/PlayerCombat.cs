@@ -4,22 +4,22 @@ using UnityEngine;
 public class Player_Combat : MonoBehaviour
 {
     //######################## Membervariablen ##############################
-    public int damage = 1;
+    //public int damage = 1;
     private Animator anim;
 
 
     //public float attackRange = 0.7f;
-    public float attackCooldown = 2;
+    //public float attackCooldown = 2;
     private float attackCooldownTimer;
 
 
     public Transform attackPoint;
-    public float weaponRange;
+    //public float weaponRange;
     public LayerMask enemyLayer;       // Wen wollen wir Schaden zu fügen?
 
-    public float knockbackForce = 3;
-    public float stunTime = 0.2f;
-    public float knockbackTime = 0.15f;
+    //public float knockbackForce = 3;
+    //public float stunTime = 0.2f;
+    //public float knockbackTime = 0.15f;
 
 
     //########################### Geerbte Methoden #############################
@@ -46,19 +46,19 @@ public class Player_Combat : MonoBehaviour
         if(this.attackCooldownTimer <= 0)
         {
             anim.SetBool("isAttacking", true);
-            this.attackCooldownTimer = this.attackCooldown;
+            this.attackCooldownTimer = PlayerStatsManager.Instance.attackCooldown;
         }
     }
 
     public void DealDamage()
     {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(this.attackPoint.position, this.weaponRange, this.enemyLayer);
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(this.attackPoint.position, PlayerStatsManager.Instance.weaponRange, this.enemyLayer);
         
         // 1 Gegner Schaden zu fügen:
         if (enemies.Length > 0)
         {
-            enemies[0].GetComponent<EnemyHealth>().ChangeHealth(-this.damage);
-            enemies[0].GetComponent<EnemyKnockback>()?.Knockback(playerTransform: this.transform, this.knockbackForce, this.knockbackTime, this.stunTime);
+            enemies[0].GetComponent<EnemyHealth>().ChangeHealth(-PlayerStatsManager.Instance.damage);
+            enemies[0].GetComponent<EnemyKnockback>()?.Knockback(playerTransform: this.transform, PlayerStatsManager.Instance.knockbackForce, PlayerStatsManager.Instance.knockbackTime, PlayerStatsManager.Instance.stunTime);
         }
     }
 
@@ -88,7 +88,7 @@ public class Player_Combat : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.attackPoint.position, this.weaponRange);
+        Gizmos.DrawWireSphere(this.attackPoint.position, PlayerStatsManager.Instance.weaponRange);
     }
 
 }

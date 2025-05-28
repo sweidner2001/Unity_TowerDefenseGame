@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     //######################## Membervariablen ##############################
-    public int currentHealth;
-    public int maxHealth;
+    //public int currentHealth;
+    //public int maxHealth;
 
 
 
@@ -26,13 +26,17 @@ public class PlayerHealth : MonoBehaviour
     //########################### Methoden #############################
     public void ChangeHealth(int amount)
     {
-        this.currentHealth += amount;
+        PlayerStatsManager.Instance.currentHealth += amount;
 
 
         // Charakter sterben lassen:
-        if(currentHealth <= 0)
+        if (PlayerStatsManager.Instance.currentHealth <= 0)
         {
-            this.gameObject.SetActive(false);
+            PlayerStatsManager.Instance.gameObject.SetActive(false);
+        }
+        else if (PlayerStatsManager.Instance.currentHealth > PlayerStatsManager.Instance.maxHealth)
+        {
+            PlayerStatsManager.Instance.currentHealth = PlayerStatsManager.Instance.maxHealth;
         }
     }
 

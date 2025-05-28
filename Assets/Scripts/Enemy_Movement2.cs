@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using System;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.XR;
@@ -163,24 +164,34 @@ public class Enemy_Movement2 : MonoBehaviour
     public void ChangeState(EnemyState newState)
     {
         // Exit old state
-        if (enemyState == EnemyState.Idle)
+        if (this.enemyState == EnemyState.Idle)
             animator.SetBool("isIdling", false);
-        else if (enemyState == EnemyState.Move)
+        else if (this.enemyState == EnemyState.Move)
             animator.SetBool("isMoving", false);
-        else if (enemyState == EnemyState.Attack)
+        else if (this.enemyState == EnemyState.Attack)
             animator.SetBool("isAttacking", false);
+        else if (this.enemyState == EnemyState.Knockback)
+        {
+            // Es gibt keine Animation für Knockout
+        }
+            
 
 
         // Set new state
         this.enemyState = newState;
+
         if (this.enemyState == EnemyState.Idle)
             animator.SetBool("isIdling", true);
         else if (this.enemyState == EnemyState.Move)
             animator.SetBool("isMoving", true);
         else if (this.enemyState == EnemyState.Attack)
             animator.SetBool("isAttacking", true);
+        else if (this.enemyState == EnemyState.Knockback)
+        {
+            // Auto-Wechsel in Standard-Status
+        }
 
-        
+
     }
 
 

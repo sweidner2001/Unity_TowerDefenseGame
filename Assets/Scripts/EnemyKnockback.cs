@@ -33,7 +33,8 @@ public class EnemyKnockback : MonoBehaviour
     public void Knockback(Transform playerTransform, float knockbackForce, float knockbackTime, float stunTime)
     {
         this.enemyMovement.ChangeState(EnemyState.Knockback);
-        //isKnockedBAck = true;
+
+        // Gegner zurückstoßen
         Vector2 direction = (this.transform.position - playerTransform.position).normalized;
         this.rb.linearVelocity = direction * knockbackForce;
         StartCoroutine(StunTimer(knockbackTime, stunTime));
@@ -49,6 +50,8 @@ public class EnemyKnockback : MonoBehaviour
 
         // anschließend Figur zum stehen bringen und die Bewegungs-Kontrolle zurückgeben
         this.rb.linearVelocity = Vector2.zero;
+
+        // Kontrolle zurückgeben / wie lange bleibt Gegner noch stehen?
         yield return new WaitForSeconds(stunTime);
         enemyMovement.ChangeState(EnemyState.Idle);
     }
