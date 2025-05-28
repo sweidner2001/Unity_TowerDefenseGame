@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     //public int currentHealth;
     //public int maxHealth;
-
+    //[SerializeField] private Slider healthBar;
 
 
     //########################### Geerbte Methoden #############################
@@ -21,12 +22,17 @@ public class PlayerHealth : MonoBehaviour
         
     }
 
+    //public void UpdateHealthBar()
+    //{
+    //    healthBar.value = PlayerStatsManager.Instance.currentHealth / PlayerStatsManager.Instance.maxHealth;
+    //}
 
 
     //########################### Methoden #############################
     public void ChangeHealth(int amount)
     {
         PlayerStatsManager.Instance.currentHealth += amount;
+        //UpdateHealthBar();
 
 
         // Charakter sterben lassen:

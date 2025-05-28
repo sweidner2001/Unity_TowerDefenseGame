@@ -140,14 +140,14 @@ public class Enemy_Movement2 : MonoBehaviour
                 // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
                 this.rb.linearVelocity = Vector2.zero;
                 ChangeState(EnemyState.Idle);
-                Debug.Log("Gegner gefunden - #Stehen bleiben");
+                //Debug.Log("Gegner gefunden - #Stehen bleiben");
             }
             //-------------- Auf Gegner zulaufen ----------------
             // eine begonenne Attacke soll zuerst zu Ende laufen
             else if(enemyDistance > this.attackRange && enemyState != EnemyState.Attack)
             {
                 ChangeState(EnemyState.Move);
-                Debug.Log("Gegner gefunden - hinlaufen");
+                //Debug.Log("Gegner gefunden - hinlaufen");
             }
 
         }
