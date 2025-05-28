@@ -6,14 +6,17 @@ public class PlayerHealth : MonoBehaviour
     //######################## Membervariablen ##############################
     //public int currentHealth;
     //public int maxHealth;
-    //[SerializeField] private Slider healthBar;
+    [SerializeField] private Slider healthBar;
+    private Image fillArea;
 
 
     //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        //this.healthBar = GetComponent<Slider>();
+        fillArea = healthBar.fillRect.GetComponent<Image>();
+        UpdateHealthBar();
     }
 
     // Update is called once per frame
@@ -22,17 +25,18 @@ public class PlayerHealth : MonoBehaviour
         
     }
 
-    //public void UpdateHealthBar()
-    //{
-    //    healthBar.value = PlayerStatsManager.Instance.currentHealth / PlayerStatsManager.Instance.maxHealth;
-    //}
+
+    public void UpdateHealthBar()
+    {
+        this.healthBar.value = (float)PlayerStatsManager.Instance.currentHealth / PlayerStatsManager.Instance.maxHealth;
+        this.fillArea.color = GeneralManager.Instance.HealthBarGradient.Evaluate(healthBar.value);
+    }
 
 
     //########################### Methoden #############################
     public void ChangeHealth(int amount)
     {
         PlayerStatsManager.Instance.currentHealth += amount;
-        //UpdateHealthBar();
 
 
         // Charakter sterben lassen:
@@ -44,6 +48,7 @@ public class PlayerHealth : MonoBehaviour
         {
             PlayerStatsManager.Instance.currentHealth = PlayerStatsManager.Instance.maxHealth;
         }
+        UpdateHealthBar();
     }
 
 

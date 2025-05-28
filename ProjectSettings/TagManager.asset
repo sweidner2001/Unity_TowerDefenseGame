@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - HealthBar
   layers:
   - Default
   - TransparentFX
@@ -62,6 +63,9 @@ TagManager:
     locked: 0
   - name: Enemy & Soldiers
     uniqueID: 2995691579
+    locked: 0
+  - name: HealthBar
+    uniqueID: 1199523271
     locked: 0
   m_RenderingLayers:
   - Default
