@@ -33,11 +33,7 @@ public class Enemy_Combat : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Bei Kollission wird jetzt kein Schaden mehr zugefügt:
-        //if(collision.gameObject.tag == "Player")
-        //{
-        //    collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-damage);
-        //}
+
     }
 
 

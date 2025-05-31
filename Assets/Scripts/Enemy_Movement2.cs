@@ -6,13 +6,13 @@ using UnityEngine;
 using UnityEngine.XR;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
-//public enum EnemyState : int
-//{
-//    Idle,
-//    Move,
-//    Attack,
-//    Knockback
-//}
+public enum EnemyState : int
+{
+    Idle,
+    Move,
+    Attack,
+    Knockback
+}
 
 
 public class Enemy_Movement2 : MonoBehaviour
@@ -47,7 +47,6 @@ public class Enemy_Movement2 : MonoBehaviour
     void Start()
     {
         // wir weisen den Rigidbody vom eigenen Objekt uns zu
-        //this.rb = GetComponent<Rigidbody2D>();
         this.rb = GetComponentInParent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
         ChangeState(EnemyState.Idle);

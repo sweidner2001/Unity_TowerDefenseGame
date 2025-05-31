@@ -17,7 +17,6 @@ public class EnemyKnockback : MonoBehaviour
     {
         this.rb = GetComponentInParent<Rigidbody2D>();
         this.enemyMovement = GetComponent<Enemy_Movement2>();
-        //this.animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
