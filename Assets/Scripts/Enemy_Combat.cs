@@ -5,7 +5,7 @@ public class Enemy_Combat : MonoBehaviour
     //######################## Membervariablen ##############################
     public int damage = 1;
     public Transform attackPoint;
-    public float weaponRange;
+    public float weaponRange = 1;
     public LayerMask playerLayer;       // Wen wollen wir Schaden zu fügen?
     public float knockbackForce = 3;
     public float stunTime = 0.2f;              // Zeit wie lange der Gegner nach Attacke bewegungsumfähig ist

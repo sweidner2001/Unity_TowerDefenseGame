@@ -6,17 +6,31 @@ public class EnemyHealth : MonoBehaviour
     //######################## Membervariablen ##############################
     public int currentHealth;
     public int maxHealth;
-    [SerializeField] private Slider healthBar;
-    public Gradient HealthBarGradient;
-    private Image fillArea;
+    //[SerializeField] private Slider healthBar;
+    //public Gradient HealthBarGradient;
+    //private Image fillArea;
+    private HealthBar healthBar2;
 
 
     //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //void Awake()
+    //{
+    //    this.healthBar2 = GetComponentInChildren<HealthBar>();
+    //    this.healthBar2.UpdateHealthBar(this.currentHealth, this.maxHealth);
+    //}
+
     void Start()
     {
-        fillArea = healthBar.fillRect.GetComponent<Image>();
-        UpdateHealthBar();
+        //this.healthBar2 = GetComponentInChildren<HealthBar>();
+        this.healthBar2 = transform.parent.Find("HealthBar").GetComponent<HealthBar>();
+
+        if (healthBar2 == null)
+            Debug.Log("Null: healthbar2");
+
+        this.healthBar2.UpdateHealthBar(this.currentHealth, this.maxHealth);
+        //fillArea = healthBar.fillRect.GetComponent<Image>();
+        //UpdateHealthBar();
     }
 
     // Update is called once per frame
@@ -42,16 +56,14 @@ public class EnemyHealth : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
-        UpdateHealthBar();
+        this.healthBar2.UpdateHealthBar(this.currentHealth, this.maxHealth);
+        //UpdateHealthBar();
     }
 
 
-    public void UpdateHealthBar()
-    {
-        Debug.Log("CurrentHealth" + PlayerStatsManager.Instance.currentHealth);
-        healthBar.value = (float)this.currentHealth / this.maxHealth;
-        fillArea.color = HealthBarGradient.Evaluate(healthBar.value);
-        Debug.Log("healthBar.value: " + (float)this.currentHealth / this.maxHealth);
-    }
+    //public void UpdateHealthBar()
+    //{
+    //    healthBar.value = (float)this.currentHealth / this.maxHealth;
+    //    fillArea.color = HealthBarGradient.Evaluate(healthBar.value);
+    //}
 }

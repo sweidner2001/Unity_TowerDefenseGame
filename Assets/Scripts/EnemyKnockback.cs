@@ -15,7 +15,7 @@ public class EnemyKnockback : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        this.rb = GetComponent<Rigidbody2D>();
+        this.rb = GetComponentInParent<Rigidbody2D>();
         this.enemyMovement = GetComponent<Enemy_Movement2>();
         //this.animator = GetComponent<Animator>();
     }

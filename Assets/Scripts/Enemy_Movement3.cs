@@ -6,16 +6,16 @@ using UnityEngine;
 using UnityEngine.XR;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
-//public enum EnemyState : int
-//{
-//    Idle,
-//    Move,
-//    Attack,
-//    Knockback
-//}
+public enum EnemyState : int
+{
+    Idle,
+    Move,
+    Attack,
+    Knockback
+}
 
 
-public class Enemy_Movement2 : MonoBehaviour
+public class Enemy_Movement3 : MonoBehaviour
 {
 
     //######################## Membervariablen ##############################
@@ -28,7 +28,7 @@ public class Enemy_Movement2 : MonoBehaviour
     private float attackCooldownTimer;
 
     // Gegner Detektion: 
-    public float playerDetectionRange = 1;
+    public float playerDetectionRange = 2.5f;
     public Transform detectionPoint;
     public LayerMask detectionLayer;            // was wollen wir detektieren?
     private Transform playerTransform;          // Transform-Attr. des detektierten Objektes
@@ -37,9 +37,11 @@ public class Enemy_Movement2 : MonoBehaviour
 
     private EnemyState enemyState;
     private Rigidbody2D rb;
-    private Animator animator;
+    //private Animator animator;
 
-
+    [Header("Body Reference (for Sprite & Anim)")]
+    public Transform bodyTransform;
+    public Animator bodyAnimator;
 
 
     //########################### Geerbte Methoden #############################
@@ -47,9 +49,19 @@ public class Enemy_Movement2 : MonoBehaviour
     void Start()
     {
         // wir weisen den Rigidbody vom eigenen Objekt uns zu
-        //this.rb = GetComponent<Rigidbody2D>();
-        this.rb = GetComponentInParent<Rigidbody2D>();
-        this.animator = GetComponent<Animator>();
+        this.rb = GetComponent<Rigidbody2D>();
+        //this.animator = GetComponent<Animator>();
+
+        // Finds das Kind mit dem Namen "Body"
+        //bodyTransform = transform.Find("Body");
+        if (bodyTransform == null)
+            Debug.LogError("Child 'Body' nicht gefunden!");
+
+        // Holt sich den Animator vom Body-Objekt
+        //bodyAnimator = bodyTransform.GetComponent<Animator>();
+        if (bodyAnimator == null)
+            Debug.LogError("Animator am Body nicht gefunden!");
+
         ChangeState(EnemyState.Idle);
     }
 
@@ -133,6 +145,7 @@ public class Enemy_Movement2 : MonoBehaviour
                 // Angreifen:
                 this.attackCooldownTimer = this.attackCooldown;
                 ChangeState(EnemyState.Attack);
+                Debug.Log("Gegner angreifen");
 
                 // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
             }
@@ -141,14 +154,14 @@ public class Enemy_Movement2 : MonoBehaviour
                 // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
                 this.rb.linearVelocity = Vector2.zero;
                 ChangeState(EnemyState.Idle);
-                //Debug.Log("Gegner gefunden - #Stehen bleiben");
+                Debug.Log("Gegner gefunden - #Stehen bleiben");
             }
             //-------------- Auf Gegner zulaufen ----------------
             // eine begonenne Attacke soll zuerst zu Ende laufen
             else if(enemyDistance > this.attackRange && enemyState != EnemyState.Attack)
             {
                 ChangeState(EnemyState.Move);
-                //Debug.Log("Gegner gefunden - hinlaufen");
+                Debug.Log("Gegner gefunden - hinlaufen");
             }
 
         }
@@ -157,6 +170,7 @@ public class Enemy_Movement2 : MonoBehaviour
             // Stehen bleiben, kein Gegner gefunden
             this.rb.linearVelocity = Vector2.zero;
             ChangeState(EnemyState.Idle);
+            Debug.Log("Stehen bleiben" + this.rb.linearVelocity);
         }
 
 
@@ -166,27 +180,27 @@ public class Enemy_Movement2 : MonoBehaviour
     {
         // Exit old state
         if (this.enemyState == EnemyState.Idle)
-            animator.SetBool("isIdling", false);
+            bodyAnimator.SetBool("isIdling", false);
         else if (this.enemyState == EnemyState.Move)
-            animator.SetBool("isMoving", false);
+            bodyAnimator.SetBool("isMoving", false);
         else if (this.enemyState == EnemyState.Attack)
-            animator.SetBool("isAttacking", false);
+            bodyAnimator.SetBool("isAttacking", false);
         else if (this.enemyState == EnemyState.Knockback)
         {
             // Es gibt keine Animation für Knockout
         }
-            
 
 
-        // Set new state
+
+        //// Set new state
         this.enemyState = newState;
 
         if (this.enemyState == EnemyState.Idle)
-            animator.SetBool("isIdling", true);
+            bodyAnimator.SetBool("isIdling", true);
         else if (this.enemyState == EnemyState.Move)
-            animator.SetBool("isMoving", true);
+            bodyAnimator.SetBool("isMoving", true);
         else if (this.enemyState == EnemyState.Attack)
-            animator.SetBool("isAttacking", true);
+            bodyAnimator.SetBool("isAttacking", true);
         else if (this.enemyState == EnemyState.Knockback)
         {
             // Auto-Wechsel in Standard-Status
@@ -204,8 +218,8 @@ public class Enemy_Movement2 : MonoBehaviour
     {
         // horizontal > 0 --> nach rechts laufen, aber Bild links ausgerichtet
         // horizontal < 0 --> nach links laufen, aber Bild rechts ausgerichtet
-        if (horizontalMovement > 0 && this.transform.localScale.x < 0 ||
-            horizontalMovement < 0 && this.transform.localScale.x > 0)
+        if (horizontalMovement > 0 && this.bodyTransform.localScale.x < 0 ||
+            horizontalMovement < 0 && this.bodyTransform.localScale.x > 0)
         {
             Flip();
         }
@@ -217,7 +231,10 @@ public class Enemy_Movement2 : MonoBehaviour
     /// </summary>
     protected void Flip()
     {
-        this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        Vector3 s = bodyTransform.localScale;
+        s.x *= -1;
+        bodyTransform.localScale = s;
+        //this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
 
