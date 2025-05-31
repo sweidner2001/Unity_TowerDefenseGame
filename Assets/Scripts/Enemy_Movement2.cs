@@ -1,17 +1,21 @@
 using JetBrains.Annotations;
 using System;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngine.XR;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public enum EnemyState : int
 {
     Idle,
-    Move,
+    Chase,
     Attack,
-    Knockback
+    Knockback,
+    BackToTower,
+    OnTower
 }
 
 
@@ -34,6 +38,10 @@ public class Enemy_Movement2 : MonoBehaviour
     private Transform playerTransform;          // Transform-Attr. des detektierten Objektes
 
 
+    public HomePoint homePoint;
+    private bool onHomePoint = false;
+    
+
 
     private EnemyState enemyState;
     private Rigidbody2D rb;
@@ -49,7 +57,15 @@ public class Enemy_Movement2 : MonoBehaviour
         // wir weisen den Rigidbody vom eigenen Objekt uns zu
         this.rb = GetComponentInParent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
-        ChangeState(EnemyState.Idle);
+        ChangeState(EnemyState.BackToTower);
+        try
+        {
+            InitHomePoint();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
     }
 
     // Update is called once per frame
@@ -60,24 +76,33 @@ public class Enemy_Movement2 : MonoBehaviour
             return;
         }
 
-        CheckForPlayer();
-        if(this.attackCooldownTimer > 0)
+        try
         {
-            this.attackCooldownTimer -= Time.deltaTime;
+            CheckForPlayer();
+            if(this.attackCooldownTimer > 0)
+            {
+                this.attackCooldownTimer -= Time.deltaTime;
+            }
+
+
+            switch(this.enemyState)
+            {
+                case EnemyState.Chase:
+                    // auf anderen Charakter zulaufen:
+                    ChaseEnemy();
+                    break;
+                case EnemyState.Attack:
+                    Attack();
+                    break;
+                case EnemyState.BackToTower:
+                    GoBackToTower();
+                    break;
+            }
+
         }
-
-
-        switch(this.enemyState)
+        catch (Exception e)
         {
-
-            case EnemyState.Move:
-                // auf anderen Charakter zulaufen:
-                Moving();
-                break;
-            case EnemyState.Attack:
-                Attack();
-                break;
-
+            Debug.Log(e.ToString());
         }
 
     }
@@ -91,14 +116,62 @@ public class Enemy_Movement2 : MonoBehaviour
 
 
     //########################### Methoden #############################
-    public void Moving()
+
+    public void ChaseEnemy()
+    {
+        Move(this.playerTransform);
+    }
+
+    private void Move(Transform destinationTransform)
     {
         // Richtungsvektor
-        Vector2 direction = (this.playerTransform.position - this.transform.position).normalized;
-        this.rb.linearVelocity = direction * moveSpeed;
+        Vector2 direction = (destinationTransform.position - this.transform.position).normalized;
+        this.rb.linearVelocity = direction * this.moveSpeed;
 
         // aktuelle Bewegung abrufen
-        FlipCharakter(this.rb.linearVelocity.x);
+        FlipCharakterIfNecessary(this.rb.linearVelocity.x);
+    }
+
+
+    protected void InitHomePoint()
+    {
+        if (this.homePoint == null)
+        {
+            this.homePoint = FindNearestAvailableHomePoint().GetComponent<HomePoint>();
+
+            // Notfalls einfach stehen bleiben, wenn kein freier HomePoint existiert
+            if (this.homePoint == null)
+            {
+                ChangeState(EnemyState.Idle);
+                throw new Exception("Kein Homepoint gefunden");
+            }
+            ChangeHomePointState(true);
+        }
+    }
+
+    public void GoBackToTower()
+    {
+        Debug.Log("GoBackToTower");
+        if (this.homePoint == null)
+        {
+            InitHomePoint();
+        }
+
+        Move(this.homePoint.transform);
+        if((homePoint.transform.position - this.transform.position).magnitude <= this.homePoint.homePointRadius)
+        {
+            // ich befinde mich an meinen HomePoint
+            this.rb.linearVelocity = Vector2.zero;
+            ChangeState(EnemyState.OnTower);
+
+        }
+    }
+
+    public void ChangeHomePointState(bool isAssigned)
+    {
+        if (this.homePoint != null) {
+            this.homePoint.isAssigned = isAssigned;
+        }
     }
 
 
@@ -120,6 +193,7 @@ public class Enemy_Movement2 : MonoBehaviour
         // Alle Gegner detektieren:
         Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.playerDetectionRange, this.detectionLayer);
 
+        //~~~~~~~~~~~~~~~~~ Gegner gefunden ~~~~~~~~~~~~~~~~~~~~~
         if (hits.Length > 0) {
             
             this.playerTransform = hits[0].transform;
@@ -135,61 +209,78 @@ public class Enemy_Movement2 : MonoBehaviour
 
                 // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
             }
-            if (enemyDistance <= this.attackRange && enemyState == EnemyState.Move)
+            if (enemyDistance <= this.attackRange && enemyState == EnemyState.Chase)
             {
                 // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
                 this.rb.linearVelocity = Vector2.zero;
                 ChangeState(EnemyState.Idle);
-                //Debug.Log("Gegner gefunden - #Stehen bleiben");
+                Debug.Log("Gegner gefunden - #Stehen bleiben");
             }
             //-------------- Auf Gegner zulaufen ----------------
             // eine begonenne Attacke soll zuerst zu Ende laufen
             else if(enemyDistance > this.attackRange && enemyState != EnemyState.Attack)
             {
-                ChangeState(EnemyState.Move);
+                ChangeState(EnemyState.Chase);
                 //Debug.Log("Gegner gefunden - hinlaufen");
             }
 
         }
+        //~~~~~~~~~~~~~~~~~ keinen Gegner gefunden ~~~~~~~~~~~~~~~~~~~~~
         else
         {
-            // Stehen bleiben, kein Gegner gefunden
-            this.rb.linearVelocity = Vector2.zero;
-            ChangeState(EnemyState.Idle);
+            if(this.homePoint != null && this.enemyState != EnemyState.OnTower)
+            {
+                ChangeState(EnemyState.BackToTower);
+            }
+            else if(this.enemyState != EnemyState.OnTower)
+            {
+                // Stehen bleiben, kein Gegner gefunden
+                this.rb.linearVelocity = Vector2.zero;
+                ChangeState(EnemyState.Idle);
+            }
         }
 
 
     }
-
+    
     public void ChangeState(EnemyState newState)
     {
         // Exit old state
         if (this.enemyState == EnemyState.Idle)
             animator.SetBool("isIdling", false);
-        else if (this.enemyState == EnemyState.Move)
+        else if (this.enemyState == EnemyState.Chase)
             animator.SetBool("isMoving", false);
         else if (this.enemyState == EnemyState.Attack)
             animator.SetBool("isAttacking", false);
-        else if (this.enemyState == EnemyState.Knockback)
-        {
-            // Es gibt keine Animation für Knockout
-        }
-            
+        else if (this.enemyState == EnemyState.BackToTower)
+            animator.SetBool("isMoving", false);
+        else if (this.enemyState == EnemyState.OnTower)
+            animator.SetBool("isIdling", false);
+        //else if (this.enemyState == EnemyState.Knockback)
+        //{
+        //    // Es gibt keine Animation für Knockout
+        //}
 
-
+        //Debug.Log("CurrentState:" + newState);
         // Set new state
         this.enemyState = newState;
 
         if (this.enemyState == EnemyState.Idle)
             animator.SetBool("isIdling", true);
-        else if (this.enemyState == EnemyState.Move)
+        else if (this.enemyState == EnemyState.Chase)
             animator.SetBool("isMoving", true);
         else if (this.enemyState == EnemyState.Attack)
             animator.SetBool("isAttacking", true);
-        else if (this.enemyState == EnemyState.Knockback)
-        {
-            // Auto-Wechsel in Standard-Status
-        }
+        else if (this.enemyState == EnemyState.BackToTower)
+            // wir gehen zurück zum Turm
+            animator.SetBool("isMoving", true);
+        else if (this.enemyState == EnemyState.OnTower)
+            // wir warten am Turm
+            animator.SetBool("isIdling", true);
+        //else if (this.enemyState == EnemyState.Knockback)
+        //{
+        //    // Auto-Wechsel in Standard-Status
+        //}
 
 
     }
@@ -199,7 +290,7 @@ public class Enemy_Movement2 : MonoBehaviour
     /// Dreht das Sprite Bild um 180°, wenn die Figur beim Gehen die Richtung wechselt
     /// </summary>
     /// <param name="horizontalMovement">relative Bewegungsrichtung in X-Achse von der Figur aus gesehen</param>
-    protected void FlipCharakter(float horizontalMovement)
+    protected void FlipCharakterIfNecessary(float horizontalMovement)
     {
         // horizontal > 0 --> nach rechts laufen, aber Bild links ausgerichtet
         // horizontal < 0 --> nach links laufen, aber Bild rechts ausgerichtet
@@ -219,6 +310,28 @@ public class Enemy_Movement2 : MonoBehaviour
         this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
+
+
+
+
+
+    private Transform FindNearestAvailableHomePoint()
+    {
+        HomePoint[] homePoints = transform.parent.parent.GetComponentsInChildren<HomePoint>();
+
+        // Den nächstgelegenen freien HomePoint finden
+        var nearestPoint = homePoints
+            .Where(point => point.isAssigned == false) // Nur unbesetzte HomePoints
+            .OrderBy(point => Vector3.Distance(this.transform.position, point.transform.position)).FirstOrDefault(); // Kürzeste Distanz finden
+
+        if (nearestPoint == null)
+        {
+            Debug.LogWarning("Kein HomePoint gefunden!!!!!");
+        }
+
+        return nearestPoint?.transform; // Rückgabe des Transforms oder null
+
+    }
 
 
 

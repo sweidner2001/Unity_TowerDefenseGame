@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     //########################### Membervariablen #############################
-    [SerializeField] private Slider healthBarSlider;
+    private Slider healthBarSlider;
     private Image fillArea;
 
 
@@ -16,6 +16,7 @@ public class HealthBar : MonoBehaviour
         //transform.parent.Find("HealthBarSlider");
         healthBarSlider = GetComponentInChildren<Slider>();
         fillArea = healthBarSlider.fillRect.GetComponentInChildren<Image>();
+
     }
 
 
@@ -23,6 +24,10 @@ public class HealthBar : MonoBehaviour
     //################################ Methoden ##################################
     public void UpdateHealthBar(float currentHealth, float maxHealth)
     {
+        if (healthBarSlider == null)
+        {
+            Start();
+        }
         healthBarSlider.value = (float)currentHealth / maxHealth;
         fillArea.color = GeneralManager.Instance.HealthBarGradient.Evaluate(healthBarSlider.value);
     }

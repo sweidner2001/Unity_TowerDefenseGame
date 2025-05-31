@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +45,7 @@ public class EnemyHealth : MonoBehaviour
         if (this.currentHealth <= 0)
         {
             Destroy(this.transform.parent.gameObject);
+            GetComponent<Enemy_Movement2>().ChangeHomePointState(false);
         }
         this.healthBar.UpdateHealthBar(this.currentHealth, this.maxHealth);
     }
