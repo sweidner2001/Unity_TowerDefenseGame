@@ -1,4 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+
+public enum ArcherBowState : int
+{
+    SeeNoEnemy,
+    SeeEnemy,
+    Attack,
+}
+
 
 public class ArcherBow : MonoBehaviour
 {
@@ -22,10 +33,42 @@ public class ArcherBow : MonoBehaviour
     private float attackTimer;
 
 
+    private Animator animator;
+    private Dictionary<ArcherBowState, string> stateToAnimation = new Dictionary<ArcherBowState, string>()
+    {
+        { ArcherBowState.SeeNoEnemy, "isSeeNoEnemy" },
+        { ArcherBowState.SeeEnemy, "isSeeEnemy" },
+        { ArcherBowState.Attack, "isAttacking" }
+    };
+
+
+
+    private ArcherBowState _bowState;
+    public ArcherBowState BowState
+    {
+        get => _bowState;
+        set
+        {
+            // Alte Animation deaktivieren
+            if (!stateToAnimation.ContainsKey(value))
+                throw new Exception($"State {value} ist nicht vorhanden!");
+
+            animator.SetBool(stateToAnimation[_bowState], false);
+
+            // Zustand aktualisieren
+            _bowState = value;
+
+            // Neue Animation aktivieren
+            animator.SetBool(stateToAnimation[_bowState], true);
+        }
+    }
+
+
     //########################### Geerbte Methoden #############################
     void Start()
     {
-        
+        this.animator = GetComponent<Animator>();
+        this.BowState = ArcherBowState.SeeNoEnemy;
         
     }
 
@@ -37,9 +80,9 @@ public class ArcherBow : MonoBehaviour
 
         HandleAiming();
 
-        if (this.aimTransform != null && this.attackTimer <= 0) // Input.GetButtonDown("UserAttack")
+        if (this.BowState == ArcherBowState.SeeEnemy && this.attackTimer <= 0) // Input.GetButtonDown("UserAttack")
         {
-            Shoot();
+            Attack();
         }
         
     }
@@ -53,6 +96,7 @@ public class ArcherBow : MonoBehaviour
 
         if (hits.Length > 0)
         {
+            this.BowState = ArcherBowState.SeeEnemy;
             this.aimTransform = hits[0].transform;
             this.aimDirection = (this.aimTransform.position - this.arrowLaunchPoint.position).normalized;
             Vector2 flipDirection = (this.aimTransform.position - this.transform.position).normalized;
@@ -60,12 +104,14 @@ public class ArcherBow : MonoBehaviour
         }
         else
         {
+            this.BowState = ArcherBowState.SeeNoEnemy;
             this.aimTransform = null;
         }
     }
      
-    public void Shoot()
+    public void Attack()
     {
+        this.BowState = ArcherBowState.Attack;
         Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
         arrow.arrowDirection = aimDirection;
         this.attackTimer = this.attackCooldown;
@@ -98,6 +144,15 @@ public class ArcherBow : MonoBehaviour
     {
         this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
+
+
+
+
+    public void ChangeState(ArcherBowState newState)
+    {
+        this.BowState = newState;
+    }
+
 
 
 
