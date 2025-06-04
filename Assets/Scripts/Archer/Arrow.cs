@@ -62,25 +62,32 @@ public class Arrow : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-damage);
             collision.gameObject.GetComponent<PlayerMovement>()?.Knockback(forceTransform: this.transform, knockbackForce, stunTime);
+            AttachToTarget(collision.gameObject.transform);
         }
         else if ((obstacleLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
+            // Pfeil soll auch an anderen Objekten hängen bleiben
             AttachToTarget(collision.gameObject.transform);
         }
     }
 
     private void AttachToTarget(Transform target)
     {
-        // Bild austauschen:
+        // 1. Bild austauschen:
         sr.sprite = buriedSprite;
 
-        // Pfeil stopen:
-        rb.linearVelocity = Vector2.zero; 
+        // 2. Pfeil stopen:
+        rb.linearVelocity = Vector2.zero;
 
-        // keine Kolissionen mehr
-        rb.useFullKinematicContacts = false;
+        // 3. Physik abschalten: Rigidbody auf Kinematic setzen
+        rb.bodyType = RigidbodyType2D.Kinematic;
 
-        // Pfeil an Ziel binden
+        // 4. Collider deaktivieren, damit der Pfeil keine Kollisionen/Schaden mehr verursacht
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+            col.enabled = false;
+
+        // 5. Pfeil an Ziel binden
         transform.SetParent(target);
     }
 
