@@ -47,6 +47,7 @@ public class Arrow : MonoBehaviour
     {
         // Winkel zwischen 2 Punkten
         float angle = Mathf.Atan2(arrowDirection.y, arrowDirection.x) * Mathf.Rad2Deg;
+        Debug.Log("Angle:" + angle + " y:" + arrowDirection.y + " x:" + arrowDirection.x);
 
         // Euler-Winkel als Input und Quaternion Winkel als output (diese sind effizienter)
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));

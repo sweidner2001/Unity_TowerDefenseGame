@@ -54,8 +54,9 @@ public class ArcherBow : MonoBehaviour
         if (hits.Length > 0)
         {
             this.aimTransform = hits[0].transform;
-            this.aimDirection = (this.aimTransform.position - this.transform.position).normalized;
-            FlipCharakterIfNecessary(this.aimDirection.x);
+            this.aimDirection = (this.aimTransform.position - this.arrowLaunchPoint.position).normalized;
+            Vector2 flipDirection = (this.aimTransform.position - this.transform.position).normalized;
+            FlipCharakterIfNecessary(flipDirection.x);
         }
         else
         {

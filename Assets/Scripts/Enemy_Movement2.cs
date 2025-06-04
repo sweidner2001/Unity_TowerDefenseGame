@@ -150,7 +150,6 @@ public class Enemy_Movement2 : MonoBehaviour
 
     public void GoBackToTower()
     {
-        Debug.Log("GoBackToTower");
         if (this.homePoint == null)
         {
             InitHomePoint();
