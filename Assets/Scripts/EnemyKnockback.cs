@@ -33,7 +33,7 @@ public class EnemyKnockback : MonoBehaviour
     {
         this.enemyMovement.ChangeState(EnemyState.Knockback);
 
-        // Gegner zurückstoßen
+        // Ich werde zurückgestoßen
         Vector2 direction = (this.transform.position - playerTransform.position).normalized;
         this.rb.linearVelocity = direction * knockbackForce;
         StartCoroutine(StunTimer(knockbackTime, stunTime));

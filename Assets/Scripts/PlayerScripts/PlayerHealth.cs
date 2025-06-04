@@ -42,7 +42,7 @@ public class PlayerHealth : MonoBehaviour
         // Charakter sterben lassen:
         if (PlayerStatsManager.Instance.currentHealth <= 0)
         {
-            PlayerStatsManager.Instance.gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
         }
         else if (PlayerStatsManager.Instance.currentHealth > PlayerStatsManager.Instance.maxHealth)
         {

@@ -72,10 +72,10 @@ public class PlayerMovement : MonoBehaviour
         this.transform.localScale = new Vector3(transform.localScale.x*-1, transform.localScale.y, transform.localScale.z);
     }
 
-    public void Knockback(Transform enemyTransform, float force, float stunTime)
+    public void Knockback(Transform forceTransform, float force, float stunTime)
     {
         isKnockedBAck = true;
-        Vector2 direction = (this.transform.position - enemyTransform.position).normalized;
+        Vector2 direction = (this.transform.position - forceTransform.position).normalized;
         this.rb.linearVelocity = direction * force;
         StartCoroutine(KnockbackCounter(stunTime));
     }

@@ -49,7 +49,7 @@ public class Enemy_Combat : MonoBehaviour
         if (hits.Length > 0)
         {
             hits[0].GetComponent<PlayerHealth>().ChangeHealth(-damage);
-            hits[0].GetComponent<PlayerMovement>().Knockback(enemyTransform: this.transform, knockbackForce, stunTime);
+            hits[0].GetComponent<PlayerMovement>().Knockback(forceTransform: this.transform, knockbackForce, stunTime);
         }
     }
 

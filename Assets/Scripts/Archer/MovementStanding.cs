@@ -8,18 +8,8 @@ using UnityEngine.UIElements;
 using UnityEngine.XR;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
-public enum EnemyState : int
-{
-    Idle,
-    Chase,
-    Attack,
-    Knockback,
-    BackToTower,
-    OnTower
-}
 
-
-public class Enemy_Movement2 : MonoBehaviour
+public class MovementStanding : MonoBehaviour
 {
 
     //######################## Membervariablen ##############################
