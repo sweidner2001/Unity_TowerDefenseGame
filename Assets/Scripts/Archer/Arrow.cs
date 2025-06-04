@@ -17,6 +17,10 @@ public class Arrow : MonoBehaviour
 
 
     public LayerMask enemyLayer;
+    public LayerMask obstacleLayer;
+
+    public SpriteRenderer sr;
+    public Sprite buriedSprite;
 
 
     //########################### Geerbte Methoden #############################
@@ -51,11 +55,33 @@ public class Arrow : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if((enemyLayer.value & (1 << collision.gameObject.layer)) > 0)
+        // Der Ausdruck (1 << collision.gameObject.layer) verschiebt das Bit 1 um so viele Stellen nach links,
+        // wie es die Layer-ID des kollidierenden Objekts angibt. Funktioniert nur, weil die Layer intern als
+        // 2er Potenzen dargestellt werden
+        if ((enemyLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
             collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-damage);
             collision.gameObject.GetComponent<PlayerMovement>()?.Knockback(forceTransform: this.transform, knockbackForce, stunTime);
         }
+        else if ((obstacleLayer.value & (1 << collision.gameObject.layer)) > 0)
+        {
+            AttachToTarget(collision.gameObject.transform);
+        }
+    }
+
+    private void AttachToTarget(Transform target)
+    {
+        // Bild austauschen:
+        sr.sprite = buriedSprite;
+
+        // Pfeil stopen:
+        rb.linearVelocity = Vector2.zero; 
+
+        // keine Kolissionen mehr
+        rb.useFullKinematicContacts = false;
+
+        // Pfeil an Ziel binden
+        transform.SetParent(target);
     }
 
 

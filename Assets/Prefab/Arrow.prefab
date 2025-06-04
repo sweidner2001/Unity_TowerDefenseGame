@@ -186,3 +186,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  sr: {fileID: 5716651298728262491}
+  buriedSprite: {fileID: -6662812116773042688, guid: 016c8594b99829e42ad2c50b4492cceb, type: 3}
