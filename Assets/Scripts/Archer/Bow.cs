@@ -46,6 +46,17 @@ public class Bow : MonoBehaviour
 
 
 
+
+    public void Attack()
+    {
+        //this.BowState = ArcherBowState.Attack;
+        //Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
+        //arrow.arrowDirection = aimDirection;
+        //this.attackTimer = this.attackCooldown;
+    }
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

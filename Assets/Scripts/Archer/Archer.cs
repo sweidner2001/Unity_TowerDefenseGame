@@ -3,15 +3,10 @@ using UnityEngine;
 using System;
 
 
-public enum ArcherBowState : int
-{
-    SeeNoEnemy,
-    SeeEnemy,
-    Attack,
-}
 
 
-public class ArcherBow : MonoBehaviour
+
+public class Archer : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     public Transform arrowLaunchPoint;
@@ -33,7 +28,8 @@ public class ArcherBow : MonoBehaviour
     private float attackTimer;
 
 
-    private Animator animator;
+    private Animator animatorBow;
+    private Animator animatorBody;
     private Dictionary<ArcherBowState, string> stateToAnimation = new Dictionary<ArcherBowState, string>()
     {
         { ArcherBowState.SeeNoEnemy, "isSeeNoEnemy" },
@@ -53,13 +49,13 @@ public class ArcherBow : MonoBehaviour
             if (!stateToAnimation.ContainsKey(value))
                 throw new Exception($"State {value} ist nicht vorhanden!");
 
-            animator.SetBool(stateToAnimation[_bowState], false);
+            animatorBow.SetBool(stateToAnimation[_bowState], false);
 
             // Zustand aktualisieren
             _bowState = value;
 
             // Neue Animation aktivieren
-            animator.SetBool(stateToAnimation[_bowState], true);
+            animatorBow.SetBool(stateToAnimation[_bowState], true);
         }
     }
 
@@ -67,7 +63,7 @@ public class ArcherBow : MonoBehaviour
     //########################### Geerbte Methoden #############################
     void Start()
     {
-        this.animator = GetComponent<Animator>();
+        this.animatorBow = GetComponent<Animator>();
         this.BowState = ArcherBowState.SeeNoEnemy;
         
     }
