@@ -1009,7 +1009,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7269737a91c82384686bea77fc3876c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowLaunchPoint: {fileID: 344756893}
   arrowPrefab: {fileID: 1704047070973754428, guid: cbd9dcfb9671b604fbef7cda16943d25, type: 3}
   playerDetectionRange: 4
   detectionPoint: {fileID: 1108891739}
@@ -2377,6 +2376,7 @@ GameObject:
   - component: {fileID: 899051451}
   - component: {fileID: 899051453}
   - component: {fileID: 899051452}
+  - component: {fileID: 899051454}
   m_Layer: 0
   m_Name: Bow
   m_TagString: Untagged
@@ -2392,14 +2392,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899051450}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.17364816, w: 0.9848078}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.012000084, y: -0.0020000935, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 344756893}
   m_Father: {fileID: 525412922}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &899051452
 Animator:
   serializedVersion: 7
@@ -2477,6 +2477,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &899051454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899051450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cf68d8e1a18c469c2199cdeea49d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowPrefab: {fileID: 1704047070973754428, guid: cbd9dcfb9671b604fbef7cda16943d25, type: 3}
+  arrowLaunchPoint: {fileID: 344756893}
+  aimDirection: {x: 1, y: 0}
 --- !u!1 &1108891738
 GameObject:
   m_ObjectHideFlags: 0

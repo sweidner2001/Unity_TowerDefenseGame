@@ -9,7 +9,7 @@ using System;
 public class Archer : MonoBehaviour
 {
     //######################## Membervariablen ##############################
-    public Transform arrowLaunchPoint;
+    
 
     // Unser Schuss-Objekt (Pfeil)
     public GameObject arrowPrefab;
@@ -21,7 +21,7 @@ public class Archer : MonoBehaviour
     public float playerDetectionRange = 4f;
     public Transform detectionPoint;
     public LayerMask detectionLayer;            // was wollen wir detektieren?
-    private Transform aimTransform;          // Transform-Attr. des detektierten Objektes
+    private Transform enemyTransform;          // Transform-Attr. des detektierten Objektes
 
 
     public float attackCooldown = 2;
@@ -30,42 +30,17 @@ public class Archer : MonoBehaviour
 
     private Animator animatorBow;
     private Animator animatorBody;
-    private Dictionary<ArcherBowState, string> stateToAnimation = new Dictionary<ArcherBowState, string>()
-    {
-        { ArcherBowState.SeeNoEnemy, "isSeeNoEnemy" },
-        { ArcherBowState.SeeEnemy, "isSeeEnemy" },
-        { ArcherBowState.Attack, "isAttacking" }
-    };
 
 
+    // Referenz auf das Bow-Skript (Child-Objekt)
+    private Bow bow;
 
-    private ArcherBowState _bowState;
-    public ArcherBowState BowState
-    {
-        get => _bowState;
-        set
-        {
-            // Alte Animation deaktivieren
-            if (!stateToAnimation.ContainsKey(value))
-                throw new Exception($"State {value} ist nicht vorhanden!");
-
-            animatorBow.SetBool(stateToAnimation[_bowState], false);
-
-            // Zustand aktualisieren
-            _bowState = value;
-
-            // Neue Animation aktivieren
-            animatorBow.SetBool(stateToAnimation[_bowState], true);
-        }
-    }
 
 
     //########################### Geerbte Methoden #############################
     void Start()
     {
-        this.animatorBow = GetComponent<Animator>();
-        this.BowState = ArcherBowState.SeeNoEnemy;
-        
+        this.bow = GetComponentInChildren<Bow>();
     }
 
     void Update()
@@ -76,7 +51,7 @@ public class Archer : MonoBehaviour
 
         HandleAiming();
 
-        if (this.BowState == ArcherBowState.SeeEnemy && this.attackTimer <= 0) // Input.GetButtonDown("UserAttack")
+        if (this.bow.BowState == ArcherBowState.SeeEnemy && this.attackTimer <= 0) // Input.GetButtonDown("UserAttack")
         {
             Attack();
         }
@@ -92,24 +67,22 @@ public class Archer : MonoBehaviour
 
         if (hits.Length > 0)
         {
-            this.BowState = ArcherBowState.SeeEnemy;
-            this.aimTransform = hits[0].transform;
-            this.aimDirection = (this.aimTransform.position - this.arrowLaunchPoint.position).normalized;
-            Vector2 flipDirection = (this.aimTransform.position - this.transform.position).normalized;
+            this.bow.ChangeState(ArcherBowState.SeeEnemy);
+            this.enemyTransform = hits[0].transform;
+            
+            Vector2 flipDirection = (this.enemyTransform.position - this.transform.position).normalized;
             FlipCharakterIfNecessary(flipDirection.x);
         }
         else
         {
-            this.BowState = ArcherBowState.SeeNoEnemy;
-            this.aimTransform = null;
+            this.bow.ChangeState(ArcherBowState.SeeNoEnemy);
+            this.enemyTransform = null;
         }
     }
      
     public void Attack()
     {
-        this.BowState = ArcherBowState.Attack;
-        Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
-        arrow.arrowDirection = aimDirection;
+        this.bow.Attack_Enemy(this.enemyTransform);
         this.attackTimer = this.attackCooldown;
     }
 
@@ -139,14 +112,6 @@ public class Archer : MonoBehaviour
     protected void Flip()
     {
         this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-    }
-
-
-
-
-    public void ChangeState(ArcherBowState newState)
-    {
-        this.BowState = newState;
     }
 
 
