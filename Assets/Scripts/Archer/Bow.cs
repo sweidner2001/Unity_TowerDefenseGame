@@ -83,14 +83,15 @@ public class Bow : MonoBehaviour
     {
         BowState = FireWeaponState.Attack;
         this.aimDirection = (enemyPosition - this.arrowLaunchPoint.position).normalized;
-        //this.enemyPosition=enemyPosition;
+        
     }
-    //Vector3 enemyPosition;
+    Transform enemyTransform;
 
     public void Attack_Enemy(Transform enemyTransform)
     {
         BowState = FireWeaponState.Attack;
         this.aimDirection = (enemyTransform.position - this.arrowLaunchPoint.position).normalized;
+        this.enemyTransform = enemyTransform;
     }
 
 
@@ -107,9 +108,9 @@ public class Bow : MonoBehaviour
         Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
         arrow.ArrowDirection = this.aimDirection;
         arrow.ArrowSpeed = this.smArcher.arrowSpeed;
-        arrow.LifeSpanOnHittetObject = this.smArcher.arrowLifeSpanOnHittetObject;
+        arrow.LifeSpanOnHittedObject = this.smArcher.arrowLifeSpanOnHittetObject;
         arrow.OnEnemyArrowCollision += HandleArrowCollision;
-        //arrow.enemyPosition = this.enemyPosition;
+        arrow.enemyTransform = this.enemyTransform;
         return arrow;
     }
 
