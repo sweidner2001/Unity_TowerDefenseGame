@@ -19,6 +19,8 @@ public class Bow : MonoBehaviour
     public Vector2 aimDirection = Vector2.right;
 
 
+
+    // Animation:
     private Animator animator;
     private Dictionary<ArcherBowState, string> stateToAnimation = new Dictionary<ArcherBowState, string>()
     {
@@ -27,49 +29,34 @@ public class Bow : MonoBehaviour
         { ArcherBowState.Attack, "isAttacking" }
     };
 
-
-
     private ArcherBowState _bowState;
     public ArcherBowState BowState
     {
         get => _bowState;
         set
         {
-            // Alte Animation deaktivieren
+            // Fehlerprüfung:
             if (!stateToAnimation.ContainsKey(value))
                 throw new Exception($"State {value} ist nicht vorhanden!");
 
+            // Alte Animation deaktivieren + neue aktivieren:
             animator.SetBool(stateToAnimation[_bowState], false);
-
-            // Zustand aktualisieren
             _bowState = value;
-
-            // Neue Animation aktivieren
-            animator.SetBool(stateToAnimation[_bowState], true);
+            animator.SetBool(stateToAnimation[value], true);
         }
     }
 
 
 
 
-    //public void Attack()
-    //{
-    //    //this.BowState = ArcherBowState.Attack;
-    //    //Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
-    //    //arrow.arrowDirection = aimDirection;
-    //    //this.attackTimer = this.attackCooldown;
-    //}
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //############################ Geerbte Methoden ##############################
     void Start()
     {
         animator = GetComponent<Animator>();
         BowState = ArcherBowState.SeeNoEnemy;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -77,7 +64,15 @@ public class Bow : MonoBehaviour
 
 
 
+    //############################ Methoden ##############################
+    public void ChangeState(ArcherBowState newState)
+    {
+        BowState = newState;
+    }
 
+
+
+    //--------------- Attacke ------------------
     // Attacke wird von Archer ausgelöst
     public void Attack(Vector3 enemyPosition)
     {
@@ -86,7 +81,6 @@ public class Bow : MonoBehaviour
     }
 
 
-    // Attacke wird von Archer ausgelöst
     public void Attack_Enemy(Transform enemyTransform)
     {
         BowState = ArcherBowState.Attack;
@@ -101,8 +95,26 @@ public class Bow : MonoBehaviour
     }
 
 
-    public void ChangeState(ArcherBowState newState)
+
+
+    //---------------- Ziel anvisieren ------------------
+    public void RotateBowToTarget(Vector3 targetPosition)
     {
-        BowState = newState;
+        // Winkel berechnen:
+        Vector2 direction = (targetPosition - transform.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+
+        // Prüfe, ob das Parent-Objekt gespiegelt ist
+        bool isFlipped = transform.parent != null && transform.parent.localScale.x < 0;
+        if (isFlipped)
+        {
+            // Wenn Archer gespiegelt, dann invertiere den Winkel.
+            // 50° wird zu -50° im Inpsector, weil die Z-Achse invertiert wird, 
+            // weswegen 180 - angle nicht funktioniert!
+            angle = angle - 180;
+        }
+
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }

@@ -28,7 +28,6 @@ public class Archer : MonoBehaviour
     private float attackTimer;
 
 
-    private Animator animatorBow;
     private Animator animatorBody;
 
 
@@ -70,8 +69,10 @@ public class Archer : MonoBehaviour
             this.bow.ChangeState(ArcherBowState.SeeEnemy);
             this.enemyTransform = hits[0].transform;
             
+
             Vector2 flipDirection = (this.enemyTransform.position - this.transform.position).normalized;
             FlipCharakterIfNecessary(flipDirection.x);
+            //this.bow.RotateBowToTarget(this.enemyTransform.position);
         }
         else
         {
@@ -102,6 +103,11 @@ public class Archer : MonoBehaviour
             horizontalMovement < 0 && this.transform.localScale.x > 0)
         {
             Flip();
+            this.bow.RotateBowToTarget(this.enemyTransform.position);
+        }
+        else
+        {
+            this.bow.RotateBowToTarget(this.enemyTransform.position);
         }
     }
 
