@@ -13,26 +13,22 @@ public class Archer : MonoBehaviour
 
     // Unser Schuss-Objekt (Pfeil)
     public GameObject arrowPrefab;
+    private Bow bow;
 
-    private Vector2 aimDirection = Vector2.right;
 
 
     // Gegner Detektion: 
-    public float playerDetectionRange = 4f;
-    public Transform detectionPoint;
+    public Transform detectionPoint;            // Sichtradius-Mittelpunkt
     public LayerMask detectionLayer;            // was wollen wir detektieren?
-    private Transform enemyTransform;          // Transform-Attr. des detektierten Objektes
+    private Transform aimTransform;             // Transform-Attr. des detektierten Objektes
 
 
-    public float attackCooldown = 2;
     private float attackTimer;
 
 
-    private Animator animatorBody;
 
-
-    // Referenz auf das Bow-Skript (Child-Objekt)
-    private Bow bow;
+    // Level up: StatsManager + Sprites/Animation austauschen!
+    public StatsManagerArcher smArcher;
 
 
 
@@ -40,6 +36,7 @@ public class Archer : MonoBehaviour
     void Start()
     {
         this.bow = GetComponentInChildren<Bow>();
+        this.smArcher = StatsManagerArcher.Instance;
     }
 
     void Update()
@@ -48,9 +45,9 @@ public class Archer : MonoBehaviour
         attackTimer -= Time.deltaTime;
 
 
-        HandleAiming();
+        HandleEnemyDetection();
 
-        if (this.bow.BowState == ArcherBowState.SeeEnemy && this.attackTimer <= 0) // Input.GetButtonDown("UserAttack")
+        if (this.bow.BowState == FireWeaponState.SeeEnemy && this.attackTimer <= 0) // Input.GetButtonDown("UserAttack")
         {
             Attack();
         }
@@ -58,39 +55,44 @@ public class Archer : MonoBehaviour
     }
 
 
+    //################################ Methoden ###################################
 
-    private void HandleAiming()
+    //~~~~~~~~~~~~~~~~~~~~~~~~~ Verhaltens Methoden ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private void HandleEnemyDetection()
     {
         // Alle Gegner detektieren:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.playerDetectionRange, this.detectionLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.smArcher.playerDetectionRange, this.detectionLayer);
 
         if (hits.Length > 0)
         {
-            this.bow.ChangeState(ArcherBowState.SeeEnemy);
-            this.enemyTransform = hits[0].transform;
+            this.bow.ChangeState(FireWeaponState.SeeEnemy);
+            this.aimTransform = hits[0].transform;
             
 
-            Vector2 flipDirection = (this.enemyTransform.position - this.transform.position).normalized;
+            Vector2 flipDirection = (this.aimTransform.position - this.transform.position).normalized;
             FlipCharakterIfNecessary(flipDirection.x);
-            //this.bow.RotateBowToTarget(this.enemyTransform.position);
+            this.bow.RotateBowToTarget(this.aimTransform.position);
         }
         else
         {
-            this.bow.ChangeState(ArcherBowState.SeeNoEnemy);
-            this.enemyTransform = null;
+            this.bow.ChangeState(FireWeaponState.SeeNoEnemy);
+            this.aimTransform = null;
         }
     }
      
     public void Attack()
     {
-        this.bow.Attack_Enemy(this.enemyTransform);
-        this.attackTimer = this.attackCooldown;
+        this.bow.Attack_Enemy(this.aimTransform);
+        this.attackTimer = this.smArcher.attackCooldown;
     }
 
 
 
 
 
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Movement Methoden ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /// <summary>
     /// Dreht das Sprite Bild um 180°, wenn die Figur beim Gehen die Richtung wechselt
     /// </summary>
@@ -103,11 +105,6 @@ public class Archer : MonoBehaviour
             horizontalMovement < 0 && this.transform.localScale.x > 0)
         {
             Flip();
-            this.bow.RotateBowToTarget(this.enemyTransform.position);
-        }
-        else
-        {
-            this.bow.RotateBowToTarget(this.enemyTransform.position);
         }
     }
 
@@ -122,11 +119,11 @@ public class Archer : MonoBehaviour
 
 
 
-
+    //~~~~~~~~~~~~~~~~~~~ Gizmos Methoden ~~~~~~~~~~~~~~~~~~~~~~
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.detectionPoint.position, this.playerDetectionRange);
+        Gizmos.DrawWireSphere(this.detectionPoint.position, this.smArcher.playerDetectionRange);
     }
 
 }

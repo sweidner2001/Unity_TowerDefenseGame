@@ -1010,12 +1010,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 1704047070973754428, guid: cbd9dcfb9671b604fbef7cda16943d25, type: 3}
-  playerDetectionRange: 4
   detectionPoint: {fileID: 1108891739}
   detectionLayer:
     serializedVersion: 2
     m_Bits: 128
-  attackCooldown: 3
+  smArcher: {fileID: 0}
 --- !u!114 &525412924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2492,6 +2491,7 @@ MonoBehaviour:
   arrowPrefab: {fileID: 1704047070973754428, guid: cbd9dcfb9671b604fbef7cda16943d25, type: 3}
   arrowLaunchPoint: {fileID: 344756893}
   aimDirection: {x: 1, y: 0}
+  smArcher: {fileID: 0}
 --- !u!1 &1108891738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5996,6 +5996,59 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 100469207}
   m_SourcePrefab: {fileID: 100100000, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
+--- !u!1 &1804926552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1804926554}
+  - component: {fileID: 1804926553}
+  m_Layer: 0
+  m_Name: StatsManagerArcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1804926553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804926552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537d71efc4e654396224a4601f5503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackCooldown: 2
+  playerDetectionRange: 3
+  damage: 2
+  arrowSpeed: 6
+  knockbackForce: 1
+  knockbackTime: 0.15
+  stunTime: 0.2
+  maxHealth: 10
+  currentHealth: 10
+--- !u!4 &1804926554
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804926552}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1816638965 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3210817412354405486, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
@@ -6311,3 +6364,4 @@ SceneRoots:
   - {fileID: 1208153414}
   - {fileID: 725564066}
   - {fileID: 229668006}
+  - {fileID: 1804926554}

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Searcher;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 
-public enum ArcherBowState : int
+public enum FireWeaponState : int
 {
     SeeNoEnemy,
     SeeEnemy,
@@ -18,19 +19,22 @@ public class Bow : MonoBehaviour
     public Transform arrowLaunchPoint;
     public Vector2 aimDirection = Vector2.right;
 
+    // Level up: StatsManager + Sprites/Animation austauschen!
+    public StatsManagerArcher smArcher;
+
 
 
     // Animation:
     private Animator animator;
-    private Dictionary<ArcherBowState, string> stateToAnimation = new Dictionary<ArcherBowState, string>()
+    private Dictionary<FireWeaponState, string> stateToAnimation = new Dictionary<FireWeaponState, string>()
     {
-        { ArcherBowState.SeeNoEnemy, "isSeeNoEnemy" },
-        { ArcherBowState.SeeEnemy, "isSeeEnemy" },
-        { ArcherBowState.Attack, "isAttacking" }
+        { FireWeaponState.SeeNoEnemy, "isSeeNoEnemy" },
+        { FireWeaponState.SeeEnemy, "isSeeEnemy" },
+        { FireWeaponState.Attack, "isAttacking" }
     };
 
-    private ArcherBowState _bowState;
-    public ArcherBowState BowState
+    private FireWeaponState _bowState;
+    public FireWeaponState BowState
     {
         get => _bowState;
         set
@@ -54,7 +58,8 @@ public class Bow : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        BowState = ArcherBowState.SeeNoEnemy;
+        BowState = FireWeaponState.SeeNoEnemy;
+        this.smArcher = StatsManagerArcher.Instance;
     }
 
     void Update()
@@ -65,7 +70,7 @@ public class Bow : MonoBehaviour
 
 
     //############################ Methoden ##############################
-    public void ChangeState(ArcherBowState newState)
+    public void ChangeState(FireWeaponState newState)
     {
         BowState = newState;
     }
@@ -76,24 +81,45 @@ public class Bow : MonoBehaviour
     // Attacke wird von Archer ausgelöst
     public void Attack(Vector3 enemyPosition)
     {
-        BowState = ArcherBowState.Attack;
+        BowState = FireWeaponState.Attack;
         this.aimDirection = (enemyPosition - this.arrowLaunchPoint.position).normalized;
+        //this.enemyPosition=enemyPosition;
     }
-
+    //Vector3 enemyPosition;
 
     public void Attack_Enemy(Transform enemyTransform)
     {
-        BowState = ArcherBowState.Attack;
+        BowState = FireWeaponState.Attack;
         this.aimDirection = (enemyTransform.position - this.arrowLaunchPoint.position).normalized;
     }
 
 
     public void Shoot()
     {
-        Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
-        arrow.arrowDirection = aimDirection;
+        CreateArrow();
     }
 
+
+
+    //-------------- Projektil / Pfeil ------------------
+    public Arrow CreateArrow()
+    {
+        Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
+        arrow.ArrowDirection = this.aimDirection;
+        arrow.ArrowSpeed = this.smArcher.arrowSpeed;
+        arrow.LifeSpanOnHittetObject = this.smArcher.arrowLifeSpanOnHittetObject;
+        arrow.OnEnemyArrowCollision += HandleArrowCollision;
+        //arrow.enemyPosition = this.enemyPosition;
+        return arrow;
+    }
+
+    private void HandleArrowCollision(Collision2D collision)
+    {
+        
+        collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-this.smArcher.damage);
+        // TODO: Knockbacktime fehlt!!
+        collision.gameObject.GetComponent<PlayerMovement>()?.Knockback(forceTransform: this.transform, this.smArcher.knockbackForce, this.smArcher.stunTime);
+    }
 
 
 

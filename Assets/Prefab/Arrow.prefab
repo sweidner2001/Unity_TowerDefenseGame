@@ -175,8 +175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fbd8f11e1864147899c58cdbb1b04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 6311188448010205278}
-  arrowDirection: {x: 1, y: 0}
   lifeSpan: 2
   speed: 6
   damage: 2
@@ -189,5 +187,4 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 8
-  sr: {fileID: 5716651298728262491}
-  buriedSprite: {fileID: -6662812116773042688, guid: 016c8594b99829e42ad2c50b4492cceb, type: 3}
+  objectHitSprite: {fileID: -6662812116773042688, guid: 016c8594b99829e42ad2c50b4492cceb, type: 3}
