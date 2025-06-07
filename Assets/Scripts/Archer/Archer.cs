@@ -9,26 +9,18 @@ using System;
 public class Archer : MonoBehaviour
 {
     //######################## Membervariablen ##############################
-    
-
     // Unser Schuss-Objekt (Pfeil)
     public GameObject arrowPrefab;
     private Bow bow;
-
-
-
-    // Gegner Detektion: 
-    public Transform detectionPoint;            // Sichtradius-Mittelpunkt
-    
-    private Transform aimTransform;             // Transform-Attr. des detektierten Objektes
-
-
     private float attackTimer;
 
 
+    // Gegner Detektion: 
+    public Transform enemyDetectionPoint;           // Sichtradius-Mittelpunkt
+    private Transform aimTransform;                 // Transform-Attr. des detektierten Objektes
 
     // Level up: StatsManager + Sprites/Animation austauschen!
-    public StatsManagerArcher smArcher;
+    public ArcherConfig ConfigArcher { get; set; }
 
 
 
@@ -36,7 +28,10 @@ public class Archer : MonoBehaviour
     void Start()
     {
         this.bow = GetComponentInChildren<Bow>();
-        this.smArcher = StatsManagerArcher.Instance;
+        this.ConfigArcher = Resources.Load<ArcherConfig>("Config/Archer_Std");
+
+        if(ConfigArcher == null)
+            Debug.Log("Config archer ist null!");
     }
 
     void Update()
@@ -61,7 +56,7 @@ public class Archer : MonoBehaviour
     private void HandleEnemyDetection()
     {
         // Alle Gegner detektieren:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.smArcher.playerDetectionRange, this.smArcher.detectionLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.enemyDetectionPoint.position, this.ConfigArcher.playerDetectionRange, this.ConfigArcher.detectionLayer);
 
         if (hits.Length > 0)
         {
@@ -83,7 +78,7 @@ public class Archer : MonoBehaviour
     public void Attack()
     {
         this.bow.Attack_Enemy(this.aimTransform);
-        this.attackTimer = this.smArcher.attackCooldown;
+        this.attackTimer = this.ConfigArcher.attackCooldown;
     }
 
 
@@ -123,7 +118,7 @@ public class Archer : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.detectionPoint.position, this.smArcher.playerDetectionRange);
+        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.ConfigArcher.playerDetectionRange);
     }
 
 }

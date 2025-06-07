@@ -1057,8 +1057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 1704047070973754428, guid: cbd9dcfb9671b604fbef7cda16943d25, type: 3}
-  detectionPoint: {fileID: 1108891739}
-  smArcher: {fileID: 0}
+  enemyDetectionPoint: {fileID: 1108891739}
 --- !u!114 &525412924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2535,7 +2534,7 @@ MonoBehaviour:
   arrowPrefab: {fileID: 1704047070973754428, guid: cbd9dcfb9671b604fbef7cda16943d25, type: 3}
   arrowLaunchPoint: {fileID: 344756893}
   aimDirection: {x: 1, y: 0}
-  smArcher: {fileID: 0}
+  ConfigArcher: {fileID: 0}
 --- !u!1 &1108891738
 GameObject:
   m_ObjectHideFlags: 0

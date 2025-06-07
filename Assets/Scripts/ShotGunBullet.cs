@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShotGunBullet : MonoBehaviour
 {
-    public Vector2 ArrowDirection { set; get; } = Vector2.right;
+    //public Vector2 ArrowDirection { set; get; } = Vector2.right;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,7 +26,7 @@ public class ShotGunBullet : MonoBehaviour
     {
         
     }
-    private float timer = 3f;
+    //private float timer = 3f;
 
     private void FixedUpdate()
     {

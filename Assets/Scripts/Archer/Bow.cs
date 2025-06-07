@@ -22,7 +22,7 @@ public class Bow : MonoBehaviour
     public Vector2 aimDirection = Vector2.right;
 
     // Level up: StatsManager + Sprites/Animation austauschen!
-    public StatsManagerArcher smArcher;
+    public ArcherConfig ConfigArcher;
     private Transform enemyTransform;
 
 
@@ -62,8 +62,8 @@ public class Bow : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         ChangeState(FireWeaponState.SeeNoEnemy);
-        this.smArcher = StatsManagerArcher.Instance;
-        this.arrowConfig= Resources.Load<ArrowConfig>("Config/Arrow_Std");
+        this.ConfigArcher = transform.parent.GetComponent<Archer>().ConfigArcher;
+        this.arrowConfig = Resources.Load<ArrowConfig>("Config/Arrow_Std");
     }
 
     void Update()
@@ -116,16 +116,16 @@ public class Bow : MonoBehaviour
     public Arrow CreateArrow()
     {
         Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
-        arrow.Init(this.arrowConfig, this.enemyTransform, HandleArrowCollision, this.smArcher.detectionLayer);
+        arrow.Init(this.arrowConfig, this.enemyTransform, HandleArrowCollision, this.ConfigArcher.detectionLayer);
         return arrow;
     }
 
     private void HandleArrowCollision(Collision2D collision)
     {
         
-        collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-this.smArcher.damage);
+        collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-this.ConfigArcher.damage);
         // TODO: Knockbacktime fehlt!!
-        collision.gameObject.GetComponent<PlayerMovement>()?.Knockback(forceTransform: this.transform, this.smArcher.knockbackForce, this.smArcher.stunTime);
+        collision.gameObject.GetComponent<PlayerMovement>()?.Knockback(forceTransform: this.transform, this.ConfigArcher.knockbackForce, this.ConfigArcher.stunTime);
     }
 
 
