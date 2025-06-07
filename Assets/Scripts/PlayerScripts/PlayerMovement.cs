@@ -74,6 +74,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Knockback(Transform forceTransform, float force, float stunTime)
     {
+        // Objekt schon zerstört?
+        if (!this.gameObject.activeInHierarchy)
+            return; 
+
         isKnockedBAck = true;
         Vector2 direction = (this.transform.position - forceTransform.position).normalized;
         this.rb.linearVelocity = direction * force;

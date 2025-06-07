@@ -14,5 +14,4 @@ public class ArrowConfig : ScriptableObject
     public float minArcHeight = -0.5f;                         // Wie hoch der Bogen sein soll
     public float minFlightDuration = 0;                        // Zeit in Sekunden, bis der Pfeil ankommt
     public float maxDistanceFromStartPosToUpdateEnemyPos = 2;
-    public float maxFlightDistance = 7;
 }

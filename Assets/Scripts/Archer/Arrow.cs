@@ -1,44 +1,41 @@
 using System;
 using System.Collections;
 using System.Net;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class Arrow : MonoBehaviour
 {
-
-
     //######################## Membervariablen ##############################
     private Rigidbody2D rb;
 
-    // Eigenschaften des Pfeils
-    public Vector2 ArrowDirection { set; get; } = Vector2.right;
-    //public float maxLifeSpanOnFlying = 3;                      // Max. Lebenszeit in s des Pfeils
-    //public float LifeSpanOnHittedObject { get; set; } = 2;                      // Max. Lebenszeit in s des Pfeils
-    //public float LifeSpanOnHittedTilemap { get; set; } = 1;
-
     // Welche GameObjekts kann ich treffen? (müssen Colllider besitzen)
-    public LayerMask enemyLayer;
+    protected LayerMask enemyLayer;
     public LayerMask obstacleLayer;
 
-    // Sprite wenn Gegner getroffen:
-    private SpriteRenderer sr;
+    // Sprite wechseln, wenn Gegner getroffen:
+    protected SpriteRenderer sr;
     public Sprite objectHitSprite;
 
-    public float ArrowSpeed { get; set; } = 6;                // Geschwindigkeit des Pfeils
-    public Transform enemyTransform;
-    //public Transform destTransformStatic;
-    public ArrowConfig Config { get; set; }
-
-    // Action-Delegate statt eigener Delegate-Definition
+    // Pfeil Konfiguration:
+    protected Transform enemyTransform;
+    protected ArrowConfig Config { get; set; }
     public event Action<Collision2D> OnEnemyArrowCollision;
 
 
+
+    public void Init(ArrowConfig config, Transform enemyTransform, Action<Collision2D> handleArrowCollisionWithEnemy, LayerMask enemyLayer)
+    {
+        this.Config = config;
+        this.enemyTransform = enemyTransform;
+        this.OnEnemyArrowCollision += handleArrowCollisionWithEnemy;
+        this.enemyLayer = enemyLayer;
+    }
+
+
     //########################### Geerbte Methoden #############################
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-
     void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();   
@@ -46,93 +43,47 @@ public class Arrow : MonoBehaviour
 
 
         rb.gravityScale = 0;
+        RotateArrowBeforeAttack();
 
         if (this.enemyTransform != null)
         {
             StartCoroutine(FlyAlongBezierDynamic());
         }
-        //rb.linearVelocity = this.ArrowDirection * this.ArrowSpeed;
-        //RotateArrowBeforeAttack();
     }
 
 
-
-    // Update is called once per frames
     void Update()
     {
         
     }
-    private float timer = 3f;
 
-    private void FixedUpdate()
-    {
-        // 1) Pfeil folgt dem Gegner, wenn er vorhanden ist
-        //timer -= Time.deltaTime;
-
-        //if(timer <= 0 && enemyTransform != null)
-        //{
-        //    // An Tilemap anhängen:
-        //    AttachToTarget();
-        //    Destroy(gameObject, 2);
-        //}
-
-        //if (enemyTransform != null)
-        //{
-        //    FollowEnemy();
-        //    Destroy(gameObject, maxLifeSpanOnFlying);
-        //}
-    }
 
 
     //########################### Methoden #############################
 
-    //public void ShootArrow(Vector2 arrowDirection, float arrowSpeed)
-    //{
-    //    if (this.rb == null)
-    //    {
-    //        Start();
-    //    }
 
-    //    this.ArrowDirection = arrowDirection;
-    //    rb.linearVelocity = this.ArrowDirection * arrowSpeed;
-    //    RatateArrow();
-    //    Destroy(gameObject, maxLifeSpan);
-    //}
-
-
-    // Für Schusswaffen
-    //private void FollowEnemy()
-    //{
-    //    // 1) Flugrichtung zum Gegner anpassen
-    //    Vector2 direction = (enemyTransform.position - transform.position).normalized;
-    //    rb.linearVelocity = direction * this.ArrowSpeed;
-
-    //    // 2) Rotation an Flugrichtung anpassen
-    //    float angle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
-    //    transform.rotation = Quaternion.Euler(0, 0, angle);
-    //}
-
-
-   
-
-    //[Header("Kurven-Parameter")]
-    //public float maxArcHeight = 2f;                            // Wie hoch der Bogen sein soll
-    //public float maxFlightDuration = 2.0f;                     // Zeit in Sekunden, bis der Pfeil ankommt
-    //private float minArcHeight = -0.5f;                            // Wie hoch der Bogen sein soll
-    //private float minFlightDuration = 0;                     // Zeit in Sekunden, bis der Pfeil ankommt
-    //public float maxDistanceFromStartPosToUpdateEnemyPos = 2;
-    public float MaxFlightDistance { get; set; } = 7;
-
-
-
-    private static void GetBezierParameters(Vector2 startPoint, Vector2 endPoint, ArrowConfig config, float maxFlyingDistance, out Vector2 P1, out float flightDuration)
+    public static float GetBowRotationAngle(Vector2 startPoint, Vector2 endPoint, ArrowConfig config)
     {
-        float normDist = GetNormFromDist(startPoint, endPoint, maxFlyingDistance);
-        flightDuration = Mathf.Max(0, Mathf.Lerp(config.minFlightDuration, config.maxFlightDuration, normDist));
 
-        float arcHeight = Mathf.Max(0, Mathf.Lerp(config.minArcHeight, config.maxArcHeight, normDist));
-        Vector2 midPoint = (startPoint + endPoint) * 0.5f;
-        P1 = midPoint + Vector2.up * arcHeight;
+        float normDist = GetNormFromDist(startPoint, endPoint);
+        Vector2 P1 = GetP1(startPoint, endPoint, config, normDist);
+        return GetArrowRotationAngle(P0: startPoint, P1: P1, P2: endPoint, t: 0);
+    }
+
+    private void RotateArrowBeforeAttack()
+    {
+        float angle = Arrow.GetBowRotationAngle(this.transform.position, this.enemyTransform.position, this.Config);
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+    }
+
+
+
+    //~~~~~~~~~~~~~~~~~~~~ Flugbahn Berechnung ~~~~~~~~~~~~~~~~~~~~~~
+    private static float GetNormFromDist(Vector2 P0, Vector2 P2)
+    {
+        float distanceToEnemy = Vector2.Distance(P0, P2);
+        float normDist = Mathf.Clamp01(distanceToEnemy / 10);
+        return normDist;
     }
 
     private static Vector2 GetP1(Vector2 P0, Vector2 P2, ArrowConfig config, float normDist)
@@ -150,7 +101,21 @@ public class Arrow : MonoBehaviour
     }
 
 
-    IEnumerator FlyAlongBezierDynamic()
+
+    private static float GetArrowRotationAngle(Vector2 P0, Vector2 P1, Vector2 P2, float t)
+    {
+        Vector2 tangent =
+            2 * (1 - t) * (P1 - P0)
+            + 2 * t * (P2 - P1);
+        float angle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
+        return angle;
+    }
+
+
+
+
+    //####################### Coroutinen ###########################
+    private IEnumerator FlyAlongBezierDynamic()
     {
         float currentFlightTime = 0f;
 
@@ -158,19 +123,19 @@ public class Arrow : MonoBehaviour
         Vector2 P0 = this.transform.position;
         Vector2 P2 = this.enemyTransform.position;
         Vector2 P2atStart = this.enemyTransform.position;
-        float normDist = GetNormFromDist(P0, P2, this.MaxFlightDistance);
+        float normDist = GetNormFromDist(P0, P2);
         float flightDuration = GetFlightDuration(this.Config, normDist);
         Vector2 P1 = GetP1(P0, P2, Config, normDist);
 
-        GetBezierParameters(P0, P2, this.Config, this.MaxFlightDistance, out P1, out flightDuration);
-
+        
         while (currentFlightTime < this.Config.maxFlightDuration)
         {
             if (enemyTransform == null)
             {
-                //AttachToTilemap();
-                //Destroy(gameObject, LifeSpanOnHittedTilemap);
-                yield break; // Beende die Coroutine, wenn kein Ziel mehr vorhanden ist
+                // Gegner Existiert nicht mehr, wurde aber auch nicht getroffen --> Pfeil landet in Tilemap
+                if (sr.sprite != objectHitSprite)
+                    AttachToTilemap();
+                yield break;
             }
 
             // Gegner kann Pfeil entwischen, wenn er sich zu weit bewegt hat
@@ -207,90 +172,11 @@ public class Arrow : MonoBehaviour
 
     }
 
-    private static float GetArrowRotationAngle(Vector2 P0, Vector2 P1, Vector2 P2, float t)
-    {
-        Vector2 tangent =
-            2 * (1 - t) * (P1 - P0)
-            + 2 * t * (P2 - P1);
-        float angle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
-        return angle;
-    }
-
-    public static float GetBowRotationAngle(Vector2 startPoint, Vector2 endPoint, ArrowConfig config, float maxFlightDistance)
-    {
-
-        float normDist = GetNormFromDist(startPoint, endPoint, maxFlightDistance);
-        Vector2 P1 = GetP1(startPoint, endPoint, config, normDist);
-        return GetArrowRotationAngle(P0: startPoint, P1: P1, P2: endPoint, t: 0);
-    }
-
-    private static float GetNormFromDist(Vector2 P0, Vector2 P2, float maxFlyingDistance)
-    {
-        float distanceToEnemy = Vector2.Distance(P0, P2);
-        float normDist = Mathf.Clamp01(distanceToEnemy / maxFlyingDistance);
-        return normDist;
-    }
-
-    //IEnumerator FlyAlongBezier2()
-    //{
-    //    // 1) P0: Startpunkt = aktuelle Position
-    //    Vector2 P0 = transform.position;
-
-    //    // 2) P2: Endpunkt = Zielposition (kann hier einfach die aktuelle Position sein;
-    //    //    wenn du bewegliche Gegner hast, nimm ggf. ihre prognostizierte Position)
-    //    Vector2 P2 = enemyTransform.position;
-
-    //    // 3) P1: Kontrollpunkt = mittlerer Punkt + nach oben verschoben (für Bogen)
-    //    Vector2 midPoint = (transform.position + enemyTransform.position) * 0.5f;
-    //    Vector2 P1 = midPoint + Vector2.up * arcHeight;
-
-    //    float elapsed = 0f;
-    //    while (elapsed < maxFlightDuration)
-    //    {
-    //        if (enemyTransform == null)
-    //        {
-    //            //AttachToTilemap();
-    //            //Destroy(gameObject, LifeSpanOnHittedTilemap);
-    //            yield break; // Beende die Coroutine, wenn kein Ziel mehr vorhanden ist
-    //        }
-
-    //        // Parameter t von 0 -> 1
-    //        float t = elapsed / maxFlightDuration;
-
-    //        // Quadratische Bezier-Gleichung
-    //        Vector2 pos = Mathf.Pow(1 - t, 2) * P0
-    //                    + 2 * (1 - t) * t * P1
-    //                    + t * t * (Vector2)enemyTransform.position;
-
-    //        // Setze Position des Pfeils
-    //        transform.position = pos;
-
-    //        // Optional: Rotation so, dass der Pfeil immer in Flugrichtung zeigt
-    //        Vector2 tangent =
-    //            2 * (1 - t) * (P1 - P0)
-    //            + 2 * t * ((Vector2)enemyTransform.position - P1);
-    //        float angle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
-    //        transform.rotation = Quaternion.Euler(0, 0, angle);
-
-    //        elapsed += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //}
 
 
 
 
-    private void RotateArrowBeforeAttack()
-    {
-        // Winkel zwischen 2 Punkten
-        float angle = Mathf.Atan2(ArrowDirection.y, ArrowDirection.x) * Mathf.Rad2Deg;
-
-        // Euler-Winkel als Input und Quaternion Winkel als output (diese sind effizienter)
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-
-    }
-    
+    //~~~~~~~~~~~~~~~~~~~~~~ Gegner getroffen ~~~~~~~~~~~~~~~~~~~~~~
     public void OnCollisionEnter2D(Collision2D collision)
     {
 
@@ -310,6 +196,8 @@ public class Arrow : MonoBehaviour
             Destroy(gameObject, this.Config.lifeSpanOnHittedObject);
         }
     }
+
+
 
     private void AttachToTarget(Transform target=null)
     {

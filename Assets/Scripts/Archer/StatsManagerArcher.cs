@@ -8,6 +8,7 @@ public class StatsManagerArcher : MonoBehaviour
     [Header("Archer Attack")]
     public float attackCooldown = 2;            // Pause zwischen 2 Attacken
     public float playerDetectionRange = 3f;
+    public LayerMask detectionLayer;            // was wollen wir detektieren?
 
     [Header("Arrow")]
     public int damage = 2;

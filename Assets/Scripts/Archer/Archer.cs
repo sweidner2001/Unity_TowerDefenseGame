@@ -19,7 +19,7 @@ public class Archer : MonoBehaviour
 
     // Gegner Detektion: 
     public Transform detectionPoint;            // Sichtradius-Mittelpunkt
-    public LayerMask detectionLayer;            // was wollen wir detektieren?
+    
     private Transform aimTransform;             // Transform-Attr. des detektierten Objektes
 
 
@@ -61,7 +61,7 @@ public class Archer : MonoBehaviour
     private void HandleEnemyDetection()
     {
         // Alle Gegner detektieren:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.smArcher.playerDetectionRange, this.detectionLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.smArcher.playerDetectionRange, this.smArcher.detectionLayer);
 
         if (hits.Length > 0)
         {
