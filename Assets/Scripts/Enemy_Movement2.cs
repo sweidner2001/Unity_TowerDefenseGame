@@ -317,6 +317,11 @@ public class Enemy_Movement2 : MonoBehaviour
     {
         HomePoint[] homePoints = transform.parent.parent.GetComponentsInChildren<HomePoint>();
 
+        if (homePoints.Length == 0)
+        {
+            Debug.LogWarning("Kein HomePoints gefunden!");
+        }
+
         // Den nächstgelegenen freien HomePoint finden
         var nearestPoint = homePoints
             .Where(point => point.isAssigned == false) // Nur unbesetzte HomePoints

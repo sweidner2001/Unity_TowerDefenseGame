@@ -16,7 +16,7 @@ TagManager:
   - Tower
   - Soldier
   - Enemy
-  - 
+  - Projektile
   - 
   - 
   - 
@@ -58,11 +58,17 @@ TagManager:
   - name: Decoration
     uniqueID: 1722554283
     locked: 0
+  - name: Enemy & Soldiers on Bottom
+    uniqueID: 2995691579
+    locked: 0
   - name: Towers
     uniqueID: 4058812693
     locked: 0
-  - name: Enemy & Soldiers
-    uniqueID: 2995691579
+  - name: Enemy & Soldier on Tower
+    uniqueID: 3520456625
+    locked: 0
+  - name: Projectile
+    uniqueID: 1148523169
     locked: 0
   - name: HealthBar
     uniqueID: 1199523271

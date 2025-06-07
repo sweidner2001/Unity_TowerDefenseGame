@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Searcher;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -22,6 +23,7 @@ public class Bow : MonoBehaviour
 
     // Level up: StatsManager + Sprites/Animation austauschen!
     public StatsManagerArcher smArcher;
+    private Transform enemyTransform;
 
 
 
@@ -59,9 +61,9 @@ public class Bow : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        BowState = FireWeaponState.SeeNoEnemy;
+        ChangeState(FireWeaponState.SeeNoEnemy);
         this.smArcher = StatsManagerArcher.Instance;
-        this.arrowConfig= Resources.Load<ArrowConfig>("Arrow_Std");
+        this.arrowConfig= Resources.Load<ArrowConfig>("Config/Arrow_Std");
     }
 
     void Update()
@@ -75,6 +77,11 @@ public class Bow : MonoBehaviour
     public void ChangeState(FireWeaponState newState)
     {
         BowState = newState;
+
+        if(newState == FireWeaponState.SeeNoEnemy)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
 
@@ -83,15 +90,15 @@ public class Bow : MonoBehaviour
     // Attacke wird von Archer ausgelöst
     public void Attack(Vector3 enemyPosition)
     {
-        BowState = FireWeaponState.Attack;
+        ChangeState(FireWeaponState.Attack);
         this.aimDirection = (enemyPosition - this.arrowLaunchPoint.position).normalized;
         
     }
-    Transform enemyTransform;
+    
 
     public void Attack_Enemy(Transform enemyTransform)
     {
-        BowState = FireWeaponState.Attack;
+        ChangeState(FireWeaponState.Attack);
         this.aimDirection = (enemyTransform.position - this.arrowLaunchPoint.position).normalized;
         this.enemyTransform = enemyTransform;
     }

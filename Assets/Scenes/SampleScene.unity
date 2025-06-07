@@ -410,8 +410,9 @@ GameObject:
   - component: {fileID: 229668006}
   - component: {fileID: 229668005}
   - component: {fileID: 229668004}
+  - component: {fileID: 229668007}
   m_Layer: 6
-  m_Name: Tower_Enemy_Torch
+  m_Name: TowerTorch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -481,7 +482,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -236154603
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 301062806, guid: db7d6ba502a1c814d9f2530c495d9cfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -513,6 +514,52 @@ Transform:
   - {fileID: 1244791995}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &229668007
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229668003}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.00000032782555, y: -0.33165878}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.56, y: 1.92}
+    newSize: {x: 2.56, y: 1.92}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.93054706, y: 0.7375649}
+  m_EdgeRadius: 0
 --- !u!1 &230947911 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3980091674237902494, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
@@ -539,7 +586,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 344756893}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: ArrowLaunchPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -973,7 +1020,7 @@ GameObject:
   - component: {fileID: 525412925}
   - component: {fileID: 525412924}
   - component: {fileID: 525412923}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Body
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1108,7 +1155,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525412921}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -1179,8 +1226,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1299275717
-  m_SortingLayer: 7
+  m_SortingLayerID: -774510671
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 1579850644, guid: affbdf9d117af88408b4b59fec2539ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1322,7 +1369,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1299275717
-  m_SortingLayer: 7
+  m_SortingLayer: 6
   m_SortingOrder: 3
   m_Sprite: {fileID: 1448252480329919801, guid: 3689c1a270c2f984f8365620302fa5bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1478,7 +1525,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000004b6f3b49b7996ffb3ba08eb21591ecf1ab17ac662fbcd36717efea9cc7457f47
+  m_ApplyToSortingLayers: 000000004b6f3b49b7996ffb3ba08eb21591ecf1ab17ac662fbcd36717efea9cc7457f47b1e7d5d1a1127544
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1585,7 +1632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3035602457769394940, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3210817412354405486, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
       propertyPath: m_Pivot.x
@@ -1673,7 +1720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3980091674237902494, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4249627928263300000, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
       propertyPath: m_PresetInfoIsWorld
@@ -1705,15 +1752,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6972990556896862823, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8593659615108091558, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8708552246434236083, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1775,7 +1822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 725564066}
   - component: {fileID: 725564065}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Archer
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2373,7 +2420,7 @@ GameObject:
   - component: {fileID: 899051453}
   - component: {fileID: 899051452}
   - component: {fileID: 899051454}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2459,8 +2506,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1299275717
-  m_SortingLayer: 7
+  m_SortingLayerID: -774510671
+  m_SortingLayer: 8
   m_SortingOrder: 1
   m_Sprite: {fileID: -598333052, guid: 1c4b28a9c4dede64cb41700d4b14eaa2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2498,7 +2545,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1108891739}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: DetectionPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2561,7 +2608,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1130337529}
   - component: {fileID: 1130337528}
-  m_Layer: 0
+  - component: {fileID: 1130337530}
+  m_Layer: 6
   m_Name: TowerArcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2610,7 +2658,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -236154603
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: -4866884309602757033, guid: beedf6548adbeab40aeb57e359498173, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2639,6 +2687,43 @@ Transform:
   - {fileID: 725564066}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1130337530
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130337527}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.0028151833, y: -0.46604332}
+  m_Size: {x: 0.8897656, y: 0.7264991}
+  m_Direction: 1
 --- !u!1 &1195838150 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6972990556896862823, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
@@ -3037,7 +3122,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1299275717
-  m_SortingLayer: 7
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 8777388641641696378, guid: 8b04199201d009c45a91935c1d726bf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5692,7 +5777,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1299275717
-  m_SortingLayer: 7
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 8777388641641696378, guid: 8b04199201d009c45a91935c1d726bf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5913,7 +5998,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1299275717
-  m_SortingLayer: 7
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 8777388641641696378, guid: 8b04199201d009c45a91935c1d726bf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6111,7 +6196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 2
-  playerDetectionRange: 7
+  playerDetectionRange: 3
   detectionLayer:
     serializedVersion: 2
     m_Bits: 128
