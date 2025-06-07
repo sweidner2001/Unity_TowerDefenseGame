@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -24,7 +26,8 @@ public class Arrow : MonoBehaviour
     public Sprite objectHitSprite;
 
     public float ArrowSpeed { get; set; } = 6;                // Geschwindigkeit des Pfeils
-    public Transform enemyTransform;
+    public Transform enemyTransform; 
+    //public Transform destTransformStatic;
 
     // Action-Delegate statt eigener Delegate-Definition
     public event Action<Collision2D> OnEnemyArrowCollision;
@@ -37,8 +40,15 @@ public class Arrow : MonoBehaviour
         this.rb = GetComponent<Rigidbody2D>();   
         this.sr = GetComponent<SpriteRenderer>();
 
-        rb.linearVelocity = this.ArrowDirection * this.ArrowSpeed;
-        RotateArrowBeforeAttack();
+
+        rb.gravityScale = 0;
+
+        if (this.enemyTransform != null)
+        {
+            StartCoroutine(FlyAlongBezierDynamic());
+        }
+        //rb.linearVelocity = this.ArrowDirection * this.ArrowSpeed;
+        //RotateArrowBeforeAttack();
     }
 
 
@@ -48,24 +58,25 @@ public class Arrow : MonoBehaviour
     {
         
     }
-    private float timer = 3;
+    private float timer = 3f;
 
     private void FixedUpdate()
     {
         // 1) Pfeil folgt dem Gegner, wenn er vorhanden ist
-        timer -= Time.deltaTime;
+        //timer -= Time.deltaTime;
 
-        if(timer <= 0)
-        {
-            AttachToTilemap();
-            Destroy(gameObject, 2);
-        }
+        //if(timer <= 0 && enemyTransform != null)
+        //{
+        //    // An Tilemap anhängen:
+        //    AttachToTarget();
+        //    Destroy(gameObject, 2);
+        //}
 
-        if (enemyTransform != null)
-        {
-            FollowEnemy();
-            Destroy(gameObject, maxLifeSpanOnFlying);
-        }    
+        //if (enemyTransform != null)
+        //{
+        //    FollowEnemy();
+        //    Destroy(gameObject, maxLifeSpanOnFlying);
+        //}
     }
 
 
@@ -85,6 +96,7 @@ public class Arrow : MonoBehaviour
     //}
 
 
+    // Für Schusswaffen
     private void FollowEnemy()
     {
         // 1) Flugrichtung zum Gegner anpassen
@@ -97,6 +109,131 @@ public class Arrow : MonoBehaviour
     }
 
 
+   
+
+    [Header("Kurven-Parameter")]
+    public float arcHeight = 2f;                            // Wie hoch der Bogen sein soll
+    public float maxFlightDuration = 2.0f;                     // Zeit in Sekunden, bis der Pfeil ankommt
+    public float maxDistanceFromStartPosToUpdateEnemyPos = 2;
+    public float maxFlightDistance = 7;
+
+    IEnumerator FlyAlongBezierDynamic()
+    {
+        float currentFlightTime = 0f;
+
+        // 1) P0: Startpunkt; P1 = Mittelpunkt Kurve; P2: Endpunkt
+        Vector2 P0 = this.transform.position;
+        Vector2 P2 = this.enemyTransform.position;
+
+        float distanceToEnemy = Vector2.Distance(P0, P2);
+        float normDist = Mathf.Clamp01(distanceToEnemy / maxFlightDistance);
+
+        this.arcHeight = Mathf.Max(0, Mathf.Lerp(-0.5f, 2f, normDist));
+        float flightDuration = Mathf.Lerp(0, maxFlightDuration, normDist);
+
+
+        Vector2 midPoint = (P0 + P2) * 0.5f;
+        Vector2 P1 = midPoint + Vector2.up * this.arcHeight;
+        Vector2 P2atStart = this.enemyTransform.position;
+
+
+
+        while (currentFlightTime < maxFlightDuration)
+        {
+            if (enemyTransform == null)
+            {
+                //AttachToTilemap();
+                //Destroy(gameObject, LifeSpanOnHittedTilemap);
+                yield break; // Beende die Coroutine, wenn kein Ziel mehr vorhanden ist
+            }
+
+            float distanceToP2atStart = Vector2.Distance(P2atStart, this.enemyTransform.position);
+            if (distanceToP2atStart < maxDistanceFromStartPosToUpdateEnemyPos)
+            {
+                // Wenn der Gegner sich bewegt, dann aktualisiere P2
+                P2 = this.enemyTransform.position;
+            }
+
+            // Parameter t: 0 -> 1
+            float t = currentFlightTime / flightDuration;
+
+            // Quadratische Bezier-Gleichung
+            Vector2 pos = Mathf.Pow(1 - t, 2) * P0
+                        + 2 * (1 - t) * t * P1
+                        + t * t * P2;
+
+            // Setze Position des Pfeils
+            Vector2 delta = pos - rb.position;
+            Vector2 neededVel = delta / Time.fixedDeltaTime;
+            rb.linearVelocity = neededVel;
+
+            // Rotation des Pfeis in Flugrichtung
+            Vector2 tangent =
+                2 * (1 - t) * (P1 - P0)
+                + 2 * t * (P2 - P1);
+            float angle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            currentFlightTime += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        // Zeit ist abgelaufen und Pfeil hat keinen Gegner getroffen
+        AttachToTilemap();
+
+    }
+
+
+    IEnumerator FlyAlongBezier2()
+    {
+        // 1) P0: Startpunkt = aktuelle Position
+        Vector2 P0 = transform.position;
+
+        // 2) P2: Endpunkt = Zielposition (kann hier einfach die aktuelle Position sein;
+        //    wenn du bewegliche Gegner hast, nimm ggf. ihre prognostizierte Position)
+        Vector2 P2 = enemyTransform.position;
+
+        // 3) P1: Kontrollpunkt = mittlerer Punkt + nach oben verschoben (für Bogen)
+        Vector2 midPoint = (transform.position + enemyTransform.position) * 0.5f;
+        Vector2 P1 = midPoint + Vector2.up * arcHeight;
+
+        float elapsed = 0f;
+        while (elapsed < maxFlightDuration)
+        {
+            if (enemyTransform == null)
+            {
+                //AttachToTilemap();
+                //Destroy(gameObject, LifeSpanOnHittedTilemap);
+                yield break; // Beende die Coroutine, wenn kein Ziel mehr vorhanden ist
+            }
+
+            // Parameter t von 0 -> 1
+            float t = elapsed / maxFlightDuration;
+
+            // Quadratische Bezier-Gleichung
+            Vector2 pos = Mathf.Pow(1 - t, 2) * P0
+                        + 2 * (1 - t) * t * P1
+                        + t * t * (Vector2)enemyTransform.position;
+
+            // Setze Position des Pfeils
+            transform.position = pos;
+
+            // Optional: Rotation so, dass der Pfeil immer in Flugrichtung zeigt
+            Vector2 tangent =
+                2 * (1 - t) * (P1 - P0)
+                + 2 * t * ((Vector2)enemyTransform.position - P1);
+            float angle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+    }
+
+
+
+
     private void RotateArrowBeforeAttack()
     {
         // Winkel zwischen 2 Punkten
@@ -106,7 +243,7 @@ public class Arrow : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
     }
-
+    
     public void OnCollisionEnter2D(Collision2D collision)
     {
 
@@ -127,7 +264,7 @@ public class Arrow : MonoBehaviour
         }
     }
 
-    private void AttachToTarget(Transform target)
+    private void AttachToTarget(Transform target=null)
     {
         // Pfeil ist am Ziel angekommen
         this.enemyTransform = null;
@@ -147,28 +284,16 @@ public class Arrow : MonoBehaviour
             col.enabled = false;
 
         // 5. Pfeil an Ziel binden
-        transform.SetParent(target);
+        if (target != null)
+            transform.SetParent(target);
     }
 
     private void AttachToTilemap()
     {
-        // Pfeil ist am Ziel angekommen
-        this.enemyTransform = null;
-
-        // 1. Bild austauschen:
-        sr.sprite = objectHitSprite;
-
-        // 2. Pfeil stopen:
-        rb.linearVelocity = Vector2.zero;
-
-        // 3. Physik abschalten: Rigidbody auf Kinematic setzen
-        rb.bodyType = RigidbodyType2D.Kinematic;
-
-        // 4. Collider deaktivieren, damit der Pfeil keine Kollisionen/Schaden mehr verursacht
-        Collider2D col = GetComponent<Collider2D>();
-        if (col != null)
-            col.enabled = false;
+        AttachToTarget(null);
+        Destroy(gameObject, LifeSpanOnHittedTilemap);
     }
+
 
 
 }

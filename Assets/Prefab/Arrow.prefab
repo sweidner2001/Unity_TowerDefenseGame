@@ -175,12 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fbd8f11e1864147899c58cdbb1b04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeSpan: 2
-  speed: 6
-  damage: 2
-  knockbackForce: 1
-  knockbackTime: 0.15
-  stunTime: 0.2
+  maxLifeSpanOnFlying: 3
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -188,3 +183,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   objectHitSprite: {fileID: -6662812116773042688, guid: 016c8594b99829e42ad2c50b4492cceb, type: 3}
+  enemyTransform: {fileID: 0}
+  arcHeight: 2
+  maxFlightDuration: 1.3
+  maxDistanceFromStartPosToUpdateEnemyPos: 2
+  maxFlightDistance: 7
