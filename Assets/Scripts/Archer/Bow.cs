@@ -60,6 +60,7 @@ public class Bow : MonoBehaviour
         animator = GetComponent<Animator>();
         BowState = FireWeaponState.SeeNoEnemy;
         this.smArcher = StatsManagerArcher.Instance;
+        this.arrowConfig= Resources.Load<ArrowConfig>("Arrow_Std");
     }
 
     void Update()
@@ -103,12 +104,17 @@ public class Bow : MonoBehaviour
 
 
     //-------------- Projektil / Pfeil ------------------
+    private ArrowConfig arrowConfig;
     public Arrow CreateArrow()
     {
         Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
         arrow.ArrowDirection = this.aimDirection;
-        arrow.ArrowSpeed = this.smArcher.arrowSpeed;
-        arrow.LifeSpanOnHittedObject = this.smArcher.arrowLifeSpanOnHittetObject;
+        //arrow.ArrowSpeed = this.smArcher.arrowSpeed;
+        arrow.MaxFlightDistance = this.smArcher.playerDetectionRange;
+        if (arrowConfig == null)
+            Debug.Log($"ArrowConfig ist null");
+        arrow.Config = arrowConfig;
+        //arrow.lifeSpanOnHittedObject = this.smArcher.arrowLifeSpanOnHittetObject;
         arrow.OnEnemyArrowCollision += HandleArrowCollision;
         arrow.enemyTransform = this.enemyTransform;
         return arrow;
@@ -128,8 +134,10 @@ public class Bow : MonoBehaviour
     public void RotateBowToTarget(Vector3 targetPosition)
     {
         // Winkel berechnen:
-        Vector2 direction = (targetPosition - transform.position).normalized;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //Vector2 direction = (targetPosition - transform.position).normalized;
+        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        float angle = Arrow.GetBowRotationAngle(this.transform.position, targetPosition, this.arrowConfig, this.smArcher.playerDetectionRange);
 
 
         // Prüfe, ob das Parent-Objekt gespiegelt ist

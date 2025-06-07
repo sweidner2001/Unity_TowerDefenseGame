@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -13,9 +14,9 @@ public class Arrow : MonoBehaviour
 
     // Eigenschaften des Pfeils
     public Vector2 ArrowDirection { set; get; } = Vector2.right;
-    public float maxLifeSpanOnFlying = 3;                      // Max. Lebenszeit in s des Pfeils
-    public float LifeSpanOnHittedObject { get; set; } = 2;                      // Max. Lebenszeit in s des Pfeils
-    public float LifeSpanOnHittedTilemap { get; set; } = 1;
+    //public float maxLifeSpanOnFlying = 3;                      // Max. Lebenszeit in s des Pfeils
+    //public float LifeSpanOnHittedObject { get; set; } = 2;                      // Max. Lebenszeit in s des Pfeils
+    //public float LifeSpanOnHittedTilemap { get; set; } = 1;
 
     // Welche GameObjekts kann ich treffen? (müssen Colllider besitzen)
     public LayerMask enemyLayer;
@@ -26,8 +27,9 @@ public class Arrow : MonoBehaviour
     public Sprite objectHitSprite;
 
     public float ArrowSpeed { get; set; } = 6;                // Geschwindigkeit des Pfeils
-    public Transform enemyTransform; 
+    public Transform enemyTransform;
     //public Transform destTransformStatic;
+    public ArrowConfig Config { get; set; }
 
     // Action-Delegate statt eigener Delegate-Definition
     public event Action<Collision2D> OnEnemyArrowCollision;
@@ -35,6 +37,8 @@ public class Arrow : MonoBehaviour
 
     //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+
     void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();   
@@ -97,25 +101,54 @@ public class Arrow : MonoBehaviour
 
 
     // Für Schusswaffen
-    private void FollowEnemy()
-    {
-        // 1) Flugrichtung zum Gegner anpassen
-        Vector2 direction = (enemyTransform.position - transform.position).normalized;
-        rb.linearVelocity = direction * this.ArrowSpeed;
+    //private void FollowEnemy()
+    //{
+    //    // 1) Flugrichtung zum Gegner anpassen
+    //    Vector2 direction = (enemyTransform.position - transform.position).normalized;
+    //    rb.linearVelocity = direction * this.ArrowSpeed;
 
-        // 2) Rotation an Flugrichtung anpassen
-        float angle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-    }
+    //    // 2) Rotation an Flugrichtung anpassen
+    //    float angle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
+    //    transform.rotation = Quaternion.Euler(0, 0, angle);
+    //}
 
 
    
 
-    [Header("Kurven-Parameter")]
-    public float arcHeight = 2f;                            // Wie hoch der Bogen sein soll
-    public float maxFlightDuration = 2.0f;                     // Zeit in Sekunden, bis der Pfeil ankommt
-    public float maxDistanceFromStartPosToUpdateEnemyPos = 2;
-    public float maxFlightDistance = 7;
+    //[Header("Kurven-Parameter")]
+    //public float maxArcHeight = 2f;                            // Wie hoch der Bogen sein soll
+    //public float maxFlightDuration = 2.0f;                     // Zeit in Sekunden, bis der Pfeil ankommt
+    //private float minArcHeight = -0.5f;                            // Wie hoch der Bogen sein soll
+    //private float minFlightDuration = 0;                     // Zeit in Sekunden, bis der Pfeil ankommt
+    //public float maxDistanceFromStartPosToUpdateEnemyPos = 2;
+    public float MaxFlightDistance { get; set; } = 7;
+
+
+
+    private static void GetBezierParameters(Vector2 startPoint, Vector2 endPoint, ArrowConfig config, float maxFlyingDistance, out Vector2 P1, out float flightDuration)
+    {
+        float normDist = GetNormFromDist(startPoint, endPoint, maxFlyingDistance);
+        flightDuration = Mathf.Max(0, Mathf.Lerp(config.minFlightDuration, config.maxFlightDuration, normDist));
+
+        float arcHeight = Mathf.Max(0, Mathf.Lerp(config.minArcHeight, config.maxArcHeight, normDist));
+        Vector2 midPoint = (startPoint + endPoint) * 0.5f;
+        P1 = midPoint + Vector2.up * arcHeight;
+    }
+
+    private static Vector2 GetP1(Vector2 P0, Vector2 P2, ArrowConfig config, float normDist)
+    {
+        float arcHeight = Mathf.Max(0, Mathf.Lerp(config.minArcHeight, config.maxArcHeight, normDist));
+        Vector2 midPoint = (P0 + P2) * 0.5f;
+        Vector2 P1 = midPoint + Vector2.up * arcHeight;
+        return P1;
+    }
+
+
+    private static float GetFlightDuration(ArrowConfig config, float normDist)
+    {
+        return Mathf.Max(0, Mathf.Lerp(config.minFlightDuration, config.maxFlightDuration, normDist));
+    }
+
 
     IEnumerator FlyAlongBezierDynamic()
     {
@@ -124,21 +157,14 @@ public class Arrow : MonoBehaviour
         // 1) P0: Startpunkt; P1 = Mittelpunkt Kurve; P2: Endpunkt
         Vector2 P0 = this.transform.position;
         Vector2 P2 = this.enemyTransform.position;
-
-        float distanceToEnemy = Vector2.Distance(P0, P2);
-        float normDist = Mathf.Clamp01(distanceToEnemy / maxFlightDistance);
-
-        this.arcHeight = Mathf.Max(0, Mathf.Lerp(-0.5f, 2f, normDist));
-        float flightDuration = Mathf.Lerp(0, maxFlightDuration, normDist);
-
-
-        Vector2 midPoint = (P0 + P2) * 0.5f;
-        Vector2 P1 = midPoint + Vector2.up * this.arcHeight;
         Vector2 P2atStart = this.enemyTransform.position;
+        float normDist = GetNormFromDist(P0, P2, this.MaxFlightDistance);
+        float flightDuration = GetFlightDuration(this.Config, normDist);
+        Vector2 P1 = GetP1(P0, P2, Config, normDist);
 
+        GetBezierParameters(P0, P2, this.Config, this.MaxFlightDistance, out P1, out flightDuration);
 
-
-        while (currentFlightTime < maxFlightDuration)
+        while (currentFlightTime < this.Config.maxFlightDuration)
         {
             if (enemyTransform == null)
             {
@@ -147,10 +173,11 @@ public class Arrow : MonoBehaviour
                 yield break; // Beende die Coroutine, wenn kein Ziel mehr vorhanden ist
             }
 
+            // Gegner kann Pfeil entwischen, wenn er sich zu weit bewegt hat
             float distanceToP2atStart = Vector2.Distance(P2atStart, this.enemyTransform.position);
-            if (distanceToP2atStart < maxDistanceFromStartPosToUpdateEnemyPos)
+            if (distanceToP2atStart < this.Config.maxDistanceFromStartPosToUpdateEnemyPos)
             {
-                // Wenn der Gegner sich bewegt, dann aktualisiere P2
+                // Pfeil soll den Gegner verfolgen:
                 P2 = this.enemyTransform.position;
             }
 
@@ -168,10 +195,7 @@ public class Arrow : MonoBehaviour
             rb.linearVelocity = neededVel;
 
             // Rotation des Pfeis in Flugrichtung
-            Vector2 tangent =
-                2 * (1 - t) * (P1 - P0)
-                + 2 * t * (P2 - P1);
-            float angle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
+            float angle = GetArrowRotationAngle(P0, P1, P2, t);
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
             currentFlightTime += Time.fixedDeltaTime;
@@ -183,53 +207,76 @@ public class Arrow : MonoBehaviour
 
     }
 
-
-    IEnumerator FlyAlongBezier2()
+    private static float GetArrowRotationAngle(Vector2 P0, Vector2 P1, Vector2 P2, float t)
     {
-        // 1) P0: Startpunkt = aktuelle Position
-        Vector2 P0 = transform.position;
-
-        // 2) P2: Endpunkt = Zielposition (kann hier einfach die aktuelle Position sein;
-        //    wenn du bewegliche Gegner hast, nimm ggf. ihre prognostizierte Position)
-        Vector2 P2 = enemyTransform.position;
-
-        // 3) P1: Kontrollpunkt = mittlerer Punkt + nach oben verschoben (für Bogen)
-        Vector2 midPoint = (transform.position + enemyTransform.position) * 0.5f;
-        Vector2 P1 = midPoint + Vector2.up * arcHeight;
-
-        float elapsed = 0f;
-        while (elapsed < maxFlightDuration)
-        {
-            if (enemyTransform == null)
-            {
-                //AttachToTilemap();
-                //Destroy(gameObject, LifeSpanOnHittedTilemap);
-                yield break; // Beende die Coroutine, wenn kein Ziel mehr vorhanden ist
-            }
-
-            // Parameter t von 0 -> 1
-            float t = elapsed / maxFlightDuration;
-
-            // Quadratische Bezier-Gleichung
-            Vector2 pos = Mathf.Pow(1 - t, 2) * P0
-                        + 2 * (1 - t) * t * P1
-                        + t * t * (Vector2)enemyTransform.position;
-
-            // Setze Position des Pfeils
-            transform.position = pos;
-
-            // Optional: Rotation so, dass der Pfeil immer in Flugrichtung zeigt
-            Vector2 tangent =
-                2 * (1 - t) * (P1 - P0)
-                + 2 * t * ((Vector2)enemyTransform.position - P1);
-            float angle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
+        Vector2 tangent =
+            2 * (1 - t) * (P1 - P0)
+            + 2 * t * (P2 - P1);
+        float angle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
+        return angle;
     }
+
+    public static float GetBowRotationAngle(Vector2 startPoint, Vector2 endPoint, ArrowConfig config, float maxFlightDistance)
+    {
+
+        float normDist = GetNormFromDist(startPoint, endPoint, maxFlightDistance);
+        Vector2 P1 = GetP1(startPoint, endPoint, config, normDist);
+        return GetArrowRotationAngle(P0: startPoint, P1: P1, P2: endPoint, t: 0);
+    }
+
+    private static float GetNormFromDist(Vector2 P0, Vector2 P2, float maxFlyingDistance)
+    {
+        float distanceToEnemy = Vector2.Distance(P0, P2);
+        float normDist = Mathf.Clamp01(distanceToEnemy / maxFlyingDistance);
+        return normDist;
+    }
+
+    //IEnumerator FlyAlongBezier2()
+    //{
+    //    // 1) P0: Startpunkt = aktuelle Position
+    //    Vector2 P0 = transform.position;
+
+    //    // 2) P2: Endpunkt = Zielposition (kann hier einfach die aktuelle Position sein;
+    //    //    wenn du bewegliche Gegner hast, nimm ggf. ihre prognostizierte Position)
+    //    Vector2 P2 = enemyTransform.position;
+
+    //    // 3) P1: Kontrollpunkt = mittlerer Punkt + nach oben verschoben (für Bogen)
+    //    Vector2 midPoint = (transform.position + enemyTransform.position) * 0.5f;
+    //    Vector2 P1 = midPoint + Vector2.up * arcHeight;
+
+    //    float elapsed = 0f;
+    //    while (elapsed < maxFlightDuration)
+    //    {
+    //        if (enemyTransform == null)
+    //        {
+    //            //AttachToTilemap();
+    //            //Destroy(gameObject, LifeSpanOnHittedTilemap);
+    //            yield break; // Beende die Coroutine, wenn kein Ziel mehr vorhanden ist
+    //        }
+
+    //        // Parameter t von 0 -> 1
+    //        float t = elapsed / maxFlightDuration;
+
+    //        // Quadratische Bezier-Gleichung
+    //        Vector2 pos = Mathf.Pow(1 - t, 2) * P0
+    //                    + 2 * (1 - t) * t * P1
+    //                    + t * t * (Vector2)enemyTransform.position;
+
+    //        // Setze Position des Pfeils
+    //        transform.position = pos;
+
+    //        // Optional: Rotation so, dass der Pfeil immer in Flugrichtung zeigt
+    //        Vector2 tangent =
+    //            2 * (1 - t) * (P1 - P0)
+    //            + 2 * t * ((Vector2)enemyTransform.position - P1);
+    //        float angle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
+    //        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+    //        elapsed += Time.deltaTime;
+    //        yield return null;
+    //    }
+
+    //}
 
 
 
@@ -254,13 +301,13 @@ public class Arrow : MonoBehaviour
         {
             OnEnemyArrowCollision?.Invoke(collision);
             AttachToTarget(collision.gameObject.transform);
-            Destroy(gameObject, LifeSpanOnHittedObject);
+            Destroy(gameObject, this.Config.lifeSpanOnHittedObject);
         }
         else if ((obstacleLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
             // Pfeil soll auch an anderen Objekten hängen bleiben
             AttachToTarget(collision.gameObject.transform);
-            Destroy(gameObject, LifeSpanOnHittedObject);
+            Destroy(gameObject, this.Config.lifeSpanOnHittedObject);
         }
     }
 
@@ -291,7 +338,7 @@ public class Arrow : MonoBehaviour
     private void AttachToTilemap()
     {
         AttachToTarget(null);
-        Destroy(gameObject, LifeSpanOnHittedTilemap);
+        Destroy(gameObject, this.Config.lifeSpanOnHittedTilemap);
     }
 
 
