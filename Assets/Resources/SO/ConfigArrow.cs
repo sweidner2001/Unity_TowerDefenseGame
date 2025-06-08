@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ArrowConfig", menuName = "Scriptable Objects/ArrowConfig")]
-public class ArrowConfig : ScriptableObject
+[CreateAssetMenu(fileName = "ConfigArrow", menuName = "Scriptable Objects/ConfigArrow")]
+public class ConfigArrow : ScriptableObject
 {
     [Header("Pfeil: Objekt Treffer")]
     public float lifeSpanOnHittedObject = 2;                      // Max. Lebenszeit in s des Pfeils

@@ -21,12 +21,12 @@ public class Arrow : MonoBehaviour
 
     // Pfeil Konfiguration:
     protected Transform enemyTransform;
-    protected ArrowConfig Config { get; set; }
+    protected ConfigArrow Config { get; set; }
     public event Action<Collision2D> OnEnemyArrowCollision;
 
 
 
-    public void Init(ArrowConfig config, Transform enemyTransform, Action<Collision2D> handleArrowCollisionWithEnemy, LayerMask enemyLayer)
+    public void Init(ConfigArrow config, Transform enemyTransform, Action<Collision2D> handleArrowCollisionWithEnemy, LayerMask enemyLayer)
     {
         this.Config = config;
         this.enemyTransform = enemyTransform;
@@ -62,7 +62,7 @@ public class Arrow : MonoBehaviour
     //########################### Methoden #############################
 
 
-    public static float GetBowRotationAngle(Vector2 startPoint, Vector2 endPoint, ArrowConfig config)
+    public static float GetBowRotationAngle(Vector2 startPoint, Vector2 endPoint, ConfigArrow config)
     {
 
         float normDist = GetNormFromDist(startPoint, endPoint);
@@ -86,7 +86,7 @@ public class Arrow : MonoBehaviour
         return normDist;
     }
 
-    private static Vector2 GetP1(Vector2 P0, Vector2 P2, ArrowConfig config, float normDist)
+    private static Vector2 GetP1(Vector2 P0, Vector2 P2, ConfigArrow config, float normDist)
     {
         float arcHeight = Mathf.Max(0, Mathf.Lerp(config.minArcHeight, config.maxArcHeight, normDist));
         Vector2 midPoint = (P0 + P2) * 0.5f;
@@ -95,7 +95,7 @@ public class Arrow : MonoBehaviour
     }
 
 
-    private static float GetFlightDuration(ArrowConfig config, float normDist)
+    private static float GetFlightDuration(ConfigArrow config, float normDist)
     {
         return Mathf.Max(0, Mathf.Lerp(config.minFlightDuration, config.maxFlightDuration, normDist));
     }
@@ -128,7 +128,7 @@ public class Arrow : MonoBehaviour
         Vector2 P1 = GetP1(P0, P2, Config, normDist);
 
         
-        while (currentFlightTime < this.Config.maxFlightDuration)
+        while (currentFlightTime < flightDuration)
         {
             if (enemyTransform == null)
             {
@@ -168,6 +168,7 @@ public class Arrow : MonoBehaviour
         }
 
         // Zeit ist abgelaufen und Pfeil hat keinen Gegner getroffen
+        Debug.Log("Arrow: Flight time is over, but no enemy was hit. Arrow will attach to tilemap.");
         AttachToTilemap();
 
     }

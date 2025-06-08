@@ -20,7 +20,7 @@ public class Archer : MonoBehaviour
     private Transform aimTransform;                 // Transform-Attr. des detektierten Objektes
 
     // Level up: StatsManager + Sprites/Animation austauschen!
-    public ArcherConfig ConfigArcher { get; set; }
+    public ConfigArcher ConfigArcher { get; set; }
 
 
 
@@ -28,7 +28,7 @@ public class Archer : MonoBehaviour
     void Start()
     {
         this.bow = GetComponentInChildren<Bow>();
-        this.ConfigArcher = Resources.Load<ArcherConfig>("Config/Archer_Std");
+        this.ConfigArcher = Resources.Load<ConfigArcher>("Config/Archer/Archer_Std");
 
         if(ConfigArcher == null)
             Debug.Log("Config archer ist null!");

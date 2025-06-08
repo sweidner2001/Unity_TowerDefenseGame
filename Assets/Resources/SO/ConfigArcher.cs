@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ArcherConfig", menuName = "Scriptable Objects/ArcherConfig")]
-public class ArcherConfig : ScriptableObject
+[CreateAssetMenu(fileName = "ConfigArcher", menuName = "Scriptable Objects/ConfigArcher")]
+public class ConfigArcher : ScriptableObject
 {
     [Header("Archer Attack")]
     public float attackCooldown = 2;            // Pause zwischen 2 Attacken

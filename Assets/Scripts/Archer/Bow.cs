@@ -22,7 +22,7 @@ public class Bow : MonoBehaviour
     public Vector2 aimDirection = Vector2.right;
 
     // Level up: StatsManager + Sprites/Animation austauschen!
-    public ArcherConfig ConfigArcher;
+    public ConfigArcher ConfigArcher;
     private Transform enemyTransform;
 
 
@@ -63,7 +63,7 @@ public class Bow : MonoBehaviour
         animator = GetComponent<Animator>();
         ChangeState(FireWeaponState.SeeNoEnemy);
         this.ConfigArcher = transform.parent.GetComponent<Archer>().ConfigArcher;
-        this.arrowConfig = Resources.Load<ArrowConfig>("Config/Arrow_Std");
+        this.arrowConfig = Resources.Load<ConfigArrow>("Config/Archer/Arrow_Std");
     }
 
     void Update()
@@ -112,7 +112,7 @@ public class Bow : MonoBehaviour
 
 
     //-------------- Projektil / Pfeil ------------------
-    private ArrowConfig arrowConfig;
+    private ConfigArrow arrowConfig;
     public Arrow CreateArrow()
     {
         Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
