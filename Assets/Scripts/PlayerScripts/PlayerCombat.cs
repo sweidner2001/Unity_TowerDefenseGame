@@ -57,7 +57,7 @@ public class Player_Combat : MonoBehaviour
         // 1 Gegner Schaden zu fügen:
         if (enemies.Length > 0)
         {
-            enemies[0].GetComponent<EnemyHealth>().ChangeHealth(-PlayerStatsManager.Instance.damage);
+            enemies[0].GetComponent<Health>().ChangeHealth(-PlayerStatsManager.Instance.damage);
             enemies[0].GetComponent<EnemyKnockback>()?.Knockback(playerTransform: this.transform, PlayerStatsManager.Instance.knockbackForce, PlayerStatsManager.Instance.knockbackTime, PlayerStatsManager.Instance.stunTime);
         }
     }

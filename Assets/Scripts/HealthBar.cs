@@ -4,9 +4,9 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     //########################### Membervariablen #############################
-    private Slider healthBarSlider;
-    private Image fillArea;
-
+    protected Slider healthBarSlider;
+    protected Image fillArea;
+    protected ConfigHealthBar ConfigHealthBar;
 
 
 
@@ -16,7 +16,7 @@ public class HealthBar : MonoBehaviour
         //transform.parent.Find("HealthBarSlider");
         healthBarSlider = GetComponentInChildren<Slider>();
         fillArea = healthBarSlider.fillRect.GetComponentInChildren<Image>();
-
+        this.ConfigHealthBar = Resources.Load<ConfigHealthBar>("Config/ConfigHealthBar");
     }
 
 
@@ -29,6 +29,6 @@ public class HealthBar : MonoBehaviour
             Start();
         }
         healthBarSlider.value = (float)currentHealth / maxHealth;
-        fillArea.color = GeneralManager.Instance.HealthBarGradient.Evaluate(healthBarSlider.value);
+        fillArea.color = ConfigHealthBar.HealthBarGradient.Evaluate(healthBarSlider.value);
     }
 }

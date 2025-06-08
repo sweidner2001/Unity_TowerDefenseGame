@@ -15,7 +15,7 @@ MonoBehaviour:
   lifeSpanOnHittedObject: 2
   lifeSpanOnHittedTilemap: 1
   maxArcHeight: 3
-  maxFlightDuration: 1.3
+  maxFlightDuration: 2
   minArcHeight: -0.5
   minFlightDuration: 0
   maxDistanceFromStartPosToUpdateEnemyPos: 2

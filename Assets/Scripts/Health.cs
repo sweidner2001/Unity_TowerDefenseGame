@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealth : MonoBehaviour
+public class Health : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     public int currentHealth;
