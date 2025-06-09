@@ -6,7 +6,7 @@ public class ConfigArcher : ScriptableObject
     [Header("Archer Attack")]
     public float attackCooldown = 2;            // Pause zwischen 2 Attacken
     public float playerDetectionRange = 4f;
-    public LayerMask detectionLayer;            // was wollen wir detektieren?
+    public LayerMask detectionLayer;            // Wen wollen wir angreifen?
 
     [Header("Arrow")]
     public int damage = 2;

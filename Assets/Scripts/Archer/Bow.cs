@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,12 +8,7 @@ using UnityEngine.UIElements;
 using static UnityEngine.Rendering.STP;
 
 
-public enum FireWeaponState : int
-{
-    SeeNoEnemy,
-    SeeEnemy,
-    Attack,
-}
+
 
 public class Bow : MonoBehaviour
 {
@@ -40,7 +36,7 @@ public class Bow : MonoBehaviour
     public FireWeaponState BowState
     {
         get => _bowState;
-        set
+        protected set
         {
             // Fehlerprüfung:
             if (!stateToAnimation.ContainsKey(value))

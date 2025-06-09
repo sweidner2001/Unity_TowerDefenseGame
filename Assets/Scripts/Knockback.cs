@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -44,12 +45,12 @@ public class Knockback : MonoBehaviour
     //########################### Event-Handler #############################
     private void StdKnockbackState_Handler()
     {
-        this.enemyMovement.ChangeState(EnemyState.Knockback);
+        this.enemyMovement.ChangeState(SoldierState.Knockback);
     }
 
     private void StdAfterKnockbackState_Handler()
     {
-        this.enemyMovement.ChangeState(EnemyState.Idle);
+        this.enemyMovement.ChangeState(SoldierState.Idle);
     }
 
 

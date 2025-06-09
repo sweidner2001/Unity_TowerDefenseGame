@@ -1,5 +1,7 @@
+using Assets.Scripts;
 using JetBrains.Annotations;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
@@ -8,83 +10,88 @@ using UnityEngine.UIElements;
 using UnityEngine.XR;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
-public enum EnemyState : int
-{
-    Idle,
-    Chase,
-    Attack,
-    Knockback,
-    BackToTower,
-    OnTower
-}
 
 
 public class Enemy_Movement2 : MonoBehaviour
 {
 
     //######################## Membervariablen ##############################
-    // Bewegung:
-    public float moveSpeed = 1;
-
-    // Attacke:
-    public float attackRange = 0.7f;
-    public float attackCooldown = 2;
-    private float attackCooldownTimer;
+    protected Rigidbody2D rb;
+    protected float attackCooldownTimer;
 
     // Gegner Detektion: 
-    public float playerDetectionRange = 1;
-    public Transform detectionPoint;
-    public LayerMask detectionLayer;            // was wollen wir detektieren?
-    private Transform playerTransform;          // Transform-Attr. des detektierten Objektes
+    protected Transform enemyDetectionPoint;
+    protected Transform detectedEnemy; 
+    protected HomePoint homePoint;
+
+    // Zustand + Eigenschaften
+    public ConfigTorch ConfigTorch { get; set; }
 
 
-    public HomePoint homePoint;
-    
+    // Animation:
+    protected Animator animator;
+    private Dictionary<SoldierState, string> stateToAnimation = new Dictionary<SoldierState, string>()
+    {
+        { SoldierState.Idle, "isIdling" },
+        { SoldierState.Chase, "isMoving" },
+        { SoldierState.Attack, "isAttacking" },
+        { SoldierState.BackToTower, "isMoving" },
+        { SoldierState.OnTower, "isIdling" }
+        // SoldierState.Knockback hat keine Animation
+    };
 
+    private SoldierState _state;
+    public SoldierState State
+    {
+        get => _state;
+        protected set
+        {
+            // Alte Animation deaktivieren
+            if (stateToAnimation.ContainsKey(_state))
+                animator.SetBool(stateToAnimation[_state], false);
 
-    private EnemyState enemyState;
-    private Rigidbody2D rb;
-    private Animator animator;
+            Debug.Log($"State changed from {_state} to {value}");
+            _state = value;
 
-
+            // Neue Animation aktivieren
+            if (stateToAnimation.ContainsKey(_state))
+                animator.SetBool(stateToAnimation[_state], true);
+        }
+    }
 
 
     //########################### Geerbte Methoden #############################
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // wir weisen den Rigidbody vom eigenen Objekt uns zu
         this.rb = GetComponentInParent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
-        ChangeState(EnemyState.BackToTower);
+        this.enemyDetectionPoint = transform.Find("EnemyDetectionPoint");
+        this.ConfigTorch = Resources.Load<ConfigTorch>("Config/Torch/Torch_Std");
+
         try
         {
+            if (ConfigTorch == null)
+                throw new Exception("Variable ConfigTorch = null");
+            if (enemyDetectionPoint == null)
+                throw new Exception("Variable enemyDetectionPoint = null");
+
+            InitHealth(this.ConfigTorch.maxHealth);
             InitHomePoint();
+            ChangeState(SoldierState.BackToTower);
         }
         catch (Exception e)
         {
-            Debug.Log(e.ToString());
+            Debug.LogWarning(e.ToString());
         }
-        InitHealth();
     }
 
-    private void InitHealth()
-    {
-        // Health-Objekt initialisieren:
-        Health health = GetComponent<Health>();
-        if (health == null)
-        {
-            Debug.LogError("Health-Komponente nicht gefunden!");
-            return;
-        }
-        health.Init(6);
-    }
 
+    
 
     // Update is called once per frame
     void Update()
     {
-        if(this.enemyState == EnemyState.Knockback)
+        if(this.State == SoldierState.Knockback)
         {
             return;
         }
@@ -93,21 +100,18 @@ public class Enemy_Movement2 : MonoBehaviour
         {
             CheckForPlayer();
             if(this.attackCooldownTimer > 0)
-            {
                 this.attackCooldownTimer -= Time.deltaTime;
-            }
 
 
-            switch(this.enemyState)
+            switch(this.State)
             {
-                case EnemyState.Chase:
-                    // auf anderen Charakter zulaufen:
+                case SoldierState.Chase:
                     ChaseEnemy();
                     break;
-                case EnemyState.Attack:
+                case SoldierState.Attack:
                     Attack();
                     break;
-                case EnemyState.BackToTower:
+                case SoldierState.BackToTower:
                     GoBackToTower();
                     break;
             }
@@ -121,47 +125,123 @@ public class Enemy_Movement2 : MonoBehaviour
     }
 
 
-    private void FixedUpdate()
-    {
 
+
+    //########################### Methoden #############################
+    protected void InitHealth(int maxHealth)
+    {
+        // Health-Objekt initialisieren:
+        Health health = GetComponent<Health>();
+        if (health == null)
+        {
+            Debug.LogError("Health-Komponente nicht gefunden!");
+            return;
+        }
+        health.Init(maxHealth);
     }
 
 
 
-    //########################### Methoden #############################
+    //~~~~~~~~~~~~~~~~~~~~~~~ Zustandswechsel ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void ChangeState(SoldierState newState)
+    {
+        this.State = newState;
+    }
 
 
+
+    /// <summary>
+    /// Damit der Gegner auch verfolgt wird, wenn er sich im Verfolger-Range befindet, nachdem der Angriff erfolgt ist.
+    /// </summary>
+    /// <param name="collision"></param>
+    private void CheckForPlayer()
+    {
+        // Alle Gegner detektieren:
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.enemyDetectionPoint.position,
+                                                        this.ConfigTorch.playerDetectionRange,
+                                                        this.ConfigTorch.detectionLayer);
+
+        //**************** Gegner gefunden ****************
+        if (hits.Length > 0)
+        {
+
+            this.detectedEnemy = hits[0].transform;
+
+            //-------------- Gegner angreifen ------------------
+            // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
+            float enemyDistance = Vector2.Distance(this.transform.position, this.detectedEnemy.position);
+            if (enemyDistance <= this.ConfigTorch.maxAttackRange && this.attackCooldownTimer <= 0)
+            {
+                // Angreifen:
+                this.attackCooldownTimer = this.ConfigTorch.attackCooldown;
+                ChangeState(SoldierState.Attack);
+
+                // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
+            }
+            if (enemyDistance <= this.ConfigTorch.maxAttackRange && this.State == SoldierState.Chase)
+            {
+                // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
+                this.rb.linearVelocity = Vector2.zero;
+                ChangeState(SoldierState.Idle);
+                Debug.Log("Gegner gefunden - #Stehen bleiben");
+            }
+            //-------------- Auf Gegner zulaufen ----------------
+            // eine begonenne Attacke soll zuerst zu Ende laufen
+            else if (enemyDistance > this.ConfigTorch.maxAttackRange && this.State != SoldierState.Attack)
+            {
+                ChangeState(SoldierState.Chase);
+                //Debug.Log("Gegner gefunden - hinlaufen");
+            }
+
+        }
+        //**************** keinen Gegner gefunden ****************
+        else
+        {
+            if (this.homePoint != null && this.State != SoldierState.OnTower)
+            {
+                ChangeState(SoldierState.BackToTower);
+            }
+            else if (this.State != SoldierState.OnTower)
+            {
+                // Stehen bleiben, kein Gegner gefunden
+                this.rb.linearVelocity = Vector2.zero;
+                ChangeState(SoldierState.Idle);
+            }
+        }
+    }
+
+
+
+    //~~~~~~~~~~~~~~~~~~~~~ Angreifen ~~~~~~~~~~~~~~~~~~~~~~~
+    public void Attack()
+    {
+        // zum Angreifen stehen bleiben, Attacke wird durch den Zustandswechsel ausgelöst.
+        // Die weitere Logik befindet sich in der Animation und in Enemy_Combat.cs
+        //Debug.Log("Attacking player now");
+        this.rb.linearVelocity = Vector2.zero;
+    }
+
+
+
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~~ Movement ~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void ChaseEnemy()
     {
-        Move(this.playerTransform);
+        Move(this.detectedEnemy);
     }
 
     private void Move(Transform destinationTransform)
     {
         // Richtungsvektor
         Vector2 direction = (destinationTransform.position - this.transform.position).normalized;
-        this.rb.linearVelocity = direction * this.moveSpeed;
+        this.rb.linearVelocity = direction * this.ConfigTorch.movingSpeed;
 
         // aktuelle Bewegung abrufen
         FlipCharakterIfNecessary(this.rb.linearVelocity.x);
     }
 
 
-    protected void InitHomePoint()
-    {
-        if (this.homePoint == null)
-        {
-            this.homePoint = FindNearestAvailableHomePoint().GetComponent<HomePoint>();
-
-            // Notfalls einfach stehen bleiben, wenn kein freier HomePoint existiert
-            if (this.homePoint == null)
-            {
-                ChangeState(EnemyState.Idle);
-                throw new Exception("Kein Homepoint gefunden");
-            }
-            ChangeHomePointState(true);
-        }
-    }
 
     public void GoBackToTower()
     {
@@ -175,127 +255,9 @@ public class Enemy_Movement2 : MonoBehaviour
         {
             // ich befinde mich an meinen HomePoint
             this.rb.linearVelocity = Vector2.zero;
-            ChangeState(EnemyState.OnTower);
+            ChangeState(SoldierState.OnTower);
 
         }
-    }
-
-    public void ChangeHomePointState(bool isAssigned)
-    {
-        if (this.homePoint != null) {
-            this.homePoint.isAssigned = isAssigned;
-        }
-    }
-
-
-    public void Attack()
-    {
-        // zum Angreifen stehen bleiben, Attacke wird durch den Zustandswechsel ausgelöst.
-        // Die weitere Logik befindet sich in der Animation und in Enemy_Combat.cs
-        //Debug.Log("Attacking player now");
-        this.rb.linearVelocity = Vector2.zero;
-    }
-
-
-    /// <summary>
-    /// Damit der Gegner auch verfolgt wird, wenn er sich im Verfolger-Range befindet, nachdem der Angriff erfolgt ist.
-    /// </summary>
-    /// <param name="collision"></param>
-    private void CheckForPlayer()
-    {
-        // Alle Gegner detektieren:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.detectionPoint.position, this.playerDetectionRange, this.detectionLayer);
-
-        //~~~~~~~~~~~~~~~~~ Gegner gefunden ~~~~~~~~~~~~~~~~~~~~~
-        if (hits.Length > 0) {
-            
-            this.playerTransform = hits[0].transform;
-
-            //-------------- Gegner angreifen ------------------
-            // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
-            float enemyDistance = Vector2.Distance(this.transform.position, this.playerTransform.position);
-            if (enemyDistance <= this.attackRange && this.attackCooldownTimer <= 0)
-            {
-                // Angreifen:
-                this.attackCooldownTimer = this.attackCooldown;
-                ChangeState(EnemyState.Attack);
-
-                // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
-            }
-            if (enemyDistance <= this.attackRange && enemyState == EnemyState.Chase)
-            {
-                // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
-                this.rb.linearVelocity = Vector2.zero;
-                ChangeState(EnemyState.Idle);
-                Debug.Log("Gegner gefunden - #Stehen bleiben");
-            }
-            //-------------- Auf Gegner zulaufen ----------------
-            // eine begonenne Attacke soll zuerst zu Ende laufen
-            else if(enemyDistance > this.attackRange && enemyState != EnemyState.Attack)
-            {
-                ChangeState(EnemyState.Chase);
-                //Debug.Log("Gegner gefunden - hinlaufen");
-            }
-
-        }
-        //~~~~~~~~~~~~~~~~~ keinen Gegner gefunden ~~~~~~~~~~~~~~~~~~~~~
-        else
-        {
-            if(this.homePoint != null && this.enemyState != EnemyState.OnTower)
-            {
-                ChangeState(EnemyState.BackToTower);
-            }
-            else if(this.enemyState != EnemyState.OnTower)
-            {
-                // Stehen bleiben, kein Gegner gefunden
-                this.rb.linearVelocity = Vector2.zero;
-                ChangeState(EnemyState.Idle);
-            }
-        }
-
-
-    }
-    
-    public void ChangeState(EnemyState newState)
-    {
-        // Exit old state
-        if (this.enemyState == EnemyState.Idle)
-            animator.SetBool("isIdling", false);
-        else if (this.enemyState == EnemyState.Chase)
-            animator.SetBool("isMoving", false);
-        else if (this.enemyState == EnemyState.Attack)
-            animator.SetBool("isAttacking", false);
-        else if (this.enemyState == EnemyState.BackToTower)
-            animator.SetBool("isMoving", false);
-        else if (this.enemyState == EnemyState.OnTower)
-            animator.SetBool("isIdling", false);
-        //else if (this.enemyState == EnemyState.Knockback)
-        //{
-        //    // Es gibt keine Animation für Knockout
-        //}
-
-        //Debug.Log("CurrentState:" + newState);
-        // Set new state
-        this.enemyState = newState;
-
-        if (this.enemyState == EnemyState.Idle)
-            animator.SetBool("isIdling", true);
-        else if (this.enemyState == EnemyState.Chase)
-            animator.SetBool("isMoving", true);
-        else if (this.enemyState == EnemyState.Attack)
-            animator.SetBool("isAttacking", true);
-        else if (this.enemyState == EnemyState.BackToTower)
-            // wir gehen zurück zum Turm
-            animator.SetBool("isMoving", true);
-        else if (this.enemyState == EnemyState.OnTower)
-            // wir warten am Turm
-            animator.SetBool("isIdling", true);
-        //else if (this.enemyState == EnemyState.Knockback)
-        //{
-        //    // Auto-Wechsel in Standard-Status
-        //}
-
-
     }
 
 
@@ -324,17 +286,41 @@ public class Enemy_Movement2 : MonoBehaviour
     }
 
 
+    //~~~~~~~~~~~~~~~~~~~~ HomePoint ~~~~~~~~~~~~~~~~~~~~~~~
+    protected void InitHomePoint()
+    {
+        if (this.homePoint == null)
+        {
+            try
+            {
+                this.homePoint = FindNearestAvailableHomePoint().GetComponent<HomePoint>();
+            }
+            catch (Exception e)
+            {
+                // Notfalls einfach stehen bleiben, wenn kein freier HomePoint existiert
+                ChangeState(SoldierState.Idle);
+                throw e;
+            }
+
+            ChangeHomePointState(true);
+        }
+    }
 
 
-
+    public void ChangeHomePointState(bool isAssigned)
+    {
+        if (this.homePoint != null) {
+            this.homePoint.isAssigned = isAssigned;
+        }
+    }
 
     private Transform FindNearestAvailableHomePoint()
     {
-        HomePoint[] homePoints = transform.parent.parent.GetComponentsInChildren<HomePoint>();
+        HomePoint[] homePoints = transform.parent?.parent?.GetComponentsInChildren<HomePoint>();
 
-        if (homePoints.Length == 0)
+        if (homePoints == null || homePoints.Length == 0)
         {
-            Debug.LogWarning("Kein HomePoints gefunden!");
+            throw new Exception("Keine HomePoints gefunden, Homepoints wahrscheinlich noch nicht gerendert!");
         }
 
         // Den nächstgelegenen freien HomePoint finden
@@ -344,10 +330,10 @@ public class Enemy_Movement2 : MonoBehaviour
 
         if (nearestPoint == null)
         {
-            Debug.LogWarning("Kein HomePoint gefunden!!!!!");
+            throw new Exception("Kein freier HomePoint gefunden!");
         }
 
-        return nearestPoint?.transform; // Rückgabe des Transforms oder null
+        return nearestPoint.transform; // Rückgabe des Transforms oder null
 
     }
 
@@ -355,13 +341,19 @@ public class Enemy_Movement2 : MonoBehaviour
 
 
 
+
+
+    //~~~~~~~~~~~~~~~~~~~~~ Rendering ~~~~~~~~~~~~~~~~~~~~~~~
     /// <summary>
     /// Zeichnet den Detection Point mit Radius für Gegnerische Figuren
     /// </summary>
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.detectionPoint.position, this.playerDetectionRange);
+        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.ConfigTorch.playerDetectionRange);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(this.transform.position, this.ConfigTorch.maxAttackRange);
     }
 
 }

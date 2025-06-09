@@ -8,6 +8,24 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+    public enum FireWeaponState : int
+    {
+        SeeNoEnemy,
+        SeeEnemy,
+        Attack,
+    }
+
+    public enum SoldierState : int
+    {
+        Idle,
+        Chase,
+        Attack,
+        Knockback,
+        BackToTower,
+        OnTower
+    }
+
+
     internal static class General
     {
         public static T GetConfig<T>(string path) where T : ConfigArcher

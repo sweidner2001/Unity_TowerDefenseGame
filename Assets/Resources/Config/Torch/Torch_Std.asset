@@ -9,16 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31b3011b2b78b0d46a040e129c2023da, type: 3}
-  m_Name: Archer_Std
+  m_Script: {fileID: 11500000, guid: 52ac2c17551caf840ac1cef2f706866c, type: 3}
+  m_Name: Torch_Std
   m_EditorClassIdentifier: 
+  playerDetectionRange: 2.5
   attackCooldown: 2
-  playerDetectionRange: 4
+  maxAttackRange: 0.7
   detectionLayer:
     serializedVersion: 2
     m_Bits: 128
-  damage: 2
-  knockbackForce: 0
+  damage: 1
+  weaponRange: 0.5
+  knockbackForce: 3
   knockbackTime: 0.15
   stunTime: 0.2
-  maxHealth: 10
+  movingSpeed: 1
+  maxHealth: 6

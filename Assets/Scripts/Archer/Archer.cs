@@ -35,7 +35,7 @@ public class Archer : MonoBehaviour
         if(enemyDetectionPoint == null)
             throw new Exception("Variable enemyDetectionPoint = null");
 
-        InitHealth(this.ConfigArcher);
+        InitHealth(this.ConfigArcher.maxHealth);
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class Archer : MonoBehaviour
 
     //################################ Methoden ###################################
 
-    private void InitHealth(ConfigArcher config)
+    private void InitHealth(int maxHealth)
     {
         // Health-Objekt initialisieren:
         Health health = GetComponent<Health>();
@@ -65,7 +65,7 @@ public class Archer : MonoBehaviour
             Debug.LogError("Health-Komponente nicht gefunden!");
             return;
         }
-        health.Init(config.maxHealth);
+        health.Init(maxHealth);
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~ Verhaltens Methoden ~~~~~~~~~~~~~~~~~~~~~~~~~~

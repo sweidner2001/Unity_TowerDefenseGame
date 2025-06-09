@@ -400,7 +400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 227906418}
   m_Layer: 8
-  m_Name: DetectionPoint
+  m_Name: EnemyDetectionPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -530,10 +530,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 504948205}
-  - {fileID: 1234678304}
   - {fileID: 626787354}
   - {fileID: 1244791995}
+  - {fileID: 504948205}
+  - {fileID: 1234678304}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &229668007
@@ -1153,15 +1153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  attackRange: 0.7
-  attackCooldown: 2
-  playerDetectionRange: 2.5
-  detectionPoint: {fileID: 1108891739}
-  detectionLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  homePoint: {fileID: 0}
 --- !u!95 &525412927
 Animator:
   serializedVersion: 7
@@ -1196,15 +1187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b902057ae6e10f545ac73977e3d291d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  attackPoint: {fileID: 344756893}
-  weaponRange: 1
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  knockbackForce: 3
-  stunTime: 0.2
-  knockbackTime: 0.15
 --- !u!70 &525412929
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2979,15 +2961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  attackRange: 0.7
-  attackCooldown: 2
-  playerDetectionRange: 2.5
-  detectionPoint: {fileID: 2118529197}
-  detectionLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  homePoint: {fileID: 0}
 --- !u!95 &1333869732
 Animator:
   serializedVersion: 7
@@ -3022,15 +2995,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b902057ae6e10f545ac73977e3d291d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  attackPoint: {fileID: 1868863726}
-  weaponRange: 1
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  knockbackForce: 3
-  stunTime: 0.2
-  knockbackTime: 0.15
 --- !u!70 &1333869734
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5628,15 +5592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  attackRange: 0.7
-  attackCooldown: 2
-  playerDetectionRange: 2.5
-  detectionPoint: {fileID: 227906418}
-  detectionLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  homePoint: {fileID: 626787354}
 --- !u!95 &1643565619
 Animator:
   serializedVersion: 7
@@ -5671,15 +5626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b902057ae6e10f545ac73977e3d291d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  attackPoint: {fileID: 171032773}
-  weaponRange: 1
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  knockbackForce: 3
-  stunTime: 0.2
-  knockbackTime: 0.15
 --- !u!70 &1643565621
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5851,15 +5797,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  attackRange: 0.7
-  attackCooldown: 2
-  playerDetectionRange: 2.5
-  detectionPoint: {fileID: 1820023894}
-  detectionLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  homePoint: {fileID: 626787354}
 --- !u!95 &1678004676
 Animator:
   serializedVersion: 7
@@ -5894,15 +5831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b902057ae6e10f545ac73977e3d291d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  attackPoint: {fileID: 1991752427}
-  weaponRange: 1
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  knockbackForce: 3
-  stunTime: 0.2
-  knockbackTime: 0.15
 --- !u!70 &1678004678
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -6024,7 +5952,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1820023894}
   m_Layer: 8
-  m_Name: DetectionPoint
+  m_Name: EnemyDetectionPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6291,7 +6219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2118529197}
   m_Layer: 8
-  m_Name: DetectionPoint
+  m_Name: EnemyDetectionPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
