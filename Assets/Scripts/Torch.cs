@@ -114,7 +114,7 @@ public class Torch : MonoBehaviour
                     Attack();
                     break;
                 case SoldierState.BackToTower:
-                    this.homePoint?.GoBackToTower();
+                    GoBackToTower();
                     break;
             }
 
@@ -228,7 +228,10 @@ public class Torch : MonoBehaviour
     }
 
 
-
+    public void GoBackToTower()
+    {
+        this.homePoint?.GoBackToTower();
+    }
 
 
     //~~~~~~~~~~~~~~~~~~~~~~~ Movement ~~~~~~~~~~~~~~~~~~~~~~~~~~

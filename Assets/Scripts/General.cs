@@ -28,10 +28,10 @@ namespace Assets.Scripts
 
     internal static class General
     {
-        public static T GetConfig<T>(string path) where T : ConfigArcher
-        {
-            path = Path.Join("Config", path);
-            return Resources.Load<T>(path);
-        }
+        //public static T GetConfig<T>(string path) where T : ConfigArcher
+        //{
+        //    path = Path.Join("Config", path);
+        //    return Resources.Load<T>(path);
+        //}
     }
 }

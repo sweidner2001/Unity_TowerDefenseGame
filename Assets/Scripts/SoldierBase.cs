@@ -2,21 +2,19 @@ using Assets.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierBase : MonoBehaviour
+public abstract class SoldierBase : MonoBehaviour
 {
- 
 
-
-
+    //######################## Membervariablen ##############################
     protected Rigidbody2D rb;
     protected Animator animator;
     protected Transform enemyDetectionPoint;
     protected Transform detectedEnemy;
 
-    public ConfigTorch ConfigTorch { get; set; }
+    public ConfigSoldierBase Config { get; set; }
     protected float attackCooldownTimer;
 
-    private Dictionary<SoldierState, string> stateToAnimation = new Dictionary<SoldierState, string>()
+    protected Dictionary<SoldierState, string> stateToAnimation = new Dictionary<SoldierState, string>()
     {
         { SoldierState.Idle, "isIdling" },
         { SoldierState.Chase, "isMoving" },
@@ -41,12 +39,15 @@ public class SoldierBase : MonoBehaviour
         }
     }
 
+
+
+
+    //########################### Geerbte Methoden #############################
     protected virtual void Start()
     {
         rb = GetComponentInParent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         enemyDetectionPoint = transform.Find("EnemyDetectionPoint");
-        ConfigTorch = Resources.Load<ConfigTorch>("Config/Torch/Torch_Std");
     }
 
     protected virtual void Update()
@@ -60,25 +61,35 @@ public class SoldierBase : MonoBehaviour
         CheckForPlayer();
         switch (State)
         {
-            case SoldierState.Chase: ChaseEnemy(); break;
-            case SoldierState.Attack: Attack(); break;
-// case SoldierState.BackToTower: GoBackToTower(); break;
+            case SoldierState.Chase: 
+                ChaseEnemy(); 
+                break;
+            case SoldierState.Attack: 
+                Attack(); 
+                break;
+            case SoldierState.BackToTower: 
+                GoBackToTower(); 
+                break;
         }
     }
 
+
+
+
+    //########################### Methoden #############################
     protected virtual void CheckForPlayer()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(enemyDetectionPoint.position, ConfigTorch.playerDetectionRange, ConfigTorch.detectionLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(enemyDetectionPoint.position, Config.playerDetectionRange, Config.detectionLayer);
         if (hits.Length > 0)
         {
             detectedEnemy = hits[0].transform;
             float enemyDistance = Vector2.Distance(transform.position, detectedEnemy.position);
-            if (enemyDistance <= ConfigTorch.maxAttackRange && attackCooldownTimer <= 0)
+            if (enemyDistance <= Config.maxAttackRange && attackCooldownTimer <= 0)
             {
-                attackCooldownTimer = ConfigTorch.attackCooldown;
+                attackCooldownTimer = Config.attackCooldown;
                 ChangeState(SoldierState.Attack);
             }
-            else if (enemyDistance > ConfigTorch.maxAttackRange && State != SoldierState.Attack)
+            else if (enemyDistance > Config.maxAttackRange && State != SoldierState.Attack)
             {
                 ChangeState(SoldierState.Chase);
             }
@@ -105,12 +116,19 @@ public class SoldierBase : MonoBehaviour
             Move(detectedEnemy);
     }
 
+    public virtual void GoBackToTower() {
+    }
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~~ Movement ~~~~~~~~~~~~~~~~~~~~~~~
     protected virtual void Move(Transform destinationTransform)
     {
         Vector2 direction = (destinationTransform.position - transform.position).normalized;
-        rb.linearVelocity = direction * ConfigTorch.movingSpeed;
+        rb.linearVelocity = direction * Config.movingSpeed;
         FlipCharakterIfNecessary(rb.linearVelocity.x);
     }
+
+
 
     protected virtual void FlipCharakterIfNecessary(float horizontalMovement)
     {
