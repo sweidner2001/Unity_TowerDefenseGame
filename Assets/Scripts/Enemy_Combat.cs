@@ -6,19 +6,17 @@ public class Enemy_Combat : MonoBehaviour
     protected Transform attackPoint;
     public ConfigTorch ConfigTorch { get; set; }
 
+
+
     //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         this.attackPoint = transform.Find("AttackPoint");
-        this.ConfigTorch = GetComponent<Enemy_Movement2>().ConfigTorch;
+        this.ConfigTorch = GetComponent<Torch>().ConfigTorch;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
 
 
 
@@ -45,10 +43,14 @@ public class Enemy_Combat : MonoBehaviour
         if (hits.Length > 0)
         {
             hits[0].GetComponent<PlayerHealth>().ChangeHealth(-this.ConfigTorch.damage);
-            hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
+
+            if (this.ConfigTorch.knockbackEnabled)
+            {
+                hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
                                                                     this.ConfigTorch.knockbackForce,
                                                                     this.ConfigTorch.knockbackTime,
                                                                     this.ConfigTorch.stunTime);
+            }
         }
     }
 

@@ -16,6 +16,7 @@ public class ConfigTorch : ScriptableObject
 
 
     [Header("Enemy Knockback after attack")]
+    public bool knockbackEnabled = true;
     public float knockbackForce = 3;            // wie stark wird der Gegner zurückgeschleudert 
     public float knockbackTime = 0.15f;         // Wie lange wird der Gegner zurückgeschleudert, bis er wieder zum Stehen kommt
     public float stunTime = 0.2f;               // Wie lange bleibt der Gegner anschließend noch stehen nach dem Zurückschleudern

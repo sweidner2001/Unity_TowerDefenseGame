@@ -120,10 +120,14 @@ public class Bow : MonoBehaviour
     {
         
         collision.gameObject.GetComponentInChildren<PlayerHealth>()?.ChangeHealth(-this.ConfigArcher.damage);
-        collision.gameObject.GetComponentInChildren<Knockback>()?.KnockbackCharacter(this.transform, 
-                                                                                     this.ConfigArcher.knockbackForce, 
-                                                                                     this.ConfigArcher.knockbackTime, 
-                                                                                     this.ConfigArcher.stunTime);
+        
+        if (this.ConfigArcher.knockbackEnabled)
+        {
+            collision.gameObject.GetComponentInChildren<Knockback>()?.KnockbackCharacter(this.transform, 
+                                                                                         this.ConfigArcher.knockbackForce, 
+                                                                                         this.ConfigArcher.knockbackTime, 
+                                                                                         this.ConfigArcher.stunTime);
+        }
     }
 
 

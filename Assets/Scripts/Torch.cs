@@ -12,7 +12,7 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 
 
-public class Enemy_Movement2 : MonoBehaviour
+public class Torch : MonoBehaviour
 {
 
     //######################## Membervariablen ##############################
@@ -77,7 +77,7 @@ public class Enemy_Movement2 : MonoBehaviour
 
             InitHealth(this.ConfigTorch.maxHealth);
             this.homePoint = GetComponent<HomePoint>();
-            this.homePoint.Init();
+            this.homePoint?.Init();
             //InitHomePoint();
             ChangeState(SoldierState.BackToTower);
         }
@@ -114,7 +114,7 @@ public class Enemy_Movement2 : MonoBehaviour
                     Attack();
                     break;
                 case SoldierState.BackToTower:
-                    this.homePoint.GoBackToTower();
+                    this.homePoint?.GoBackToTower();
                     break;
             }
 
@@ -222,16 +222,16 @@ public class Enemy_Movement2 : MonoBehaviour
         //Debug.Log("Attacking player now");
         this.rb.linearVelocity = Vector2.zero;
     }
+    public void ChaseEnemy()
+    {
+        Move(this.detectedEnemy);
+    }
 
 
 
 
 
     //~~~~~~~~~~~~~~~~~~~~~~~ Movement ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public void ChaseEnemy()
-    {
-        Move(this.detectedEnemy);
-    }
 
     public void Move(Transform destinationTransform)
     {
@@ -242,25 +242,6 @@ public class Enemy_Movement2 : MonoBehaviour
         // aktuelle Bewegung abrufen
         FlipCharakterIfNecessary(this.rb.linearVelocity.x);
     }
-
-
-
-    //public void GoBackToTower()
-    //{
-    //    if (this.homePoint == null)
-    //    {
-    //        InitHomePoint();
-    //    }
-
-    //    Move(this.homePoint.transform);
-    //    if((homePoint.transform.position - this.transform.position).magnitude <= this.homePoint.homePointRadius)
-    //    {
-    //        // ich befinde mich an meinen HomePoint
-    //        this.rb.linearVelocity = Vector2.zero;
-    //        ChangeState(SoldierState.OnTower);
-
-    //    }
-    //}
 
 
     /// <summary>
@@ -286,10 +267,6 @@ public class Enemy_Movement2 : MonoBehaviour
     {
         this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
-
-
-    //~~~~~~~~~~~~~~~~~~~~ HomePoint ~~~~~~~~~~~~~~~~~~~~~~~
-    
 
 
 

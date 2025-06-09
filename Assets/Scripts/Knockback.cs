@@ -7,7 +7,7 @@ public class Knockback : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     private Rigidbody2D rb;
-    private Enemy_Movement2 enemyMovement;
+    private Torch enemyMovement;
     private PlayerMovement playerMovement;
     public bool isScriptOnPlayer = false;
 
@@ -28,7 +28,7 @@ public class Knockback : MonoBehaviour
             this.afterknockbackStateAction = PlayerAfterKnockbackState_Handler;
         } else
         {
-            this.enemyMovement = GetComponent<Enemy_Movement2>();
+            this.enemyMovement = GetComponent<Torch>();
             this.knockbackStateAction = StdKnockbackState_Handler;
             this.afterknockbackStateAction = StdAfterKnockbackState_Handler;
 
