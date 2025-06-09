@@ -9,7 +9,7 @@ public class Enemy_Combat : MonoBehaviour
     public LayerMask playerLayer;       // Wen wollen wir Schaden zu fügen?
     public float knockbackForce = 3;
     public float stunTime = 0.2f;              // Zeit wie lange der Gegner nach Attacke bewegungsumfähig ist
-
+    public float knockbackTime = 0.15f;
 
     //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,7 +49,10 @@ public class Enemy_Combat : MonoBehaviour
         if (hits.Length > 0)
         {
             hits[0].GetComponent<PlayerHealth>().ChangeHealth(-damage);
-            hits[0].GetComponent<PlayerMovement>().Knockback(forceTransform: this.transform, knockbackForce, stunTime);
+            hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
+                                                                    knockbackForce,
+                                                                    knockbackTime,
+                                                                    stunTime);
         }
     }
 

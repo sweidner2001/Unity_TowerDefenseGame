@@ -58,7 +58,7 @@ public class Player_Combat : MonoBehaviour
         if (enemies.Length > 0)
         {
             enemies[0].GetComponent<Health>().ChangeHealth(-PlayerStatsManager.Instance.damage);
-            enemies[0].GetComponent<EnemyKnockback>()?.Knockback(playerTransform: this.transform, PlayerStatsManager.Instance.knockbackForce, PlayerStatsManager.Instance.knockbackTime, PlayerStatsManager.Instance.stunTime);
+            enemies[0].GetComponent<Knockback>()?.KnockbackCharacter(forceTransform: this.transform, PlayerStatsManager.Instance.knockbackForce, PlayerStatsManager.Instance.knockbackTime, PlayerStatsManager.Instance.stunTime);
         }
     }
 

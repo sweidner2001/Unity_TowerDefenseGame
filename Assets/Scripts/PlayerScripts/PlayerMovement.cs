@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     public Animator animator;
 
-    private bool isKnockedBAck;
+    public bool isKnockedBAck { get; set; }
 
     public Player_Combat player_Combat;
 
@@ -72,28 +72,5 @@ public class PlayerMovement : MonoBehaviour
         this.transform.localScale = new Vector3(transform.localScale.x*-1, transform.localScale.y, transform.localScale.z);
     }
 
-    public void Knockback(Transform forceTransform, float force, float stunTime)
-    {
-        // Objekt schon zerstört?
-        if (!this.gameObject.activeInHierarchy)
-            return; 
-
-        isKnockedBAck = true;
-        Vector2 direction = (this.transform.position - forceTransform.position).normalized;
-        this.rb.linearVelocity = direction * force;
-        StartCoroutine(KnockbackCounter(stunTime));
-    }
-
-
-
-    //########################### Coroutinen #############################
-    private IEnumerator KnockbackCounter(float stunTime)
-    {
-        // Wartezeit
-        yield return new WaitForSeconds(stunTime);
-
-        // anschließend Figur zum stehen bringen und die Bewegungs-Kontrolle zurückgeben
-        this.rb.linearVelocity = Vector2.zero;
-        this.isKnockedBAck = false;
-    }
+  
 }

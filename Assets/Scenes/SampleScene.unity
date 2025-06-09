@@ -1126,6 +1126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f64f1c3a7ab3f5a48b675c20e17e1660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isScriptOnPlayer: 0
 --- !u!114 &525412925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,6 +1204,7 @@ MonoBehaviour:
     m_Bits: 128
   knockbackForce: 3
   stunTime: 0.2
+  knockbackTime: 0.15
 --- !u!70 &525412929
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1310,6 +1312,7 @@ GameObject:
   - component: {fileID: 565171675}
   - component: {fileID: 565171677}
   - component: {fileID: 565171678}
+  - component: {fileID: 565171679}
   m_Layer: 7
   m_Name: Body
   m_TagString: Player
@@ -1490,6 +1493,19 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &565171679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565171669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64f1c3a7ab3f5a48b675c20e17e1660, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isScriptOnPlayer: 1
 --- !u!224 &594659810 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3210817412354405486, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
@@ -2936,6 +2952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f64f1c3a7ab3f5a48b675c20e17e1660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isScriptOnPlayer: 0
 --- !u!114 &1333869730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3013,6 +3030,7 @@ MonoBehaviour:
     m_Bits: 128
   knockbackForce: 3
   stunTime: 0.2
+  knockbackTime: 0.15
 --- !u!70 &1333869734
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5597,6 +5615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f64f1c3a7ab3f5a48b675c20e17e1660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isScriptOnPlayer: 0
 --- !u!114 &1643565618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5660,6 +5679,7 @@ MonoBehaviour:
     m_Bits: 128
   knockbackForce: 3
   stunTime: 0.2
+  knockbackTime: 0.15
 --- !u!70 &1643565621
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5818,6 +5838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f64f1c3a7ab3f5a48b675c20e17e1660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isScriptOnPlayer: 0
 --- !u!114 &1678004675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5881,6 +5902,7 @@ MonoBehaviour:
     m_Bits: 128
   knockbackForce: 3
   stunTime: 0.2
+  knockbackTime: 0.15
 --- !u!70 &1678004678
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
