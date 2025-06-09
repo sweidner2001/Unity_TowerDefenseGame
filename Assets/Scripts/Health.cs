@@ -63,7 +63,7 @@ public class Health : MonoBehaviour
         {
             // Charakter sterben lassen:
             Destroy(this.transform.parent.gameObject);
-            GetComponent<Enemy_Movement2>().ChangeHomePointState(false);
+            GetComponent<HomePoint>()?.ChangeHomePointState(false);
         }
         this.healthBar?.UpdateHealthBar(this.CurrentHealth, this.maxHealth);
     }

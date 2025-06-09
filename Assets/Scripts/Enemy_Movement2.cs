@@ -16,13 +16,14 @@ public class Enemy_Movement2 : MonoBehaviour
 {
 
     //######################## Membervariablen ##############################
-    protected Rigidbody2D rb;
+    public Rigidbody2D rb;
     protected float attackCooldownTimer;
 
     // Gegner Detektion: 
     protected Transform enemyDetectionPoint;
     protected Transform detectedEnemy; 
-    protected HomePoint homePoint;
+    //protected TowerHomePoint homePoint;
+    protected HomePoint homePoint; 
 
     // Zustand + Eigenschaften
     public ConfigTorch ConfigTorch { get; set; }
@@ -50,7 +51,6 @@ public class Enemy_Movement2 : MonoBehaviour
             if (stateToAnimation.ContainsKey(_state))
                 animator.SetBool(stateToAnimation[_state], false);
 
-            Debug.Log($"State changed from {_state} to {value}");
             _state = value;
 
             // Neue Animation aktivieren
@@ -76,7 +76,9 @@ public class Enemy_Movement2 : MonoBehaviour
                 throw new Exception("Variable enemyDetectionPoint = null");
 
             InitHealth(this.ConfigTorch.maxHealth);
-            InitHomePoint();
+            this.homePoint = GetComponent<HomePoint>();
+            this.homePoint.Init();
+            //InitHomePoint();
             ChangeState(SoldierState.BackToTower);
         }
         catch (Exception e)
@@ -112,7 +114,7 @@ public class Enemy_Movement2 : MonoBehaviour
                     Attack();
                     break;
                 case SoldierState.BackToTower:
-                    GoBackToTower();
+                    this.homePoint.GoBackToTower();
                     break;
             }
 
@@ -231,7 +233,7 @@ public class Enemy_Movement2 : MonoBehaviour
         Move(this.detectedEnemy);
     }
 
-    private void Move(Transform destinationTransform)
+    public void Move(Transform destinationTransform)
     {
         // Richtungsvektor
         Vector2 direction = (destinationTransform.position - this.transform.position).normalized;
@@ -243,22 +245,22 @@ public class Enemy_Movement2 : MonoBehaviour
 
 
 
-    public void GoBackToTower()
-    {
-        if (this.homePoint == null)
-        {
-            InitHomePoint();
-        }
+    //public void GoBackToTower()
+    //{
+    //    if (this.homePoint == null)
+    //    {
+    //        InitHomePoint();
+    //    }
 
-        Move(this.homePoint.transform);
-        if((homePoint.transform.position - this.transform.position).magnitude <= this.homePoint.homePointRadius)
-        {
-            // ich befinde mich an meinen HomePoint
-            this.rb.linearVelocity = Vector2.zero;
-            ChangeState(SoldierState.OnTower);
+    //    Move(this.homePoint.transform);
+    //    if((homePoint.transform.position - this.transform.position).magnitude <= this.homePoint.homePointRadius)
+    //    {
+    //        // ich befinde mich an meinen HomePoint
+    //        this.rb.linearVelocity = Vector2.zero;
+    //        ChangeState(SoldierState.OnTower);
 
-        }
-    }
+    //    }
+    //}
 
 
     /// <summary>
@@ -287,57 +289,7 @@ public class Enemy_Movement2 : MonoBehaviour
 
 
     //~~~~~~~~~~~~~~~~~~~~ HomePoint ~~~~~~~~~~~~~~~~~~~~~~~
-    protected void InitHomePoint()
-    {
-        if (this.homePoint == null)
-        {
-            try
-            {
-                this.homePoint = FindNearestAvailableHomePoint().GetComponent<HomePoint>();
-            }
-            catch (Exception e)
-            {
-                // Notfalls einfach stehen bleiben, wenn kein freier HomePoint existiert
-                ChangeState(SoldierState.Idle);
-                throw e;
-            }
-
-            ChangeHomePointState(true);
-        }
-    }
-
-
-    public void ChangeHomePointState(bool isAssigned)
-    {
-        if (this.homePoint != null) {
-            this.homePoint.isAssigned = isAssigned;
-        }
-    }
-
-    private Transform FindNearestAvailableHomePoint()
-    {
-        HomePoint[] homePoints = transform.parent?.parent?.GetComponentsInChildren<HomePoint>();
-
-        if (homePoints == null || homePoints.Length == 0)
-        {
-            throw new Exception("Keine HomePoints gefunden, Homepoints wahrscheinlich noch nicht gerendert!");
-        }
-
-        // Den nächstgelegenen freien HomePoint finden
-        var nearestPoint = homePoints
-            .Where(point => point.isAssigned == false) // Nur unbesetzte HomePoints
-            .OrderBy(point => Vector3.Distance(this.transform.position, point.transform.position)).FirstOrDefault(); // Kürzeste Distanz finden
-
-        if (nearestPoint == null)
-        {
-            throw new Exception("Kein freier HomePoint gefunden!");
-        }
-
-        return nearestPoint.transform; // Rückgabe des Transforms oder null
-
-    }
-
-
+    
 
 
 

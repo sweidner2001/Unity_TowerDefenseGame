@@ -1153,6 +1153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
 --- !u!95 &525412927
 Animator:
   serializedVersion: 7
@@ -1618,7 +1619,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 626787353}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daf4e66f07a8ad04096bb1064cca12be, type: 3}
+  m_Script: {fileID: 11500000, guid: 61b516239dfc9114d8725d115d2a4f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isAssigned: 0
@@ -2846,6 +2847,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1244791995}
   - component: {fileID: 1244791996}
+  - component: {fileID: 1244791997}
   m_Layer: 6
   m_Name: HomePoint
   m_TagString: Untagged
@@ -2878,6 +2880,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: daf4e66f07a8ad04096bb1064cca12be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAssigned: 0
+  homePointRadius: 0.2
+--- !u!114 &1244791997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244791994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b516239dfc9114d8725d115d2a4f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isAssigned: 0
@@ -2961,6 +2977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
 --- !u!95 &1333869732
 Animator:
   serializedVersion: 7
@@ -5543,6 +5560,7 @@ GameObject:
   - component: {fileID: 1643565618}
   - component: {fileID: 1643565616}
   - component: {fileID: 1643565623}
+  - component: {fileID: 1643565624}
   m_Layer: 8
   m_Name: Body
   m_TagString: Enemy
@@ -5592,6 +5610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
 --- !u!95 &1643565619
 Animator:
   serializedVersion: 7
@@ -5732,6 +5751,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentHealth: 0
   maxHealth: 0
+--- !u!114 &1643565624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643565614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf1c162330da5cf499f17132f7942ea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  homePoint: {fileID: 0}
 --- !u!1 &1678004671
 GameObject:
   m_ObjectHideFlags: 0
@@ -5797,6 +5829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
 --- !u!95 &1678004676
 Animator:
   serializedVersion: 7
