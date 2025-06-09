@@ -6,32 +6,30 @@ public class PlayerHealth : MonoBehaviour
     //######################## Membervariablen ##############################
     //public int currentHealth;
     //public int maxHealth;
-    [SerializeField] private Slider healthBar;
-    private Image fillArea;
-    private ConfigHealthBar configHealthBar;
+    protected HealthBar healthBar;
 
 
     //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //this.healthBar = GetComponent<Slider>();
-        fillArea = healthBar.fillRect.GetComponent<Image>();
-        this.configHealthBar = Resources.Load<ConfigHealthBar>("Config/ConfigHealthBar");
-        UpdateHealthBar();
+        if (PlayerStatsManager.Instance.maxHealth == 0)
+            PlayerStatsManager.Instance.maxHealth = 1;
+
+
+        this.healthBar = transform.parent.Find("HealthBar").GetComponent<HealthBar>();
+        if (this.healthBar == null)
+        {
+            Debug.LogError("HealthBar component not found in parent. Please ensure it is attached to the parent GameObject.");
+            return;
+        }
+        this.healthBar.UpdateHealthBar(PlayerStatsManager.Instance.currentHealth, PlayerStatsManager.Instance.maxHealth);
     }
 
     // Update is called once per frame
     void Update()
     {
         
-    }
-
-
-    public void UpdateHealthBar()
-    {
-        this.healthBar.value = (float)PlayerStatsManager.Instance.currentHealth / PlayerStatsManager.Instance.maxHealth;
-        this.fillArea.color = this.configHealthBar.HealthBarGradient.Evaluate(healthBar.value);
     }
 
 
@@ -44,13 +42,14 @@ public class PlayerHealth : MonoBehaviour
         // Charakter sterben lassen:
         if (PlayerStatsManager.Instance.currentHealth <= 0)
         {
-            this.gameObject.SetActive(false);
+            this.transform.parent.gameObject.SetActive(false);
         }
         else if (PlayerStatsManager.Instance.currentHealth > PlayerStatsManager.Instance.maxHealth)
         {
             PlayerStatsManager.Instance.currentHealth = PlayerStatsManager.Instance.maxHealth;
         }
-        UpdateHealthBar();
+        this.healthBar.UpdateHealthBar(PlayerStatsManager.Instance.currentHealth, PlayerStatsManager.Instance.maxHealth);
+
     }
 
 

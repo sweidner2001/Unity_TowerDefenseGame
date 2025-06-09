@@ -55,7 +55,7 @@ public class Health : MonoBehaviour
     }
 
 
-    public void ChangeHealth(int amount)
+    public virtual void ChangeHealth(int amount)
     {
         this.CurrentHealth += amount;
 

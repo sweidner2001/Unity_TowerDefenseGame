@@ -17,8 +17,8 @@ MonoBehaviour:
   detectionLayer:
     serializedVersion: 2
     m_Bits: 128
-  damage: 2
-  knockbackForce: 1
+  damage: 5
+  knockbackForce: 0
   knockbackTime: 0.15
   stunTime: 0.2
   maxHealth: 10

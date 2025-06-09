@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     //public float movingSpeed = 3;
     public int facingDirection = 1;
 
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
     public Animator animator;
 
     private bool isKnockedBAck;
@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        this.rb = GetComponentInParent<Rigidbody2D>();
     }
 
 

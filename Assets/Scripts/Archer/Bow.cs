@@ -123,9 +123,9 @@ public class Bow : MonoBehaviour
     private void HandleArrowCollision(Collision2D collision)
     {
         
-        collision.gameObject.GetComponent<PlayerHealth>()?.ChangeHealth(-this.ConfigArcher.damage);
+        collision.gameObject.GetComponentInChildren<PlayerHealth>()?.ChangeHealth(-this.ConfigArcher.damage);
         // TODO: Knockbacktime fehlt!!
-        collision.gameObject.GetComponent<PlayerMovement>()?.Knockback(forceTransform: this.transform, this.ConfigArcher.knockbackForce, this.ConfigArcher.stunTime);
+        collision.gameObject.GetComponentInChildren<PlayerMovement>()?.Knockback(forceTransform: this.transform, this.ConfigArcher.knockbackForce, this.ConfigArcher.stunTime);
     }
 
 
