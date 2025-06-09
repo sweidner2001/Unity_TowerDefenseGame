@@ -60,8 +60,6 @@ public class Arrow : MonoBehaviour
 
 
     //########################### Methoden #############################
-
-
     public static float GetBowRotationAngle(Vector2 startPoint, Vector2 endPoint, ConfigArrow config)
     {
 

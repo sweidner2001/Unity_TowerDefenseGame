@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,21 +6,35 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     //######################## Membervariablen ##############################
-    public int currentHealth;
-    public int maxHealth;
-    private HealthBar healthBar;
+    [SerializeField]
+    private int _currentHealth;
+
+    [SerializeField]
+    protected int maxHealth;
+    protected HealthBar healthBar;
+
+    protected int CurrentHealth
+    {
+        get => _currentHealth;
+        set => _currentHealth = value > this.maxHealth ? this.maxHealth : value;
+    }
 
 
     //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if(this.maxHealth == 0)
+            this.maxHealth = 1;
+
+
         this.healthBar = transform.parent.Find("HealthBar").GetComponent<HealthBar>();
-
-        if (healthBar == null)
-            Debug.Log("Keine HealthBar vorhanden");
-
-        this.healthBar.UpdateHealthBar(this.currentHealth, this.maxHealth);
+        if (this.healthBar == null)
+        {
+            Debug.LogError("HealthBar component not found in parent. Please ensure it is attached to the parent GameObject.");
+            return;
+        }
+        this.healthBar.UpdateHealthBar(this.CurrentHealth, this.maxHealth);
     }
 
 
@@ -32,22 +47,25 @@ public class Health : MonoBehaviour
 
 
     //########################### Methoden #############################
+    public void Init(int maxHealth)
+    {
+        this.maxHealth = maxHealth;
+        this.CurrentHealth = maxHealth;
+        this.healthBar?.UpdateHealthBar(maxHealth, maxHealth);
+    }
+
+
     public void ChangeHealth(int amount)
     {
-        this.currentHealth += amount;
+        this.CurrentHealth += amount;
 
-
-        // Charakter sterben lassen:
-        if(this.currentHealth > this.maxHealth)
+        if (this.CurrentHealth <= 0)
         {
-            this.currentHealth = this.maxHealth;
-        }
-        if (this.currentHealth <= 0)
-        {
+            // Charakter sterben lassen:
             Destroy(this.transform.parent.gameObject);
             GetComponent<Enemy_Movement2>().ChangeHomePointState(false);
         }
-        this.healthBar.UpdateHealthBar(this.currentHealth, this.maxHealth);
+        this.healthBar?.UpdateHealthBar(this.CurrentHealth, this.maxHealth);
     }
 
 }

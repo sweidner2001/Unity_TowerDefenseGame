@@ -65,7 +65,21 @@ public class Enemy_Movement2 : MonoBehaviour
         {
             Debug.Log(e.ToString());
         }
+        InitHealth();
     }
+
+    private void InitHealth()
+    {
+        // Health-Objekt initialisieren:
+        Health health = GetComponent<Health>();
+        if (health == null)
+        {
+            Debug.LogError("Health-Komponente nicht gefunden!");
+            return;
+        }
+        health.Init(6);
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -115,6 +129,7 @@ public class Enemy_Movement2 : MonoBehaviour
 
 
     //########################### Methoden #############################
+
 
     public void ChaseEnemy()
     {

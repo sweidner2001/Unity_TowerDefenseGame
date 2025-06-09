@@ -10,17 +10,15 @@ using Assets.Scripts;
 public class Archer : MonoBehaviour
 {
     //######################## Membervariablen ##############################
-    // Unser Schuss-Objekt (Pfeil)
+    // Pfeil + Bogen:
     public GameObject arrowPrefab;
     private Bow bow;
-    private float attackTimer;
-
 
     // Gegner Detektion: 
-    public Transform enemyDetectionPoint;           // Sichtradius-Mittelpunkt
-    private Transform aimTransform;                 // Transform-Attr. des detektierten Objektes
+    private Transform enemyDetectionPoint;             // Sichtradius-Mittelpunkt
+    private Transform enemyTransform;                 // Transform-Attr. des detektierten Objektes
 
-    // Level up: StatsManager + Sprites/Animation austauschen!
+    private float attackTimer;
     public ConfigArcher ConfigArcher { get; set; }
 
 
@@ -29,10 +27,15 @@ public class Archer : MonoBehaviour
     void Start()
     {
         this.bow = GetComponentInChildren<Bow>();
+        this.enemyDetectionPoint = transform.Find("EnemyDetectionPoint");
         this.ConfigArcher = Resources.Load<ConfigArcher>("Config/Archer/Archer_Std");
 
-        if(ConfigArcher == null)
-            Debug.Log("Config archer ist null!");
+        if (ConfigArcher == null)
+            throw new Exception("Variable ConfigArcher = null");
+        if(enemyDetectionPoint == null)
+            throw new Exception("Variable enemyDetectionPoint = null");
+
+        InitHealth(this.ConfigArcher);
     }
 
     void Update()
@@ -53,6 +56,18 @@ public class Archer : MonoBehaviour
 
     //################################ Methoden ###################################
 
+    private void InitHealth(ConfigArcher config)
+    {
+        // Health-Objekt initialisieren:
+        Health health = GetComponent<Health>();
+        if (health == null)
+        {
+            Debug.LogError("Health-Komponente nicht gefunden!");
+            return;
+        }
+        health.Init(config.maxHealth);
+    }
+
     //~~~~~~~~~~~~~~~~~~~~~~~~~ Verhaltens Methoden ~~~~~~~~~~~~~~~~~~~~~~~~~~
     private void HandleEnemyDetection()
     {
@@ -62,23 +77,23 @@ public class Archer : MonoBehaviour
         if (hits.Length > 0)
         {
             this.bow.ChangeState(FireWeaponState.SeeEnemy);
-            this.aimTransform = hits[0].transform;
+            this.enemyTransform = hits[0].transform;
             
-
-            Vector2 flipDirection = (this.aimTransform.position - this.transform.position).normalized;
+            // Player zum Gegner drehen + Bogen auf Gegner richten:
+            Vector2 flipDirection = (this.enemyTransform.position - this.transform.position).normalized;
             FlipCharakterIfNecessary(flipDirection.x);
-            this.bow.RotateBowToTarget(this.aimTransform.position);
+            this.bow.RotateBowToTarget(this.enemyTransform.position);
         }
         else
         {
             this.bow.ChangeState(FireWeaponState.SeeNoEnemy);
-            this.aimTransform = null;
+            this.enemyTransform = null;
         }
     }
      
     public void Attack()
     {
-        this.bow.Attack_Enemy(this.aimTransform);
+        this.bow.Attack_Enemy(this.enemyTransform);
         this.attackTimer = this.ConfigArcher.attackCooldown;
     }
 

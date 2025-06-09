@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     //public int maxHealth;
     [SerializeField] private Slider healthBar;
     private Image fillArea;
+    private ConfigHealthBar configHealthBar;
 
 
     //########################### Geerbte Methoden #############################
@@ -16,6 +17,7 @@ public class PlayerHealth : MonoBehaviour
     {
         //this.healthBar = GetComponent<Slider>();
         fillArea = healthBar.fillRect.GetComponent<Image>();
+        this.configHealthBar = Resources.Load<ConfigHealthBar>("Config/ConfigHealthBar");
         UpdateHealthBar();
     }
 
@@ -29,7 +31,7 @@ public class PlayerHealth : MonoBehaviour
     public void UpdateHealthBar()
     {
         this.healthBar.value = (float)PlayerStatsManager.Instance.currentHealth / PlayerStatsManager.Instance.maxHealth;
-        this.fillArea.color = GeneralManager.Instance.HealthBarGradient.Evaluate(healthBar.value);
+        this.fillArea.color = this.configHealthBar.HealthBarGradient.Evaluate(healthBar.value);
     }
 
 
