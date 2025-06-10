@@ -5751,6 +5751,7 @@ GameObject:
   - component: {fileID: 1678004680}
   - component: {fileID: 1678004675}
   - component: {fileID: 1678004673}
+  - component: {fileID: 1678004681}
   m_Layer: 8
   m_Name: Body
   m_TagString: Enemy
@@ -5941,6 +5942,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentHealth: 0
   maxHealth: 0
+--- !u!114 &1678004681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678004671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf1c162330da5cf499f17132f7942ea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  homePoint: {fileID: 0}
 --- !u!224 &1816638965 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3210817412354405486, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
