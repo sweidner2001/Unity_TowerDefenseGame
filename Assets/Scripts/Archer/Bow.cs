@@ -112,21 +112,21 @@ public class Bow : MonoBehaviour
     public Arrow CreateArrow()
     {
         Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
-        arrow.Init(this.arrowConfig, this.enemyTransform, HandleArrowCollision, this.ConfigArcher.detectionLayer);
+        arrow.Init(this.arrowConfig, this.enemyTransform, HandleArrowCollision, this.ConfigArcher.DetectionLayer);
         return arrow;
     }
 
     private void HandleArrowCollision(Collision2D collision)
     {
 
-        collision.gameObject.GetComponentInChildren<PlayerHealth>()?.ChangeHealth(-this.ConfigArcher.damage);
+        collision.gameObject.GetComponentInChildren<PlayerHealth>()?.ChangeHealth(-this.ConfigArcher.Damage);
 
-        if (this.ConfigArcher.knockbackEnabled)
+        if (this.ConfigArcher.KnockbackEnabled)
         {
             collision.gameObject.GetComponentInChildren<Knockback>()?.KnockbackCharacter(this.transform,
-                                                                                         this.ConfigArcher.knockbackForce,
-                                                                                         this.ConfigArcher.knockbackTime,
-                                                                                         this.ConfigArcher.stunTime);
+                                                                                         this.ConfigArcher.KnockbackForce,
+                                                                                         this.ConfigArcher.KnockbackTime,
+                                                                                         this.ConfigArcher.StunTime);
         }
     }
 

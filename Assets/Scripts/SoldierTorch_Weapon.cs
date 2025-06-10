@@ -44,7 +44,7 @@ public class SoldierTorch_Weapon : MonoBehaviour
         // 1 Gegner Schaden zu fügen:
         if (hits.Length > 0)
         {
-            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-this.Config.damage);
+            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-this.Config.Damage);
             if (this.Config.KnockbackEnabled)
             {
                 hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,

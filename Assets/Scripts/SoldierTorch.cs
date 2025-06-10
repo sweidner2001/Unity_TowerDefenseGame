@@ -52,7 +52,11 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
     // Update is called once per frame
     void Update()
     {
-        if (this.State == SoldierState.Knockback)
+        if (this.attackCooldownTimer > 0)
+            this.attackCooldownTimer -= Time.deltaTime;
+
+        // Attacke soll zu ende laufen
+        if (this.State == SoldierState.Knockback || this.State == SoldierState.Attack)
         {
             return;
         }
@@ -60,8 +64,6 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
         try
         {
             CheckForPlayer();
-            if (this.attackCooldownTimer > 0)
-                this.attackCooldownTimer -= Time.deltaTime;
 
 
             switch (this.State)
@@ -131,27 +133,28 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
             //-------------- Gegner angreifen ------------------
             // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
             float enemyDistance = Vector2.Distance(this.transform.position, this.detectedEnemy.position);
-            if (enemyDistance <= this.Config.MaxAttackRange && this.attackCooldownTimer <= 0)
+            if (enemyDistance <= this.Config.MaxAttackRange)
             {
-                // Angreifen:
-                this.attackCooldownTimer = this.Config.AttackCooldown;
-                ChangeState(SoldierState.Attack);
+                if(this.attackCooldownTimer <= 0)
+                {
+                    // Angreifen:
+                    this.attackCooldownTimer = this.Config.AttackCooldown;
+                    ChangeState(SoldierState.Attack);
+                    // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
+                }
+                else // if(this.State == SoldierState.SeeEnemy)
+                {
+                    // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
+                    this.rb.linearVelocity = Vector2.zero;
+                    ChangeState(SoldierState.Idle);
+                }
 
-                // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
-            }
-            if (enemyDistance <= this.Config.MaxAttackRange && this.State == SoldierState.SeeEnemy)
-            {
-                // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
-                this.rb.linearVelocity = Vector2.zero;
-                ChangeState(SoldierState.Idle);
-                Debug.Log("Gegner gefunden - #Stehen bleiben");
             }
             //-------------- Auf Gegner zulaufen ----------------
             // eine begonenne Attacke soll zuerst zu Ende laufen
-            else if (enemyDistance > this.Config.MaxAttackRange && this.State != SoldierState.Attack)
+            else
             {
                 ChangeState(SoldierState.SeeEnemy);
-                //Debug.Log("Gegner gefunden - hinlaufen");
             }
 
         }

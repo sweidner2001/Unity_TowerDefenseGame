@@ -130,7 +130,7 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour where TConfig : Confi
     public virtual void Move(Transform destinationTransform)
     {
         Vector2 direction = (destinationTransform.position - transform.position).normalized;
-        rb.linearVelocity = direction * Config.movingSpeed;
+        rb.linearVelocity = direction * Config.MovingSpeed;
         FlipCharakterIfNecessary(rb.linearVelocity.x);
     }
 

@@ -13,5 +13,6 @@ namespace Assets.Resources.Interfaces
         public float AttackCooldown { get; set; }           // Pause zwischen 2 Attacken
         public float MaxAttackRange { get; set; }           // Angriffsabstand zum Gegner
         public LayerMask DetectionLayer { get; set; }       // Wen wollen wir angreifen?
+        public abstract int Damage { get; set; }
     }
 }

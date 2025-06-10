@@ -35,7 +35,7 @@ public class SoldierArcher : MonoBehaviour
         if(enemyDetectionPoint == null)
             throw new Exception("Variable enemyDetectionPoint = null");
 
-        InitHealth(this.ConfigArcher.maxHealth);
+        InitHealth(this.ConfigArcher.MaxHealth);
     }
 
     void Update()
@@ -72,7 +72,7 @@ public class SoldierArcher : MonoBehaviour
     private void HandleEnemyDetection()
     {
         // Alle Gegner detektieren:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.enemyDetectionPoint.position, this.ConfigArcher.playerDetectionRange, this.ConfigArcher.detectionLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.enemyDetectionPoint.position, this.ConfigArcher.PlayerDetectionRange, this.ConfigArcher.DetectionLayer);
 
         if (hits.Length > 0)
         {
@@ -94,7 +94,7 @@ public class SoldierArcher : MonoBehaviour
     public void Attack()
     {
         this.bow.Attack_Enemy(this.enemyTransform);
-        this.attackTimer = this.ConfigArcher.attackCooldown;
+        this.attackTimer = this.ConfigArcher.AttackCooldown;
     }
 
 
@@ -134,7 +134,7 @@ public class SoldierArcher : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.ConfigArcher.playerDetectionRange);
+        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.ConfigArcher.PlayerDetectionRange);
     }
 
 }
