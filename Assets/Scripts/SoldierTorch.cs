@@ -34,7 +34,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
             if (enemyDetectionPoint == null)
                 throw new Exception("Variable enemyDetectionPoint = null");
 
-            InitHealth(this.Config.maxHealth);
+            InitHealth(this.Config.MaxHealth);
             this.homePoint = GetComponent<HomePoint>();
             this.homePoint?.Init();
             //InitHomePoint();

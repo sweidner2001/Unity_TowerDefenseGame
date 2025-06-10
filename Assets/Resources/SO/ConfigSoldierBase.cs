@@ -1,7 +1,8 @@
+using Assets.Resources.Interfaces;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ConfigSoldierBase : ScriptableObject
+public class ConfigSoldierBase : ScriptableObject, IHealth
 {
     [Header("Torch Attack")]
     public float playerDetectionRange = 2.5f;
@@ -25,5 +26,10 @@ public class ConfigSoldierBase : ScriptableObject
     public float movingSpeed = 1;
 
     [Header("Health")]
-    public int maxHealth = 6;
+    [SerializeField] protected int maxHealth = 6;
+    public int MaxHealth
+    {
+        get => maxHealth;
+        set => maxHealth = value;
+    }
 }
