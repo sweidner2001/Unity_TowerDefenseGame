@@ -11,7 +11,7 @@ public class SoldierTorch_Weapon : MonoBehaviour
     void Start()
     {
         this.attackPoint = transform.Find("AttackPoint");
-        this.Config = GetComponent<SoldierTorch>().ConfigTorch;
+        this.Config = GetComponent<SoldierTorch>().Config;
     }
 
     // Update is called once per frame

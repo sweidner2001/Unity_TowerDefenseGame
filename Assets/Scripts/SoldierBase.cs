@@ -2,24 +2,24 @@ using Assets.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SoldierBase : MonoBehaviour
+public abstract class SoldierBase<TConfig> : MonoBehaviour where TConfig : ConfigSoldierBase
 {
 
     //######################## Membervariablen ##############################
-    protected Rigidbody2D rb;
+    public Rigidbody2D rb;
     protected Animator animator;
     protected Transform enemyDetectionPoint;
     protected Transform detectedEnemy;
 
-    public ConfigSoldierBase Config { get; set; }
+    public TConfig Config { get; set; }
     protected float attackCooldownTimer;
 
     protected Dictionary<SoldierState, string> stateToAnimation = new Dictionary<SoldierState, string>()
     {
         { SoldierState.Idle, "isIdling" },
         { SoldierState.SeeEnemy, "isMoving" },
-        { SoldierState.Attack, "isAttacking" },
         { SoldierState.SeeNoEnemy, "isMoving" },
+        { SoldierState.Attack, "isAttacking" },
         { SoldierState.OnTower, "isIdling" }
     };
 
@@ -50,79 +50,84 @@ public abstract class SoldierBase : MonoBehaviour
         enemyDetectionPoint = transform.Find("EnemyDetectionPoint");
     }
 
-    protected virtual void Update()
-    {
-        if (State == SoldierState.Knockback)
-            return;
+    //protected virtual void Update()
+    //{
+    //    if (State == SoldierState.Knockback)
+    //        return;
 
-        if (attackCooldownTimer > 0)
-            attackCooldownTimer -= Time.deltaTime;
+    //    if (attackCooldownTimer > 0)
+    //        attackCooldownTimer -= Time.deltaTime;
 
-        CheckForPlayer();
-        switch (State)
-        {
-            case SoldierState.SeeEnemy:
-                ChaseEnemy();
-                break;
-            case SoldierState.Attack:
-                Attack();
-                break;
-            case SoldierState.SeeNoEnemy:
-                GoBackToTower();
-                break;
-        }
-    }
+    //    CheckForPlayer();
+    //    switch (State)
+    //    {
+    //        case SoldierState.SeeEnemy:
+    //            ChaseEnemy();
+    //            break;
+    //        case SoldierState.Attack:
+    //            Attack();
+    //            break;
+    //        case SoldierState.SeeNoEnemy:
+    //            GoBackToTower();
+    //            break;
+    //    }
+    //}
 
 
 
 
     //########################### Methoden #############################
-    protected virtual void CheckForPlayer()
+    public Collider2D[] GetDetectedEnemies()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(enemyDetectionPoint.position, Config.playerDetectionRange, Config.detectionLayer);
-        if (hits.Length > 0)
-        {
-            detectedEnemy = hits[0].transform;
-            float enemyDistance = Vector2.Distance(transform.position, detectedEnemy.position);
-            if (enemyDistance <= Config.maxAttackRange && attackCooldownTimer <= 0)
-            {
-                attackCooldownTimer = Config.attackCooldown;
-                ChangeState(SoldierState.Attack);
-            }
-            else if (enemyDistance > Config.maxAttackRange && State != SoldierState.Attack)
-            {
-                ChangeState(SoldierState.SeeEnemy);
-            }
-        }
-        else
-        {
-            ChangeState(SoldierState.SeeNoEnemy);
-        }
+        return Physics2D.OverlapCircleAll(enemyDetectionPoint.position, Config.playerDetectionRange, Config.detectionLayer);
     }
+
+    //protected virtual void CheckForPlayer()
+    //{
+    //    Collider2D[] hits = Physics2D.OverlapCircleAll(enemyDetectionPoint.position, Config.playerDetectionRange, Config.detectionLayer);
+    //    if (hits.Length > 0)
+    //    {
+    //        detectedEnemy = hits[0].transform;
+    //        float enemyDistance = Vector2.Distance(transform.position, detectedEnemy.position);
+    //        if (enemyDistance <= Config.maxAttackRange && attackCooldownTimer <= 0)
+    //        {
+    //            attackCooldownTimer = Config.attackCooldown;
+    //            ChangeState(SoldierState.Attack);
+    //        }
+    //        else if (enemyDistance > Config.maxAttackRange && State != SoldierState.Attack)
+    //        {
+    //            ChangeState(SoldierState.SeeEnemy);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        ChangeState(SoldierState.SeeNoEnemy);
+    //    }
+    //}
 
     public virtual void ChangeState(SoldierState newState)
     {
         State = newState;
     }
 
-    public virtual void Attack()
-    {
-        rb.linearVelocity = Vector2.zero;
-    }
+    //public virtual void Attack()
+    //{
+    //    rb.linearVelocity = Vector2.zero;
+    //}
 
-    public virtual void ChaseEnemy()
-    {
-        if (detectedEnemy != null)
-            Move(detectedEnemy);
-    }
+    //public virtual void ChaseEnemy()
+    //{
+    //    if (detectedEnemy != null)
+    //        Move(detectedEnemy);
+    //}
 
-    public virtual void GoBackToTower()
-    {
-    }
+    //public virtual void GoBackToTower()
+    //{
+    //}
 
 
     //~~~~~~~~~~~~~~~~~~~~~~~ Movement ~~~~~~~~~~~~~~~~~~~~~~~
-    protected virtual void Move(Transform destinationTransform)
+    public virtual void Move(Transform destinationTransform)
     {
         Vector2 direction = (destinationTransform.position - transform.position).normalized;
         rb.linearVelocity = direction * Config.movingSpeed;
