@@ -18,10 +18,10 @@ namespace Assets.Scripts
     public enum SoldierState : int
     {
         Idle,
-        Chase,
+        SeeNoEnemy,
+        SeeEnemy,
         Attack,
         Knockback,
-        BackToTower,
         OnTower
     }
 

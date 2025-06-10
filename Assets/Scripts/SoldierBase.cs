@@ -17,9 +17,9 @@ public abstract class SoldierBase : MonoBehaviour
     protected Dictionary<SoldierState, string> stateToAnimation = new Dictionary<SoldierState, string>()
     {
         { SoldierState.Idle, "isIdling" },
-        { SoldierState.Chase, "isMoving" },
+        { SoldierState.SeeEnemy, "isMoving" },
         { SoldierState.Attack, "isAttacking" },
-        { SoldierState.BackToTower, "isMoving" },
+        { SoldierState.SeeNoEnemy, "isMoving" },
         { SoldierState.OnTower, "isIdling" }
     };
 
@@ -61,13 +61,13 @@ public abstract class SoldierBase : MonoBehaviour
         CheckForPlayer();
         switch (State)
         {
-            case SoldierState.Chase:
+            case SoldierState.SeeEnemy:
                 ChaseEnemy();
                 break;
             case SoldierState.Attack:
                 Attack();
                 break;
-            case SoldierState.BackToTower:
+            case SoldierState.SeeNoEnemy:
                 GoBackToTower();
                 break;
         }
@@ -91,12 +91,12 @@ public abstract class SoldierBase : MonoBehaviour
             }
             else if (enemyDistance > Config.maxAttackRange && State != SoldierState.Attack)
             {
-                ChangeState(SoldierState.Chase);
+                ChangeState(SoldierState.SeeEnemy);
             }
         }
         else
         {
-            ChangeState(SoldierState.BackToTower);
+            ChangeState(SoldierState.SeeNoEnemy);
         }
     }
 

@@ -34,9 +34,9 @@ public class Torch : MonoBehaviour
     private Dictionary<SoldierState, string> stateToAnimation = new Dictionary<SoldierState, string>()
     {
         { SoldierState.Idle, "isIdling" },
-        { SoldierState.Chase, "isMoving" },
+        { SoldierState.SeeEnemy, "isMoving" },
         { SoldierState.Attack, "isAttacking" },
-        { SoldierState.BackToTower, "isMoving" },
+        { SoldierState.SeeNoEnemy, "isMoving" },
         { SoldierState.OnTower, "isIdling" }
         // SoldierState.Knockback hat keine Animation
     };
@@ -79,7 +79,7 @@ public class Torch : MonoBehaviour
             this.homePoint = GetComponent<HomePoint>();
             this.homePoint?.Init();
             //InitHomePoint();
-            ChangeState(SoldierState.BackToTower);
+            ChangeState(SoldierState.SeeNoEnemy);
         }
         catch (Exception e)
         {
@@ -107,13 +107,13 @@ public class Torch : MonoBehaviour
 
             switch (this.State)
             {
-                case SoldierState.Chase:
+                case SoldierState.SeeEnemy:
                     ChaseEnemy();
                     break;
                 case SoldierState.Attack:
                     Attack();
                     break;
-                case SoldierState.BackToTower:
+                case SoldierState.SeeNoEnemy:
                     GoBackToTower();
                     break;
             }
@@ -180,7 +180,7 @@ public class Torch : MonoBehaviour
 
                 // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
             }
-            if (enemyDistance <= this.ConfigTorch.maxAttackRange && this.State == SoldierState.Chase)
+            if (enemyDistance <= this.ConfigTorch.maxAttackRange && this.State == SoldierState.SeeEnemy)
             {
                 // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
                 this.rb.linearVelocity = Vector2.zero;
@@ -191,7 +191,7 @@ public class Torch : MonoBehaviour
             // eine begonenne Attacke soll zuerst zu Ende laufen
             else if (enemyDistance > this.ConfigTorch.maxAttackRange && this.State != SoldierState.Attack)
             {
-                ChangeState(SoldierState.Chase);
+                ChangeState(SoldierState.SeeEnemy);
                 //Debug.Log("Gegner gefunden - hinlaufen");
             }
 
@@ -201,7 +201,7 @@ public class Torch : MonoBehaviour
         {
             if (this.homePoint != null && this.State != SoldierState.OnTower)
             {
-                ChangeState(SoldierState.BackToTower);
+                ChangeState(SoldierState.SeeNoEnemy);
             }
             else if (this.State != SoldierState.OnTower)
             {
