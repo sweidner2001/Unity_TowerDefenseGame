@@ -84,7 +84,7 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour where TConfig : Confi
 
     //protected virtual void CheckForPlayer()
     //{
-    //    Collider2D[] hits = Physics2D.OverlapCircleAll(enemyDetectionPoint.position, Config.playerDetectionRange, Config.detectionLayer);
+    //    Collider2D[] hits = GetDetectedEnemies();
     //    if (hits.Length > 0)
     //    {
     //        detectedEnemy = hits[0].transform;
@@ -153,6 +153,19 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour where TConfig : Confi
 
 
 
+
+    //~~~~~~~~~~~~~~~~~~~~~ Rendering ~~~~~~~~~~~~~~~~~~~~~~~
+    /// <summary>
+    /// Zeichnet den Detection Point mit Radius für Gegnerische Figuren
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.Config.PlayerDetectionRange);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(this.transform.position, this.Config.MaxAttackRange);
+    }
 
 
 }

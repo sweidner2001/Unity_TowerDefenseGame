@@ -12,6 +12,8 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 
 
+
+
 public class SoldierTorch : SoldierBase<ConfigTorch>
 {
 
@@ -106,13 +108,6 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
 
 
     //~~~~~~~~~~~~~~~~~~~~~~~ Zustandswechsel ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //public void ChangeState(SoldierState newState)
-    //{
-    //    this.State = newState;
-    //}
-
-
-
     /// <summary>
     /// Damit der Gegner auch verfolgt wird, wenn er sich im Verfolger-Range befindet, nachdem der Angriff erfolgt ist.
     /// </summary>
@@ -120,15 +115,16 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
     private void CheckForPlayer()
     {
         // Alle Gegner detektieren:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.enemyDetectionPoint.position,
-                                                        this.Config.PlayerDetectionRange,
-                                                        this.Config.DetectionLayer);
+        Collider2D[] hits = GetDetectedEnemies();  
 
         //**************** Gegner gefunden ****************
         if (hits.Length > 0)
         {
 
             this.detectedEnemy = hits[0].transform;
+            Vector2 enemyDirection = (this.detectedEnemy.position - this.transform.position).normalized;
+            this.animator.SetFloat("enemyX", Mathf.Round(enemyDirection.x));
+            this.animator.SetFloat("enemyY", Mathf.Round(enemyDirection.y));
 
             //-------------- Gegner angreifen ------------------
             // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
@@ -151,7 +147,6 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
 
             }
             //-------------- Auf Gegner zulaufen ----------------
-            // eine begonenne Attacke soll zuerst zu Ende laufen
             else
             {
                 ChangeState(SoldierState.SeeEnemy);
@@ -167,7 +162,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
             }
             else if (this.State != SoldierState.OnTower)
             {
-                // Stehen bleiben, kein Gegner gefunden
+                // Stehen bleiben, kein Gegner gefunden und kein HomePoint zugewiesen
                 this.rb.linearVelocity = Vector2.zero;
                 ChangeState(SoldierState.Idle);
             }
@@ -196,58 +191,8 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
     }
 
 
-    //~~~~~~~~~~~~~~~~~~~~~~~ Movement ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    //public void Move(Transform destinationTransform)
-    //{
-    //    // Richtungsvektor
-    //    Vector2 direction = (destinationTransform.position - this.transform.position).normalized;
-    //    this.rb.linearVelocity = direction * this.ConfigTorch.movingSpeed;
-
-    //    // aktuelle Bewegung abrufen
-    //    FlipCharakterIfNecessary(this.rb.linearVelocity.x);
-    //}
-
-
-    ///// <summary>
-    ///// Dreht das Sprite Bild um 180°, wenn die Figur beim Gehen die Richtung wechselt
-    ///// </summary>
-    ///// <param name="horizontalMovement">relative Bewegungsrichtung in X-Achse von der Figur aus gesehen</param>
-    //protected void FlipCharakterIfNecessary(float horizontalMovement)
-    //{
-    //    // horizontal > 0 --> nach rechts laufen, aber Bild links ausgerichtet
-    //    // horizontal < 0 --> nach links laufen, aber Bild rechts ausgerichtet
-    //    if (horizontalMovement > 0 && this.transform.localScale.x < 0 ||
-    //        horizontalMovement < 0 && this.transform.localScale.x > 0)
-    //    {
-    //        Flip();
-    //    }
-    //}
-
-
-    ///// <summary>
-    ///// Dreht das Sprite Bild um 180°
-    ///// </summary>
-    //protected void Flip()
-    //{
-    //    this.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-    //}
 
 
 
-
-
-    //~~~~~~~~~~~~~~~~~~~~~ Rendering ~~~~~~~~~~~~~~~~~~~~~~~
-    /// <summary>
-    /// Zeichnet den Detection Point mit Radius für Gegnerische Figuren
-    /// </summary>
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.Config.PlayerDetectionRange);
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(this.transform.position, this.Config.MaxAttackRange);
-    }
 
 }

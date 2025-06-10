@@ -24,7 +24,7 @@ public class Health : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(this.maxHealth == 0)
+        if (this.maxHealth == 0)
             this.maxHealth = 1;
 
 

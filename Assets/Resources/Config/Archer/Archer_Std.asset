@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b3011b2b78b0d46a040e129c2023da, type: 3}
   m_Name: Archer_Std
   m_EditorClassIdentifier: 
-  playerDetectionRange: 4
+  playerDetectionRange: 5
   attackCooldown: 2
-  maxAttackRange: 0.7
   detectionLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -23,5 +22,4 @@ MonoBehaviour:
   knockbackForce: 0
   knockbackTime: 0.15
   stunTime: 0
-  movingSpeed: 1
   maxHealth: 10
