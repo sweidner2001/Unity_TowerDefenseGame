@@ -2,12 +2,13 @@ using Assets.Scripts;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 public class Knockback : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     private Rigidbody2D rb;
-    private Enemy_Movement2 enemyMovement;
+    private Torch enemyMovement;
     private PlayerMovement playerMovement;
     public bool isScriptOnPlayer = false;
 
@@ -26,9 +27,10 @@ public class Knockback : MonoBehaviour
             this.playerMovement = GetComponent<PlayerMovement>();
             this.knockbackStateAction = PlayerKnockbackState_Handler;
             this.afterknockbackStateAction = PlayerAfterKnockbackState_Handler;
-        } else
+        }
+        else
         {
-            this.enemyMovement = GetComponent<Enemy_Movement2>();
+            this.enemyMovement = GetComponent<Torch>();
             this.knockbackStateAction = StdKnockbackState_Handler;
             this.afterknockbackStateAction = StdAfterKnockbackState_Handler;
 
@@ -38,7 +40,7 @@ public class Knockback : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 

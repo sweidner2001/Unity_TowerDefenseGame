@@ -4,6 +4,7 @@ using UnityEngine;
 public class ConfigTorch : ScriptableObject
 {
     [Header("Torch Attack")]
+    public bool knockbackEnabled = true;
     public float playerDetectionRange = 2.5f;
     public float attackCooldown = 2;            // Pause zwischen 2 Attacken
     public float maxAttackRange = 0.7f;         // Angriffsabstand zum Gegner

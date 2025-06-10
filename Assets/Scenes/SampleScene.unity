@@ -1073,7 +1073,6 @@ GameObject:
   - component: {fileID: 525412929}
   - component: {fileID: 525412928}
   - component: {fileID: 525412927}
-  - component: {fileID: 525412926}
   - component: {fileID: 525412925}
   - component: {fileID: 525412924}
   - component: {fileID: 525412923}
@@ -1141,19 +1140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentHealth: 0
   maxHealth: 0
---- !u!114 &525412926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 525412921}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
 --- !u!95 &525412927
 Animator:
   serializedVersion: 7
@@ -2846,7 +2832,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1244791995}
-  - component: {fileID: 1244791996}
   - component: {fileID: 1244791997}
   m_Layer: 6
   m_Name: HomePoint
@@ -2870,20 +2855,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 229668006}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1244791996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244791994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daf4e66f07a8ad04096bb1064cca12be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isAssigned: 0
-  homePointRadius: 0.2
 --- !u!114 &1244791997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2974,7 +2945,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1333869727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
+  m_Script: {fileID: 11500000, guid: 75605fd4d3912944b89a575252e80b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -5607,7 +5578,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1643565614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
+  m_Script: {fileID: 11500000, guid: 75605fd4d3912944b89a575252e80b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -5826,7 +5797,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1678004671}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c677cfde77d1c484f90081b5ad231ce6, type: 3}
+  m_Script: {fileID: 11500000, guid: 75605fd4d3912944b89a575252e80b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}

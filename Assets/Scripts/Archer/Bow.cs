@@ -1,4 +1,4 @@
-using Assets.Scripts;
+ï»¿using Assets.Scripts;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -38,7 +38,7 @@ public class Bow : MonoBehaviour
         get => _bowState;
         protected set
         {
-            // Fehlerprüfung:
+            // Fehlerprï¿½fung:
             if (!stateToAnimation.ContainsKey(value))
                 throw new Exception($"State {value} ist nicht vorhanden!");
 
@@ -64,7 +64,7 @@ public class Bow : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
 
@@ -74,7 +74,7 @@ public class Bow : MonoBehaviour
     {
         BowState = newState;
 
-        if(newState == FireWeaponState.SeeNoEnemy)
+        if (newState == FireWeaponState.SeeNoEnemy)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
@@ -83,14 +83,14 @@ public class Bow : MonoBehaviour
 
 
     //--------------- Attacke ------------------
-    // Attacke wird von Archer ausgelöst
+    // Attacke wird von Archer ausgelï¿½st
     public void Attack(Vector3 enemyPosition)
     {
         ChangeState(FireWeaponState.Attack);
         this.aimDirection = (enemyPosition - this.arrowLaunchPoint.position).normalized;
-        
+
     }
-    
+
 
     public void Attack_Enemy(Transform enemyTransform)
     {
@@ -118,12 +118,16 @@ public class Bow : MonoBehaviour
 
     private void HandleArrowCollision(Collision2D collision)
     {
-        
+
         collision.gameObject.GetComponentInChildren<PlayerHealth>()?.ChangeHealth(-this.ConfigArcher.damage);
-        collision.gameObject.GetComponentInChildren<Knockback>()?.KnockbackCharacter(this.transform, 
-                                                                                     this.ConfigArcher.knockbackForce, 
-                                                                                     this.ConfigArcher.knockbackTime, 
-                                                                                     this.ConfigArcher.stunTime);
+
+        if (this.ConfigArcher.knockbackEnabled)
+        {
+            collision.gameObject.GetComponentInChildren<Knockback>()?.KnockbackCharacter(this.transform,
+                                                                                         this.ConfigArcher.knockbackForce,
+                                                                                         this.ConfigArcher.knockbackTime,
+                                                                                         this.ConfigArcher.stunTime);
+        }
     }
 
 
@@ -138,12 +142,12 @@ public class Bow : MonoBehaviour
         float angle = Arrow.GetBowRotationAngle(this.transform.position, targetPosition, this.arrowConfig);
 
 
-        // Prüfe, ob das Parent-Objekt gespiegelt ist
+        // PrÃ¼fe, ob das Parent-Objekt gespiegelt ist
         bool isFlipped = transform.parent != null && transform.parent.localScale.x < 0;
         if (isFlipped)
         {
             // Wenn Archer gespiegelt, dann invertiere den Winkel.
-            // 50° wird zu -50° im Inpsector, weil die Z-Achse invertiert wird, 
+            // 50 wird zu -50 im Inpsector, weil die Z-Achse invertiert wird, 
             // weswegen 180 - angle nicht funktioniert!
             angle = angle - 180;
         }

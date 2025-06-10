@@ -4,6 +4,7 @@ using UnityEngine;
 public class ConfigArcher : ScriptableObject
 {
     [Header("Archer Attack")]
+    public bool knockbackEnabled = true;
     public float attackCooldown = 2;            // Pause zwischen 2 Attacken
     public float playerDetectionRange = 4f;
     public LayerMask detectionLayer;            // Wen wollen wir angreifen?

@@ -2,12 +2,13 @@ using Assets.Scripts;
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 public class HomePoint : MonoBehaviour
 {
 
     public TowerHomePoint homePoint;
-    protected Enemy_Movement2 enemyMovement;
+    protected Torch enemyMovement;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,12 +21,12 @@ public class HomePoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Init()
     {
-        this.enemyMovement = GetComponent<Enemy_Movement2>();
+        this.enemyMovement = GetComponent<Torch>();
         InitHomePoint();
     }
 

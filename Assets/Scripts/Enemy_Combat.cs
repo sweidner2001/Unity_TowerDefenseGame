@@ -11,7 +11,7 @@ public class Enemy_Combat : MonoBehaviour
     void Start()
     {
         this.attackPoint = transform.Find("AttackPoint");
-        this.ConfigTorch = GetComponent<Enemy_Movement2>().ConfigTorch;
+        this.ConfigTorch = GetComponent<Torch>().ConfigTorch;
     }
 
     // Update is called once per frame
