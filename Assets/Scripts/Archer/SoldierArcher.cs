@@ -7,7 +7,7 @@ using Assets.Scripts;
 
 
 
-public class Archer : MonoBehaviour
+public class SoldierArcher : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     // Pfeil + Bogen:

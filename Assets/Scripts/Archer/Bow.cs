@@ -58,7 +58,7 @@ public class Bow : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         ChangeState(FireWeaponState.SeeNoEnemy);
-        this.ConfigArcher = transform.parent.GetComponent<Archer>().ConfigArcher;
+        this.ConfigArcher = transform.parent.GetComponent<SoldierArcher>().ConfigArcher;
         this.arrowConfig = Resources.Load<ConfigArrow>("Config/Archer/Arrow_Std");
     }
 

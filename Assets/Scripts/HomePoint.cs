@@ -8,7 +8,7 @@ public class HomePoint : MonoBehaviour
 {
 
     public TowerHomePoint homePoint;
-    protected Torch enemyMovement;
+    protected SoldierTorch enemyMovement;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,7 +26,7 @@ public class HomePoint : MonoBehaviour
 
     public void Init()
     {
-        this.enemyMovement = GetComponent<Torch>();
+        this.enemyMovement = GetComponent<SoldierTorch>();
         InitHomePoint();
     }
 

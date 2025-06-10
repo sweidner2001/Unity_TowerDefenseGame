@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public class Enemy_Combat : MonoBehaviour
+public class SoldierTorch_Weapon : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     protected Transform attackPoint;
-    public ConfigTorch ConfigTorch { get; set; }
+    public ConfigTorch Config { get; set; }
 
     //########################### Geerbte Methoden #############################
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         this.attackPoint = transform.Find("AttackPoint");
-        this.ConfigTorch = GetComponent<Torch>().ConfigTorch;
+        this.Config = GetComponent<SoldierTorch>().ConfigTorch;
     }
 
     // Update is called once per frame
@@ -39,23 +39,26 @@ public class Enemy_Combat : MonoBehaviour
     public void Attack()
     {
         // Alle Objekte die in Waffen-Reichweite sind:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.attackPoint.position, this.ConfigTorch.weaponRange, this.ConfigTorch.detectionLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.attackPoint.position, this.Config.weaponRange, this.Config.detectionLayer);
 
         // 1 Gegner Schaden zu fügen:
         if (hits.Length > 0)
         {
-            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-this.ConfigTorch.damage);
-            hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
-                                                                    this.ConfigTorch.knockbackForce,
-                                                                    this.ConfigTorch.knockbackTime,
-                                                                    this.ConfigTorch.stunTime);
+            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-this.Config.damage);
+            if (this.Config.knockbackEnabled)
+            {
+                hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
+                                                                    this.Config.knockbackForce,
+                                                                    this.Config.knockbackTime,
+                                                                    this.Config.stunTime);
+            }
         }
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(this.attackPoint.position, this.ConfigTorch.weaponRange);
+        Gizmos.DrawWireSphere(this.attackPoint.position, this.Config.weaponRange);
     }
 
 }
