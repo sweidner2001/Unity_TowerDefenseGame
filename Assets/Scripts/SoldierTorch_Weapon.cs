@@ -39,18 +39,18 @@ public class SoldierTorch_Weapon : MonoBehaviour
     public void Attack()
     {
         // Alle Objekte die in Waffen-Reichweite sind:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.attackPoint.position, this.Config.weaponRange, this.Config.detectionLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.attackPoint.position, this.Config.WeaponRange, this.Config.DetectionLayer);
 
         // 1 Gegner Schaden zu fügen:
         if (hits.Length > 0)
         {
             hits[0].GetComponent<PlayerHealth>().ChangeHealth(-this.Config.damage);
-            if (this.Config.knockbackEnabled)
+            if (this.Config.KnockbackEnabled)
             {
                 hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
-                                                                    this.Config.knockbackForce,
-                                                                    this.Config.knockbackTime,
-                                                                    this.Config.stunTime);
+                                                                    this.Config.KnockbackForce,
+                                                                    this.Config.KnockbackTime,
+                                                                    this.Config.StunTime);
             }
         }
     }
@@ -58,7 +58,7 @@ public class SoldierTorch_Weapon : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(this.attackPoint.position, this.Config.weaponRange);
+        Gizmos.DrawWireSphere(this.attackPoint.position, this.Config.WeaponRange);
     }
 
 }

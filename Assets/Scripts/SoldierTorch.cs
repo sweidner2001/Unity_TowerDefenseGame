@@ -119,8 +119,8 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
     {
         // Alle Gegner detektieren:
         Collider2D[] hits = Physics2D.OverlapCircleAll(this.enemyDetectionPoint.position,
-                                                        this.Config.playerDetectionRange,
-                                                        this.Config.detectionLayer);
+                                                        this.Config.PlayerDetectionRange,
+                                                        this.Config.DetectionLayer);
 
         //**************** Gegner gefunden ****************
         if (hits.Length > 0)
@@ -131,15 +131,15 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
             //-------------- Gegner angreifen ------------------
             // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
             float enemyDistance = Vector2.Distance(this.transform.position, this.detectedEnemy.position);
-            if (enemyDistance <= this.Config.maxAttackRange && this.attackCooldownTimer <= 0)
+            if (enemyDistance <= this.Config.MaxAttackRange && this.attackCooldownTimer <= 0)
             {
                 // Angreifen:
-                this.attackCooldownTimer = this.Config.attackCooldown;
+                this.attackCooldownTimer = this.Config.AttackCooldown;
                 ChangeState(SoldierState.Attack);
 
                 // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
             }
-            if (enemyDistance <= this.Config.maxAttackRange && this.State == SoldierState.SeeEnemy)
+            if (enemyDistance <= this.Config.MaxAttackRange && this.State == SoldierState.SeeEnemy)
             {
                 // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
                 this.rb.linearVelocity = Vector2.zero;
@@ -148,7 +148,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
             }
             //-------------- Auf Gegner zulaufen ----------------
             // eine begonenne Attacke soll zuerst zu Ende laufen
-            else if (enemyDistance > this.Config.maxAttackRange && this.State != SoldierState.Attack)
+            else if (enemyDistance > this.Config.MaxAttackRange && this.State != SoldierState.Attack)
             {
                 ChangeState(SoldierState.SeeEnemy);
                 //Debug.Log("Gegner gefunden - hinlaufen");
@@ -241,10 +241,10 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.Config.playerDetectionRange);
+        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.Config.PlayerDetectionRange);
 
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(this.transform.position, this.Config.maxAttackRange);
+        Gizmos.DrawWireSphere(this.transform.position, this.Config.MaxAttackRange);
     }
 
 }

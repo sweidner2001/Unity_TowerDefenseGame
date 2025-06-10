@@ -79,7 +79,7 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour where TConfig : Confi
     //########################### Methoden #############################
     public Collider2D[] GetDetectedEnemies()
     {
-        return Physics2D.OverlapCircleAll(enemyDetectionPoint.position, Config.playerDetectionRange, Config.detectionLayer);
+        return Physics2D.OverlapCircleAll(enemyDetectionPoint.position, Config.PlayerDetectionRange, Config.DetectionLayer);
     }
 
     //protected virtual void CheckForPlayer()
