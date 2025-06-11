@@ -13,7 +13,7 @@ public class SoldierTorch_Weapon : MonoBehaviour
     protected Transform attackPointStd;
     protected Transform attackPointUp;
     protected Transform attackPointDown;
-    public ConfigTorch Config { get; set; }
+    protected ConfigTorch config;
 
 
 
@@ -34,8 +34,8 @@ public class SoldierTorch_Weapon : MonoBehaviour
         }
 
         SetAttackDirection(AttackDirection.Standard);
-        this.Config = GetComponent<SoldierTorch>().GetConfig();
-        if (this.Config == null)
+        this.config = GetComponent<SoldierTorch>().GetConfig();
+        if (this.config == null)
         {
             Debug.LogError("ConfigTorch is not set. Please assign a ConfigTorch in the Inspector.");
         }
@@ -81,21 +81,21 @@ public class SoldierTorch_Weapon : MonoBehaviour
     /// <summary>
     /// Fügt den Gegner Schaden zu
     /// </summary>
-    public void Attack()
+    public void AttackWeapon()
     {
         // Alle Objekte die in Waffen-Reichweite sind:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.attackPoint.position, this.Config.WeaponRange, this.Config.DetectionLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.attackPoint.position, this.config.WeaponRange, this.config.DetectionLayer);
 
         // 1 Gegner Schaden zu fügen:
         if (hits.Length > 0)
         {
-            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-this.Config.Damage);
-            if (this.Config.KnockbackEnabled)
+            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-this.config.Damage);
+            if (this.config.KnockbackEnabled)
             {
                 hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
-                                                                    this.Config.KnockbackForce,
-                                                                    this.Config.KnockbackTime,
-                                                                    this.Config.StunTime);
+                                                                    this.config.KnockbackForce,
+                                                                    this.config.KnockbackTime,
+                                                                    this.config.StunTime);
             }
         }
     }
@@ -103,7 +103,7 @@ public class SoldierTorch_Weapon : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(this.attackPoint.position, this.Config.WeaponRange);
+        Gizmos.DrawWireSphere(this.attackPoint.position, this.config.WeaponRange);
     }
 
 }
