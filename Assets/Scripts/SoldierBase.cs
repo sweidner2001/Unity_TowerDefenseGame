@@ -2,7 +2,7 @@ using Assets.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SoldierBase<TConfig> : MonoBehaviour where TConfig : ConfigSoldierBase
+public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where TConfig : ConfigSoldierBase
 {
 
     //######################## Membervariablen ##############################
@@ -20,7 +20,8 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour where TConfig : Confi
         { SoldierState.SeeEnemy, "isMoving" },
         { SoldierState.SeeNoEnemy, "isMoving" },
         { SoldierState.Attack, "isAttacking" },
-        { SoldierState.OnTower, "isIdling" }
+        { SoldierState.OnTower, "isIdling" },
+        { SoldierState.Dead, "isDead" },
     };
 
     private SoldierState _state;
@@ -107,6 +108,9 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour where TConfig : Confi
 
     public virtual void ChangeState(SoldierState newState)
     {
+        if(State == SoldierState.Dead)
+            return; // Keine Änderung des States, daher nichts tun
+        
         State = newState;
     }
 

@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class Health : MonoBehaviour
     [SerializeField]
     protected int maxHealth;
     protected HealthBar healthBar;
+    protected bool isHealthBarEnabled = false;
 
     protected int CurrentHealth
     {
@@ -45,7 +47,6 @@ public class Health : MonoBehaviour
     }
 
 
-
     //########################### Methoden #############################
     public void Init(int maxHealth)
     {
@@ -57,15 +58,36 @@ public class Health : MonoBehaviour
 
     public virtual void ChangeHealth(int amount)
     {
+        
         this.CurrentHealth += amount;
 
         if (this.CurrentHealth <= 0)
         {
             // Charakter sterben lassen:
-            Destroy(this.transform.parent.gameObject);
-            GetComponent<HomePoint>()?.ChangeHomePointState(false);
+            //Destroy(this.transform.parent.gameObject);
+            this.GetComponent<HomePoint>()?.ChangeHomePointState(false);
+            this.GetComponent<ISoldierBase>()?.ChangeState(SoldierState.Dead);
+        }
+        else if (this.CurrentHealth >= this.maxHealth)
+        {
+            //EnableHealthBar(false);
+            this.CurrentHealth = this.maxHealth;
+        } 
+        else if(isHealthBarEnabled == false)
+        {
+            //EnableHealthBar(true);
         }
         this.healthBar?.UpdateHealthBar(this.CurrentHealth, this.maxHealth);
     }
 
+    public void DestroyCharakter()
+    {
+        Destroy(this.transform.parent.gameObject);
+    }
+
+    //protected void EnableHealthBar(bool visible)
+    //{
+    //    isHealthBarEnabled = visible;
+    //    this.healthBar.EnableHealthBar(visible);
+    //}
 }

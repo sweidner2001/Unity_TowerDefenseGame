@@ -19,8 +19,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   weaponRange: 0.5
-  damage: 1
-  knockbackEnabled: 1
+  damage: 0
+  knockbackEnabled: 0
   knockbackForce: 3
   knockbackTime: 0.15
   stunTime: 0.2

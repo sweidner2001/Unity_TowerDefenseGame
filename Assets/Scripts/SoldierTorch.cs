@@ -58,7 +58,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
             this.attackCooldownTimer -= Time.deltaTime;
 
         // Attacke soll zu ende laufen
-        if (this.State == SoldierState.Knockback || this.State == SoldierState.Attack)
+        if (this.State == SoldierState.Knockback || this.State == SoldierState.Attack || this.State == SoldierState.Dead)
         {
             return;
         }

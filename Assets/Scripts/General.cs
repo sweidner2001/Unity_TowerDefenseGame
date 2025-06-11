@@ -22,7 +22,8 @@ namespace Assets.Scripts
         SeeEnemy,
         Attack,
         Knockback,
-        OnTower
+        OnTower,
+        Dead
     }
 
 
