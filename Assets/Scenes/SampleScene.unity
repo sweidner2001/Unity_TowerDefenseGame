@@ -2243,9 +2243,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 229668006}
     m_Modifications:
+    - target: {fileID: 930558022403035988, guid: 81534baff2be1e241a029da275def342, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1294364360254967606, guid: 81534baff2be1e241a029da275def342, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3801857275477649306, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_Name
       value: Torch_Soldier
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822262730410647279, guid: 81534baff2be1e241a029da275def342, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4831482781553724281, guid: 81534baff2be1e241a029da275def342, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6889948472384529865, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2294,6 +2310,10 @@ PrefabInstance:
     - target: {fileID: 8135686091029024920, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807382410685928825, guid: 81534baff2be1e241a029da275def342, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
