@@ -48,25 +48,20 @@ public class SoldierTorch_Weapon : MonoBehaviour
 
     }
 
-    private AttackDirection attackDirection;
     public void SetAttackDirection(AttackDirection attackDirection)
     {
-        this.attackDirection = attackDirection;
 
         switch (attackDirection)
         {
             case AttackDirection.Up:
                 this.attackPoint = this.attackPointUp;
-                Debug.Log("Attack Up:");
                 break;
             case AttackDirection.Down:
                 this.attackPoint = this.attackPointDown;
-                Debug.Log("Attack Down:");
                 break;
             case AttackDirection.Standard:
             default:
                 this.attackPoint = this.attackPointStd;
-                Debug.Log("Attack std:");
                 break;
         }
     }
@@ -89,29 +84,6 @@ public class SoldierTorch_Weapon : MonoBehaviour
     /// </summary>
     public void Attack()
     {
-        //Collider2D[] hits;
-
-
-        //switch (attackDirection)
-        //{
-        //    case AttackDirection.Up:
-        //        hits = Physics2D.OverlapCircleAll(this.attackPointUp.position, this.Config.WeaponRange, this.Config.DetectionLayer);
-        //        this.attackPoint = this.attackPointUp;
-        //        Debug.Log("Attack Up:" + this.attackPointUp.position);
-        //        break;
-        //    case AttackDirection.Down:
-        //        hits = Physics2D.OverlapCircleAll(this.attackPointDown.position, this.Config.WeaponRange, this.Config.DetectionLayer);
-        //        this.attackPoint = this.attackPointDown;
-        //        Debug.Log("Attack Down:" + this.attackPointDown.position);
-        //        break;
-        //    case AttackDirection.Standard:
-        //    default:
-        //        hits = Physics2D.OverlapCircleAll(this.attackPointStd.position, this.Config.WeaponRange, this.Config.DetectionLayer);
-        //        this.attackPoint = this.attackPointStd;
-        //        Debug.Log("Attack std:" + this.attackPointStd.position);
-        //        break;
-        //}
-
         // Alle Objekte die in Waffen-Reichweite sind:
         Collider2D[] hits = Physics2D.OverlapCircleAll(this.attackPoint.position, this.Config.WeaponRange, this.Config.DetectionLayer);
 

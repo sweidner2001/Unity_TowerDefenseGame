@@ -123,8 +123,6 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
 
             this.detectedEnemy = hits[0].transform;
             Vector2 enemyDirection = (this.detectedEnemy.position - this.transform.position).normalized;
-            this.animator.SetFloat("enemyX", Mathf.Round(enemyDirection.x));
-            this.animator.SetFloat("enemyY", Mathf.Round(enemyDirection.y));
 
             //-------------- Gegner angreifen ------------------
             // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
@@ -136,6 +134,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
                     // Angreifen:
                     this.attackCooldownTimer = this.Config.AttackCooldown;
                     ChangeState(SoldierState.Attack);
+                    TriggerAttackAnimation(enemyDirection);
                     // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
                 }
                 else // if(this.State == SoldierState.SeeEnemy)
@@ -167,6 +166,17 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
                 ChangeState(SoldierState.Idle);
             }
         }
+    }
+
+
+    protected void TriggerAttackAnimation(Vector2 enemyDirection)
+    {
+        if (enemyDirection.y > Mathf.Abs(enemyDirection.x) * 0.5f)
+            animator.SetTrigger("AttackUp");
+        else if (-enemyDirection.y > Mathf.Abs(enemyDirection.x) * 0.5f)
+            animator.SetTrigger("AttackDown");
+        else
+            animator.SetTrigger("AttackStd");
     }
 
 
