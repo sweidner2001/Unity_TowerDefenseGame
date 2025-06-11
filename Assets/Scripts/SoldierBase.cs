@@ -51,6 +51,8 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
         enemyDetectionPoint = transform.Find("EnemyDetectionPoint");
     }
 
+    public abstract TConfig GetConfig();
+
     //protected virtual void Update()
     //{
     //    if (State == SoldierState.Knockback)

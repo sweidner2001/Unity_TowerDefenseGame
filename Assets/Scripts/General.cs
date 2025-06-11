@@ -27,6 +27,14 @@ namespace Assets.Scripts
     }
 
 
+    public enum AttackDirection
+    {
+        Up,
+        Down,
+        Standard
+    }
+
+
     internal static class General
     {
         //public static T GetConfig<T>(string path) where T : ConfigArcher

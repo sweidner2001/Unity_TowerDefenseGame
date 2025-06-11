@@ -4,12 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum AttackDirection
-{
-    Up,
-    Down,
-    Standard
-}
+
 
 public class SoldierTorch_Weapon : MonoBehaviour
 {
@@ -39,7 +34,11 @@ public class SoldierTorch_Weapon : MonoBehaviour
         }
 
         SetAttackDirection(AttackDirection.Standard);
-        this.Config = GetComponent<SoldierTorch>().Config;
+        this.Config = GetComponent<SoldierTorch>().GetConfig();
+        if (this.Config == null)
+        {
+            Debug.LogError("ConfigTorch is not set. Please assign a ConfigTorch in the Inspector.");
+        }
     }
 
     // Update is called once per frame

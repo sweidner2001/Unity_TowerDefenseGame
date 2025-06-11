@@ -26,9 +26,9 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
     //########################### Geerbte Methoden #############################
     protected override void Start()
     {
-        base.Start();
-        this.Config = Resources.Load<ConfigTorch>("Config/Torch/Torch_Std");
 
+        base.Start();
+        this.Config = GetConfig();//Resources.Load<ConfigTorch>("Config/Torch/Torch_Std");
         try
         {
             if (Config == null)
@@ -93,6 +93,16 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
 
 
     //########################### Methoden #############################
+    public override ConfigTorch GetConfig()
+    {
+        if (Config == null)
+        {
+            Config = Resources.Load<ConfigTorch>("Config/Torch/Torch_Std");
+        }
+        return Config;
+    }
+
+
     protected void InitHealth(int maxHealth)
     {
         // Health-Objekt initialisieren:
