@@ -2518,6 +2518,71 @@ MonoBehaviour:
   arrowLaunchPoint: {fileID: 344756893}
   aimDirection: {x: 1, y: 0}
   ConfigArcher: {fileID: 0}
+--- !u!1001 &989381961
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2207115358962035801, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2207115358962035801, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591901615564200200, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522362143461268315, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_Name
+      value: CatBatman
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
 --- !u!1 &1108891738
 GameObject:
   m_ObjectHideFlags: 0
@@ -3175,7 +3240,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2dece5177a2fc8f4cbca6978c2cc23ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5475,3 +5540,4 @@ SceneRoots:
   - {fileID: 1208153414}
   - {fileID: 229668006}
   - {fileID: 1130337529}
+  - {fileID: 989381961}
