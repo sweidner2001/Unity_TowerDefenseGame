@@ -8,7 +8,8 @@ public class HomePoint : MonoBehaviour
 {
 
     public TowerHomePoint homePoint;
-    protected SoldierTorch enemyMovement;
+    protected ISoldierBase soldierBase;
+    
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,7 +27,7 @@ public class HomePoint : MonoBehaviour
 
     public void Init()
     {
-        this.enemyMovement = GetComponent<SoldierTorch>();
+        this.soldierBase = GetComponent<ISoldierBase>();
         InitHomePoint();
     }
 
@@ -38,12 +39,12 @@ public class HomePoint : MonoBehaviour
             InitHomePoint();
         }
 
-        enemyMovement.Move(this.homePoint.transform);
+        soldierBase.Move(this.homePoint.transform);
         if ((homePoint.transform.position - this.transform.position).magnitude <= this.homePoint.homePointRadius)
         {
             // ich befinde mich an meinen HomePoint
-            enemyMovement.rb.linearVelocity = Vector2.zero;
-            enemyMovement.ChangeState(SoldierState.OnTower);
+            soldierBase.Rb.linearVelocity = Vector2.zero;
+            soldierBase.ChangeState(SoldierState.OnTower);
 
         }
     }
@@ -61,7 +62,7 @@ public class HomePoint : MonoBehaviour
             catch (Exception e)
             {
                 // Notfalls einfach stehen bleiben, wenn kein freier HomePoint existiert
-                enemyMovement.ChangeState(SoldierState.Idle);
+                soldierBase.ChangeState(SoldierState.Idle);
                 throw e;
             }
 

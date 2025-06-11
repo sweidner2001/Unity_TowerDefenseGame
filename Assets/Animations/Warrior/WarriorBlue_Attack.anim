@@ -96,14 +96,14 @@ AnimationClip:
     intParameter: 2
     messageOptions: 0
   - time: 0.55
-    functionName: Attack
+    functionName: AttackWeapon
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.81666666
-    functionName: FinishAttacking
+    functionName: ChangeState
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -8,7 +8,7 @@ public class Knockback : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     private Rigidbody2D rb;
-    private SoldierTorch enemyMovement;
+    private ISoldierBase soldierBase;
     private PlayerMovement playerMovement;
     public bool isScriptOnPlayer = false;
 
@@ -30,7 +30,7 @@ public class Knockback : MonoBehaviour
         }
         else
         {
-            this.enemyMovement = GetComponent<SoldierTorch>();
+            this.soldierBase = GetComponent<ISoldierBase>();
             this.knockbackStateAction = StdKnockbackState_Handler;
             this.afterknockbackStateAction = StdAfterKnockbackState_Handler;
 
@@ -47,12 +47,12 @@ public class Knockback : MonoBehaviour
     //########################### Event-Handler #############################
     private void StdKnockbackState_Handler()
     {
-        this.enemyMovement.ChangeState(SoldierState.Knockback);
+        this.soldierBase.ChangeState(SoldierState.Knockback);
     }
 
     private void StdAfterKnockbackState_Handler()
     {
-        this.enemyMovement.ChangeState(SoldierState.Idle);
+        this.soldierBase.ChangeState(SoldierState.Idle);
     }
 
 
@@ -96,6 +96,5 @@ public class Knockback : MonoBehaviour
         // Kontrolle zurückgeben / wie lange bleibt Gegner noch stehen?
         yield return new WaitForSeconds(stunTime);
         this.afterknockbackStateAction();
-        //enemyMovement.ChangeState(EnemyState.Idle);
     }
 }

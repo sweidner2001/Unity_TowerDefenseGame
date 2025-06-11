@@ -6,7 +6,7 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
 {
 
     //######################## Membervariablen ##############################
-    public Rigidbody2D rb;
+    public Rigidbody2D Rb { get; set; }
     protected Animator animator;
     protected Transform enemyDetectionPoint;
     protected Transform detectedEnemy;
@@ -46,7 +46,7 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
     //########################### Geerbte Methoden #############################
     protected virtual void Start()
     {
-        rb = GetComponentInParent<Rigidbody2D>();
+        Rb = GetComponentInParent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         enemyDetectionPoint = transform.Find("EnemyDetectionPoint");
     }
@@ -136,8 +136,8 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
     public virtual void Move(Transform destinationTransform)
     {
         Vector2 direction = (destinationTransform.position - transform.position).normalized;
-        rb.linearVelocity = direction * Config.MovingSpeed;
-        FlipCharakterIfNecessary(rb.linearVelocity.x);
+        Rb.linearVelocity = direction * Config.MovingSpeed;
+        FlipCharakterIfNecessary(Rb.linearVelocity.x);
     }
 
 

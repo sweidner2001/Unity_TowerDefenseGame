@@ -150,7 +150,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
                 else // if(this.State == SoldierState.SeeEnemy)
                 {
                     // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
-                    this.rb.linearVelocity = Vector2.zero;
+                    this.Rb.linearVelocity = Vector2.zero;
                     ChangeState(SoldierState.Idle);
                 }
 
@@ -172,7 +172,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
             else if (this.State != SoldierState.OnTower)
             {
                 // Stehen bleiben, kein Gegner gefunden und kein HomePoint zugewiesen
-                this.rb.linearVelocity = Vector2.zero;
+                this.Rb.linearVelocity = Vector2.zero;
                 ChangeState(SoldierState.Idle);
             }
         }
@@ -197,7 +197,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
         // zum Angreifen stehen bleiben, Attacke wird durch den Zustandswechsel ausgelöst.
         // Die weitere Logik befindet sich in der Animation und in Enemy_Combat.cs
         //Debug.Log("Attacking player now");
-        this.rb.linearVelocity = Vector2.zero;
+        this.Rb.linearVelocity = Vector2.zero;
     }
     public void ChaseEnemy()
     {

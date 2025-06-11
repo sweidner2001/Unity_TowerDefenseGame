@@ -472,6 +472,7 @@ Transform:
   - {fileID: 1244791995}
   - {fileID: 2080534599}
   - {fileID: 1851628424}
+  - {fileID: 1729703342}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &229668007
@@ -660,6 +661,71 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
+--- !u!1001 &478082237
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 229668006}
+    m_Modifications:
+    - target: {fileID: 284125447904040972, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_Name
+      value: SoldierWarrior
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175833337019985678, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175833337019985678, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
 --- !u!1 &487081408
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,6 +2321,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Torch_Soldier
       objectReference: {fileID: 0}
+    - target: {fileID: 3801857275477649306, guid: 81534baff2be1e241a029da275def342, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3822262730410647279, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2305,11 +2375,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8135686091029024920, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.662
       objectReference: {fileID: 0}
     - target: {fileID: 8135686091029024920, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8807382410685928825, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_Enabled
@@ -2822,7 +2892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75605fd4d3912944b89a575252e80b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
 --- !u!95 &1333869732
 Animator:
   serializedVersion: 7
@@ -5249,6 +5318,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Torch_Soldier
       objectReference: {fileID: 0}
+    - target: {fileID: 3801857275477649306, guid: 81534baff2be1e241a029da275def342, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6889948472384529865, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.03
@@ -5302,6 +5375,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81534baff2be1e241a029da275def342, type: 3}
+--- !u!4 &1729703342 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7542825946090691167, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
+  m_PrefabInstance: {fileID: 478082237}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1816638965 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3210817412354405486, guid: e803acd74213fa4498b7e91599afe5e9, type: 3}
