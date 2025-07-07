@@ -14,15 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDetectionRange: 2.5
   attackCooldown: 2
-  maxAttackRange: 0.7
+  maxAttackRange: 1.4
   detectionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   weaponRange: 1
   damage: 1
-  knockbackEnabled: 1
-  knockbackForce: 3
-  knockbackTime: 0.15
-  stunTime: 0.2
   movingSpeed: 1
   maxHealth: 6

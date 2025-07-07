@@ -2578,6 +2578,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CatBatman
       objectReference: {fileID: 0}
+    - target: {fileID: 6522362143461268315, guid: bb7db252a401f9f438e40bdcaaff5b4b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
