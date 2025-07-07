@@ -16,12 +16,6 @@ public class ConfigCat : ConfigSoldierBase
     [SerializeField] protected int damage = 1;
 
 
-    [Header("Enemy Knockback after attack")]
-    [SerializeField] protected bool knockbackEnabled = true;
-    [SerializeField] protected float knockbackForce = 3;            // wie stark wird der Gegner zur�ckgeschleudert 
-    [SerializeField] protected float knockbackTime = 0.15f;         // Wie lange wird der Gegner zur�ckgeschleudert, bis er wieder zum Stehen kommt
-    [SerializeField] protected float stunTime = 0.2f;               // Wie lange bleibt der Gegner anschlie�end noch stehen nach dem Zur�ckschleudern
-
     [Header("Movement")]
     [SerializeField] protected float movingSpeed = 1;
 
@@ -50,30 +44,7 @@ public class ConfigCat : ConfigSoldierBase
 
     }
 
-    // Knockback
-    public override bool KnockbackEnabled
-    {
-        get => knockbackEnabled;
-        set => knockbackEnabled = value;
-    }
 
-    public override float KnockbackForce
-    {
-        get => knockbackForce;
-        set => knockbackForce = value;
-    }
-
-    public override float KnockbackTime
-    {
-        get => knockbackTime;
-        set => knockbackTime = value;
-    }
-
-    public override float StunTime
-    {
-        get => stunTime;
-        set => stunTime = value;
-    }
 
 
     // Health

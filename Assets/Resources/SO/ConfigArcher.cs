@@ -1,7 +1,8 @@
+using Assets.Resources.Interfaces;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ConfigArcher", menuName = "Scriptable Objects/ConfigArcher")]
-public class ConfigArcher : ConfigSoldierBase
+public class ConfigArcher : ConfigSoldierBase, IKnockback
 {
     [Header("Archer Attack")]
     [SerializeField] protected float playerDetectionRange = 4f;
@@ -47,25 +48,25 @@ public class ConfigArcher : ConfigSoldierBase
   
 
     // Knockback
-    public override bool KnockbackEnabled
+    public bool KnockbackEnabled
     {
         get => knockbackEnabled;
         set => knockbackEnabled = value;
     }
 
-    public override float KnockbackForce
+    public float KnockbackForce
     {
         get => knockbackForce;
         set => knockbackForce = value;
     }
 
-    public override float KnockbackTime
+    public float KnockbackTime
     {
         get => knockbackTime;
         set => knockbackTime = value;
     }
 
-    public override float StunTime
+    public float StunTime
     {
         get => stunTime;
         set => stunTime = value;

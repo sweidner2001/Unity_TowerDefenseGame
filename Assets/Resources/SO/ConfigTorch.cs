@@ -3,7 +3,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ConfigTorch", menuName = "Scriptable Objects/ConfigTorch")]
-public class ConfigTorch : ConfigSoldierBase
+public class ConfigTorch : ConfigSoldierBase, IKnockback
 {
 
     [Header("Attack")]
@@ -53,25 +53,25 @@ public class ConfigTorch : ConfigSoldierBase
     }
 
     // Knockback
-    public override bool KnockbackEnabled
+    public bool KnockbackEnabled
     {
         get => knockbackEnabled;
         set => knockbackEnabled = value;
     }
 
-    public override float KnockbackForce
+    public float KnockbackForce
     {
         get => knockbackForce;
         set => knockbackForce = value;
     }
 
-    public override float KnockbackTime
+    public float KnockbackTime
     {
         get => knockbackTime;
         set => knockbackTime = value;
     }
 
-    public override float StunTime
+    public float StunTime
     {
         get => stunTime;
         set => stunTime = value;

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Assets.Resources.Interfaces;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "ConfigWarrior", menuName = "Scriptable Objects/ConfigWarrior")]
-public class ConfigWarrior : ConfigSoldierBase
+public class ConfigWarrior : ConfigSoldierBase, IKnockback
 {
 
     [Header("Attack")]
@@ -51,25 +52,25 @@ public class ConfigWarrior : ConfigSoldierBase
     }
 
     // Knockback
-    public override bool KnockbackEnabled
+    public bool KnockbackEnabled
     {
         get => knockbackEnabled;
         set => knockbackEnabled = value;
     }
 
-    public override float KnockbackForce
+    public float KnockbackForce
     {
         get => knockbackForce;
         set => knockbackForce = value;
     }
 
-    public override float KnockbackTime
+    public float KnockbackTime
     {
         get => knockbackTime;
         set => knockbackTime = value;
     }
 
-    public override float StunTime
+    public float StunTime
     {
         get => stunTime;
         set => stunTime = value;
