@@ -15,7 +15,7 @@ public class Bow : MonoBehaviour
     //######################## Membervariablen ##############################
     public GameObject arrowPrefab;
     public Transform arrowLaunchPoint;
-    public Vector2 aimDirection = Vector2.right;
+    //public Vector2 aimDirection = Vector2.right;
 
     // Level up: StatsManager + Sprites/Animation austauschen!
     public ConfigArcher ConfigArcher;
@@ -87,7 +87,7 @@ public class Bow : MonoBehaviour
     public void Attack(Vector3 enemyPosition)
     {
         ChangeState(FireWeaponState.Attack);
-        this.aimDirection = (enemyPosition - this.arrowLaunchPoint.position).normalized;
+        //this.aimDirection = (enemyPosition - this.arrowLaunchPoint.position).normalized;
 
     }
 
@@ -95,7 +95,7 @@ public class Bow : MonoBehaviour
     public void Attack_Enemy(Transform enemyTransform)
     {
         ChangeState(FireWeaponState.Attack);
-        this.aimDirection = (enemyTransform.position - this.arrowLaunchPoint.position).normalized;
+        //this.aimDirection = (enemyTransform.position - this.arrowLaunchPoint.position).normalized;
         this.enemyTransform = enemyTransform;
     }
 

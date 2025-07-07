@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
 
@@ -7,7 +8,7 @@ public class CatBatman : SoldierBase<ConfigCat>
 {
     //######################## Membervariablen ##############################
     protected HomePoint homePoint;
-
+    protected CatBatmanLaser laser;
 
 
 
@@ -29,6 +30,10 @@ public class CatBatman : SoldierBase<ConfigCat>
             this.homePoint?.Init();
             //InitHomePoint();
             ChangeState(SoldierState.SeeNoEnemy);
+
+
+
+            this.laser = GetComponentInChildren<CatBatmanLaser>();
         }
         catch (Exception e)
         {
@@ -133,15 +138,20 @@ public class CatBatman : SoldierBase<ConfigCat>
             float enemyDistance = Vector2.Distance(this.transform.position, this.detectedEnemy.position);
             if (enemyDistance <= this.Config.MaxAttackRange)
             {
-                //if (this.attackCooldownTimer <= 0)
-                //{
-                //    // Angreifen:
-                //    this.attackCooldownTimer = this.Config.AttackCooldown;
-                //    ChangeState(SoldierState.Attack);
-                //    TriggerAttackAnimation(enemyDirection);
-                //    // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
-                //}
-                //else // if(this.State == SoldierState.SeeEnemy)
+
+                // Zum Gegner drehen:
+                Vector2 flipDirection = (this.detectedEnemy.position - this.transform.position).normalized;
+                FlipCharakterIfNecessary(flipDirection.x);
+
+                if (this.attackCooldownTimer <= 0)
+                {
+                    // Angreifen:
+                    this.attackCooldownTimer = this.Config.AttackCooldown;
+                    ChangeState(SoldierState.Attack);
+                    //TriggerAttackAnimation(enemyDirection);
+                    // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
+                }
+                else if(this.State == SoldierState.SeeEnemy)
                 {
                     // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
                     this.Rb.linearVelocity = Vector2.zero;
@@ -192,6 +202,9 @@ public class CatBatman : SoldierBase<ConfigCat>
         // Die weitere Logik befindet sich in der Animation und in Enemy_Combat.cs
         //Debug.Log("Attacking player now");
         this.Rb.linearVelocity = Vector2.zero;
+        this.laser.Attack(this.detectedEnemy);
+        ChangeState(SoldierState.Idle);
+
     }
     public void ChaseEnemy()
     {
