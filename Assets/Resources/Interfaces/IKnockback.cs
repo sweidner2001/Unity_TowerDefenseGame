@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Resources.Interfaces
 {
-    internal interface IKnockback
+    public interface IKnockback
     {
         public bool KnockbackEnabled { get; set; }
         public float KnockbackForce { get; set; }           // wie stark wird der Gegner zurückgeschleudert 

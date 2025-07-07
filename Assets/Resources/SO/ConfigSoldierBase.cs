@@ -2,9 +2,9 @@ using Assets.Resources.Interfaces;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class ConfigSoldierBase : ScriptableObject, IHealth, IKnockback, IAttack
+public abstract class ConfigSoldierBase : ScriptableObject, IHealth, IKnockback, IMove, IAttack
 {
-    
+    // IMove
     public abstract float MovingSpeed { get; set; }
 
     // IHealth

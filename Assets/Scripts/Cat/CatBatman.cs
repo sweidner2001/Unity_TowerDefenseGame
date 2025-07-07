@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
 
-public class CatBatman : SoldierBase<ConfigTorch>
+public class CatBatman : SoldierBase<ConfigCat>
 {
     //######################## Membervariablen ##############################
     protected HomePoint homePoint;
@@ -81,11 +81,17 @@ public class CatBatman : SoldierBase<ConfigTorch>
 
 
     //########################### Methoden #############################
-    public override ConfigTorch GetConfig()
+    public override ConfigCat GetConfig()
     {
         if (Config == null)
         {
-            Config = Resources.Load<ConfigTorch>("Config/Torch/Torch_Std");
+            string pfad = "Config/Cat/ConfigCatBatman_Std";
+            Config = Resources.Load<ConfigCat>("Config/Cat/ConfigCatBatman_Std");
+
+            if(Config == null)
+            {
+                throw new Exception($"Config {pfad} konnte nicht geladen werden!");
+            }
         }
         return Config;
     }

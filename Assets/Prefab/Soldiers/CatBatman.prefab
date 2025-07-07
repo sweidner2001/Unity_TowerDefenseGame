@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: bedf83adb0c007a4c90bc44d0ad9af88, type: 2}
+    - target: {fileID: 2010196545064014062, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3976749147630587696, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -60,7 +64,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CatBatman
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2010196545064014062, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

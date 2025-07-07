@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Resources.Interfaces
 {
-    internal interface IAttack
+    public interface IAttack
     {
         public float PlayerDetectionRange { get; set; } 
         public float AttackCooldown { get; set; }           // Pause zwischen 2 Attacken

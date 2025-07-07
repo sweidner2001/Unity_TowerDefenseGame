@@ -1,8 +1,9 @@
+using Assets.Resources.Interfaces;
 using Assets.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where TConfig : ConfigSoldierBase
+public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where TConfig : IHealth, IKnockback, IMove, IAttack
 {
 
     //######################## Membervariablen ##############################
