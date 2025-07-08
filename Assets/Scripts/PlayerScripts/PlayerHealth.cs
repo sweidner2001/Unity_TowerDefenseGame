@@ -34,7 +34,7 @@ public class PlayerHealth : MonoBehaviour
 
 
     //########################### Methoden #############################
-    public void ChangeHealth(int amount)
+    public void ChangeHealth(float amount)
     {
         PlayerStatsManager.Instance.currentHealth += amount;
 

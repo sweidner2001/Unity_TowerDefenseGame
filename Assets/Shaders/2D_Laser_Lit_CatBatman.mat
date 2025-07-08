@@ -67,14 +67,14 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _LaserEdgeSmoothness: 50
+    - _LaserEdgeSmoothness: 500
     - _LaserScale: 4
-    - _LaserThickness: 0.5
-    - _TexturThickness: 0.5
+    - _LaserThickness: 0
+    - _TexturThickness: 0.9
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 1.6245048, g: 1.6245048, b: 1.6245048, a: 1}
-    - _ColorStructure: {r: 0, g: 0.038157407, b: 0.5773585, a: 1}
+    - _Color: {r: 1.5210842, g: 1.5210842, b: 1.5210842, a: 1}
+    - _ColorStructure: {r: 0.4412849, g: 0.6677331, b: 2.9605212, a: 1}
     - _LaserSpeed: {r: -1, g: 0, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

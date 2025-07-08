@@ -8,14 +8,14 @@ public class Health : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     [SerializeField]
-    private int _currentHealth;
+    private float _currentHealth;
 
     [SerializeField]
     protected int maxHealth;
     protected HealthBar healthBar;
     protected bool isHealthBarEnabled = false;
 
-    protected int CurrentHealth
+    protected float CurrentHealth
     {
         get => _currentHealth;
         set => _currentHealth = value > this.maxHealth ? this.maxHealth : value;
@@ -56,7 +56,7 @@ public class Health : MonoBehaviour
     }
 
 
-    public virtual void ChangeHealth(int amount)
+    public virtual void ChangeHealth(float amount)
     {
         
         this.CurrentHealth += amount;

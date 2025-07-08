@@ -18,7 +18,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     [Header("Health Stats")]
     public int maxHealth = 10;
-    public int currentHealth = 10;
+    public float currentHealth = 10;
 
 
     //########################### Geerbte Methoden #############################

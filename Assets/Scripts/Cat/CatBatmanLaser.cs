@@ -5,80 +5,35 @@ using UnityEngine;
 
 public class CatBatmanLaser : MonoBehaviour
 {
-
+    //######################## Membervariablen ##############################
     public Transform laserLaunchPoint;
     public LineRenderer laserLineRenderer;
-    protected float laserTime = 1;
     public GameObject startVXF;
     public GameObject endVXF;
     private List<ParticleSystem> particles = new List<ParticleSystem>();
+    protected ConfigCat config;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //########################### Geerbte Methoden #############################
     void Start()
     {
-        FillLists();
+        InitParticleSystem();
         DisableLaser();
+
+
+        this.config = this.GetComponentInParent<CatBatman>().GetConfig();
     }
 
-    // Update is called once per frame
     void Update()
     {
 
     }
 
-    public void Attack(Transform enemyTransform)
+
+    //######################## Methoden: ##########################
+    protected void InitParticleSystem()
     {
-        StartCoroutine(LaserAttack(enemyTransform));
-    }
-
-    private IEnumerator LaserAttack(Transform enemyTransform)
-    {
-        UpdateLaserPosition(enemyTransform);
-        EnableLaser();
-        float currentLaserTime = 0f;
-
-        while (currentLaserTime < this.laserTime)
-        {
-            UpdateLaserPosition(enemyTransform);
-            currentLaserTime += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-        DisableLaser();
-    }
-
-    protected void UpdateLaserPosition(Transform enemyTransform)
-    {
-        Vector3 pos = enemyTransform.position - laserLaunchPoint.position;
-        if (transform.parent.localScale.x < 0)
-        {
-            pos.x *= -1;
-        }
-        laserLineRenderer.SetPosition(1, pos);
-        endVXF.transform.position = enemyTransform.position;
-    }
-
-
-    protected void EnableLaser()
-    {
-        laserLineRenderer.enabled = true;
-
-        for(int i=0; i<particles.Count; i++)
-            particles[i].Play();
-    }
-
-    protected void DisableLaser()
-    {
-        laserLineRenderer.enabled = false;
-
-        for (int i = 0; i < particles.Count; i++)
-            particles[i].Stop();
-    }
-
-
-    void FillLists()
-    {
-        for(int i=0; i<startVXF.transform.childCount; i++)
+        for (int i = 0; i < startVXF.transform.childCount; i++)
         {
             ParticleSystem ps = startVXF.transform.GetChild(i).GetComponent<ParticleSystem>();
             if (ps != null)
@@ -96,4 +51,82 @@ public class CatBatmanLaser : MonoBehaviour
             }
         }
     }
+
+
+    //********************* Attack ***********************
+    public void Attack(Transform enemyTransform)
+    {
+        StartCoroutine(LaserAttack(enemyTransform));
+    }
+
+    private IEnumerator LaserAttack(Transform enemyTransform)
+    {
+        // Variablen:
+        float currentLaserTime = 0f;
+        float damagePerTick = this.config.Damage / (this.config.LaserTime / Time.fixedDeltaTime);
+        float appliedDamage = 0f;
+
+        // Laser starten:
+        UpdateLaserPosition(enemyTransform);
+        EnableLaser();
+
+        // Schaden abziehen und Laser bewegen:
+        while (currentLaserTime < this.config.LaserTime)
+        {
+            UpdateLaserPosition(enemyTransform);
+
+            // Schaden zufügen:
+            enemyTransform.GetComponent<PlayerHealth>()?.ChangeHealth(-damagePerTick);
+            enemyTransform.GetComponent<Health>()?.ChangeHealth(-damagePerTick);
+            appliedDamage += damagePerTick;
+
+            currentLaserTime += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        // Restschaden ausgleichen (wegen Rundungsfehlern)
+        float missingDamage = this.config.Damage - appliedDamage;
+        if (Mathf.Abs(missingDamage) > 0.1f)
+        {
+            enemyTransform.GetComponent<PlayerHealth>()?.ChangeHealth(-missingDamage);
+            enemyTransform.GetComponent<Health>()?.ChangeHealth(-missingDamage);
+        }
+
+        DisableLaser();
+    }
+
+
+    protected void UpdateLaserPosition(Transform enemyTransform)
+    {
+        Vector3 pos = enemyTransform.position - laserLaunchPoint.position;
+        if (transform.parent.localScale.x < 0)
+        {
+            pos.x *= -1;
+        }
+        laserLineRenderer.SetPosition(1, pos);
+        endVXF.transform.position = enemyTransform.position;
+    }
+
+
+
+
+    //************************ Laser + Particle System ***********************
+    protected void EnableLaser()
+    {
+        laserLineRenderer.enabled = true;
+
+        for(int i=0; i<particles.Count; i++)
+            particles[i].Play();
+    }
+
+    protected void DisableLaser()
+    {
+        laserLineRenderer.enabled = false;
+
+        for (int i = 0; i < particles.Count; i++)
+            particles[i].Stop();
+    }
+
+
+
 }

@@ -11,9 +11,9 @@ public class ConfigCat : ConfigSoldierBase
     [SerializeField] protected LayerMask detectionLayer;            // Wen wollen wir angreifen?
 
 
-    [Header("Torch Weapon")]
-    [SerializeField] protected float weaponRange = 1;               // Reichweite der Waffe
+    [Header("Cat Laser-Weapon")]
     [SerializeField] protected int damage = 1;
+    [SerializeField] protected int laserTime = 1;
 
 
     [Header("Movement")]
@@ -30,10 +30,11 @@ public class ConfigCat : ConfigSoldierBase
         set => damage = value;
 
     }
-    public float WeaponRange
+    public int LaserTime
     {
-        get => weaponRange;
-        set => weaponRange = value;
+        get => laserTime;
+        set => laserTime = value;
+
     }
 
     // Movement
