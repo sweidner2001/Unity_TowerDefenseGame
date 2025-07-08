@@ -18,6 +18,8 @@ public class Burning : MonoBehaviour
     protected bool burning = false;
     Transform fireBackground, fireForeground;
     protected Coroutine burningCoroutine;
+    protected List<Animator> effectAnimators = new List<Animator>();
+    protected List<Transform> effectObjects = new List<Transform>();
 
 
     protected Dictionary<EffectState, string> stateToAnimation = new Dictionary<EffectState, string>()
@@ -37,16 +39,16 @@ public class Burning : MonoBehaviour
             {
                 if (stateToAnimation.ContainsKey(_state))
                 {
-                    fireBackgroundAnim.SetBool(stateToAnimation[_state], false);
-                    fireForegroundAnim.SetBool(stateToAnimation[_state], false);
+                    foreach (Animator anim in effectAnimators)
+                        anim.SetBool(stateToAnimation[_state], false);
                 }
 
                 _state = value;
 
                 if (stateToAnimation.ContainsKey(_state))
                 {
-                    fireBackgroundAnim.SetBool(stateToAnimation[_state], true);
-                    fireForegroundAnim.SetBool(stateToAnimation[_state], true);
+                    foreach (Animator anim in effectAnimators)
+                        anim.SetBool(stateToAnimation[_state], true);
                 }
             }
         }
@@ -54,18 +56,28 @@ public class Burning : MonoBehaviour
 
 
 
+
     //########################### Geerbte Methoden #############################
     void Start()
     {
-        this.fireBackgroundAnim = transform.Find("EffectFireBackground").GetComponent<Animator>();
-        this.fireForegroundAnim = transform.Find("EffectFireForeground").GetComponent<Animator>();
+        // Namen der gewünschten Effekte
+        string[] effectNames = { "EffectFireBackground", "EffectFireForeground" };
 
-        this.fireBackground = transform.Find("EffectFireBackground");
-        this.fireForeground = transform.Find("EffectFireForeground");
-        fireBackground.gameObject.SetActive(false);
-        fireForeground.gameObject.SetActive(false);
+        // Effekte suchen und zur Liste hinzufügen
+        foreach (var name in effectNames)
+        {
+            Transform obj = transform.Find(name);
+            if (obj != null)
+            {
+                effectObjects.Add(obj);
+                obj.gameObject.SetActive(false);
 
-
+                // Animator hinzufügen, falls vorhanden
+                Animator anim = obj.GetComponent<Animator>();
+                if (anim != null)
+                    effectAnimators.Add(anim);
+            }
+        }
     }
 
     void Update()
@@ -134,16 +146,17 @@ public class Burning : MonoBehaviour
 
         if (state == EffectState.StoppEffect)
         {
-            fireBackground.gameObject.SetActive(false);
-            fireForeground.gameObject.SetActive(false);
+            foreach (Transform obj in effectObjects)
+                obj.gameObject.SetActive(false);
+
             this.burning = false;
         } 
         else if(!this.burning)
         {
             // Wenn schon Feuer vorhanden, dann muss ist das gameObject schon aktiv!
             this.burning = true;
-            fireBackground.gameObject.SetActive(true);
-            fireForeground.gameObject.SetActive(true);
+            foreach (Transform obj in effectObjects)
+                obj.gameObject.SetActive(true);
         }
         this.StateEffect = state;
     }
