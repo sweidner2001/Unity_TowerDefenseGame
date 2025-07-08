@@ -27,7 +27,7 @@ public class Burning : MonoBehaviour
     };
 
     private EffectState _state;
-    public virtual EffectState State
+    public virtual EffectState StateEffect
     {
         get => _state;
         protected set
@@ -129,7 +129,7 @@ public class Burning : MonoBehaviour
     }
 
 
-    protected void ChangeState(EffectState state)
+    protected void ChangeEffectState(EffectState state)
     {
 
         if (state == EffectState.StoppEffect)
@@ -145,7 +145,7 @@ public class Burning : MonoBehaviour
             fireBackground.gameObject.SetActive(true);
             fireForeground.gameObject.SetActive(true);
         }
-        this.State = state;
+        this.StateEffect = state;
     }
 
     protected void SetMissingDamage(float missingDamage)
@@ -159,11 +159,11 @@ public class Burning : MonoBehaviour
 
     protected void StartBurningEffect()
     {
-        ChangeState(EffectState.OnBurning);
+        this.ChangeEffectState(EffectState.OnBurning);
     }
 
     public void StopBurning()
     {
-        ChangeState(EffectState.StoppEffect);
+        this.ChangeEffectState(EffectState.StoppEffect);
     }
 }
