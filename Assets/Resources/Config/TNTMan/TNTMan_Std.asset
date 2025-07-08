@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911d6c2c9b222344da0f4827364cdb52, type: 3}
   m_Name: TNTMan_Std
   m_EditorClassIdentifier: 
-  playerDetectionRange: 4
-  attackCooldown: 2
-  maxAttackRange: 2
+  playerDetectionRange: 3
+  attackCooldown: 3.5
+  maxAttackRange: 1.8
   detectionLayer:
     serializedVersion: 2
     m_Bits: 128
   damage: 1
+  damageRadius: 0.7
+  damageInRadiusZoneFaktor: 2
   knockbackEnabled: 1
-  knockbackForce: 1
+  knockbackForce: 2
   knockbackTime: 0.15
   stunTime: 0.2
   movingSpeed: 1

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -27,16 +28,18 @@ public class Dynamite : MonoBehaviour
     // Dynamite Konfiguration:
     protected Transform enemyTransform;
     protected ConfigDynamite Config { get; set; }
-    public event Action<Collider2D> OnDynamiteExplosion;
+    public event Action<Transform, Collider2D> OnDynamiteExplosion;
+    public event Action<Transform, Collider2D> OnDynamiteExplosionShockwave;
 
 
 
 
-    public void Init(ConfigDynamite config, Transform enemyTransform, Action<Collider2D> handleDynamiteExplosion, LayerMask enemyLayer)
+    public void Init(ConfigDynamite config, Transform enemyTransform, Action<Transform, Collider2D> handleDynamiteExplosion, Action<Transform, Collider2D> handleDynamiteExplosionShockwave, LayerMask enemyLayer)
     {
         this.Config = config;
         this.enemyTransform = enemyTransform;
         this.OnDynamiteExplosion += handleDynamiteExplosion;
+        this.OnDynamiteExplosion += handleDynamiteExplosionShockwave;
         this.enemyLayer = enemyLayer;
     }
 
@@ -203,12 +206,26 @@ public class Dynamite : MonoBehaviour
         {
             this.rb.linearVelocity = Vector2.zero;
             DynamiteExplode();
-            OnDynamiteExplosion?.Invoke(collision);
+            collisionObj = collision;
+            OnDynamiteExplosionShockwave?.Invoke(this.dynamiteExplosionPoint, collisionObj);
         }
     }
 
+    protected Collider2D collisionObj;
     public void ExplosionDamage()
     {
-        //OnDynamiteExplosion?.Invoke(dynamiteExplosionPoint, damageRadius);
+        OnDynamiteExplosion?.Invoke(this.dynamiteExplosionPoint, collisionObj);
+        this.collisionObj = null;
+    }
+
+
+
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~ Gizmos ~~~~~~~~~~~~~~~~~~~~~~
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(this.dynamiteExplosionPoint.position, this.Config.DamageRadius);
     }
 }

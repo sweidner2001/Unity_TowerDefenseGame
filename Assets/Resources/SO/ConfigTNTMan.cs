@@ -14,6 +14,9 @@ public class ConfigTNTMan : ConfigSoldierBase, IKnockback
 
     [Header("TNT Weapon")]
     [SerializeField] protected int damage = 1;
+    [SerializeField] protected float damageRadius = 1.2f;
+    [SerializeField] protected float damageInRadiusZoneFaktor = 0.5f;
+
 
     [Header("Enemy Knockback after attack")]
     [SerializeField] protected bool knockbackEnabled = true;
@@ -37,6 +40,8 @@ public class ConfigTNTMan : ConfigSoldierBase, IKnockback
         set => damage = value;
 
     }
+    public float DamageRadius { get => damageRadius; set => damageRadius = value; }
+    public float DamageInRadiusZoneFaktor { get => damageInRadiusZoneFaktor; set => damageInRadiusZoneFaktor = value; }
 
 
     // Movement
@@ -110,4 +115,5 @@ public class ConfigTNTMan : ConfigSoldierBase, IKnockback
         get => detectionLayer;
         set => detectionLayer = value;
     }
+    
 }

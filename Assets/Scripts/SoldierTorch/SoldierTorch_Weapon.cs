@@ -90,15 +90,6 @@ public class SoldierTorch_Weapon : MonoBehaviour
         if (hits.Length > 0)
         {
             hits[0].GetComponent<Burning>()?.StartBurning(this.config.BurningSeconds, this.config.Damage);
-            //hits[0].GetComponent<PlayerHealth>()?.ChangeHealth(-this.config.Damage);
-            //hits[0].GetComponent<Health>()?.ChangeHealth(-this.config.Damage);
-            //if (this.config.KnockbackEnabled)
-            //{
-            //    hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
-            //                                                        this.config.KnockbackForce,
-            //                                                        this.config.KnockbackTime,
-            //                                                        this.config.StunTime);
-            //}
         }
     }
 
