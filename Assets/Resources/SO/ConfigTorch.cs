@@ -16,6 +16,7 @@ public class ConfigTorch : ConfigSoldierBase, IKnockback
     [Header("Torch Weapon")]
     [SerializeField] protected float weaponRange = 1;               // Reichweite der Waffe
     [SerializeField] protected int damage = 1;
+    [SerializeField] protected int burningSeconds = 2;
 
 
     [Header("Enemy Knockback after attack")]
@@ -36,8 +37,14 @@ public class ConfigTorch : ConfigSoldierBase, IKnockback
     {
         get => damage;
         set => damage = value;
-
     }
+    public int BurningSeconds
+    {
+        get => burningSeconds;
+        set => burningSeconds = value;
+    }
+
+
     public float WeaponRange
     {
         get => weaponRange;

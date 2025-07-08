@@ -1,10 +1,8 @@
 using Assets.Scripts;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.STP;
 
-public class CatBatman : SoldierBase<ConfigCat>
+public class TNTMan : SoldierBase<ConfigTNTMan>
 {
     //######################## Membervariablen ##############################
     protected HomePoint homePoint;
@@ -87,14 +85,14 @@ public class CatBatman : SoldierBase<ConfigCat>
 
 
     //########################### Methoden #############################
-    public override ConfigCat GetConfig()
+    public override ConfigTNTMan GetConfig()
     {
         if (Config == null)
         {
             string pfad = "Config/Cat/ConfigCatBatman_Std";
-            Config = Resources.Load<ConfigCat>("Config/Cat/ConfigCatBatman_Std");
+            Config = Resources.Load<ConfigTNTMan>("Config/TNTMan/ConfigTNTMan_Std");
 
-            if(Config == null)
+            if (Config == null)
             {
                 throw new Exception($"Config {pfad} konnte nicht geladen werden!");
             }
@@ -151,7 +149,7 @@ public class CatBatman : SoldierBase<ConfigCat>
                     ChangeState(SoldierState.Attack);
                     // Nach den Angriff wird in der Animation wieder in den "IDle" Status gewechselt
                 }
-                else if(this.State == SoldierState.SeeEnemy)
+                else if (this.State == SoldierState.SeeEnemy)
                 {
                     // Vor Gegner stehen bleiben, wenn er sich in der Attack-Range befindet:
                     this.Rb.linearVelocity = Vector2.zero;
@@ -205,4 +203,6 @@ public class CatBatman : SoldierBase<ConfigCat>
     {
         this.homePoint?.GoBackToTower();
     }
+
+
 }
