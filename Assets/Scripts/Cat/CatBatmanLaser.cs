@@ -6,10 +6,10 @@ using UnityEngine;
 public class CatBatmanLaser : MonoBehaviour
 {
     //######################## Membervariablen ##############################
-    public Transform laserLaunchPoint;
-    public LineRenderer laserLineRenderer;
-    public GameObject startVXF;
-    public GameObject endVXF;
+    protected Transform laserLaunchPoint;
+    protected LineRenderer laserLineRenderer;
+    protected GameObject startVXF;
+    protected GameObject endVXF;
     private List<ParticleSystem> particles = new List<ParticleSystem>();
     protected ConfigCat config;
 
@@ -17,11 +17,16 @@ public class CatBatmanLaser : MonoBehaviour
     //########################### Geerbte Methoden #############################
     void Start()
     {
+
+        this.laserLaunchPoint = transform.Find("LaserLaunchPoint");
+        this.startVXF = transform.Find("LaserLaunchPoint/LaserEffektStart").gameObject;
+        this.endVXF = transform.Find("LaserEffektEnd").gameObject;
+        this.laserLineRenderer = this.laserLaunchPoint.GetComponentInChildren<LineRenderer>();
+        this.config = this.GetComponentInParent<CatBatman>().GetConfig();
+
+
         InitParticleSystem();
         DisableLaser();
-
-
-        this.config = this.GetComponentInParent<CatBatman>().GetConfig();
     }
 
     void Update()

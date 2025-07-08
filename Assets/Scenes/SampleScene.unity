@@ -324,7 +324,7 @@ Transform:
   m_GameObject: {fileID: 114437076}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5, y: -0.17, z: 0}
+  m_LocalPosition: {x: 6.679, y: -1.464, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -552,6 +552,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 943440484}
+  - {fileID: 553288345}
   m_Father: {fileID: 1092490158}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &322293604
@@ -566,10 +567,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65087b47260c0a64dbdd57a7ed37c68d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserLaunchPoint: {fileID: 943440484}
-  laserLineRenderer: {fileID: 1808870909}
-  startVXF: {fileID: 2057801168}
-  endVXF: {fileID: 553288344}
 --- !u!1 &344756892
 GameObject:
   m_ObjectHideFlags: 0
@@ -10917,7 +10914,7 @@ GameObject:
   m_Component:
   - component: {fileID: 553288345}
   m_Layer: 8
-  m_Name: LaserEndEffekt
+  m_Name: LaserEffektEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10931,14 +10928,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553288344}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.748, y: 0.054, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.8679998, y: 0.013999939, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1889691589}
   - {fileID: 1143518933}
-  m_Father: {fileID: 943440484}
+  m_Father: {fileID: 322293603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &565171669
 GameObject:
@@ -12296,7 +12293,6 @@ Transform:
   m_Children:
   - {fileID: 1808870908}
   - {fileID: 2057801169}
-  - {fileID: 553288345}
   m_Father: {fileID: 322293603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &989381961
@@ -20150,7 +20146,7 @@ GameObject:
   - component: {fileID: 1808870908}
   - component: {fileID: 1808870909}
   m_Layer: 8
-  m_Name: Line
+  m_Name: LaserLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25167,7 +25163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2057801169}
   m_Layer: 8
-  m_Name: LaserStartEffekt
+  m_Name: LaserEffektStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -18,7 +18,7 @@ MonoBehaviour:
   detectionLayer:
     serializedVersion: 2
     m_Bits: 128
-  weaponRange: 1
-  damage: 1
+  damage: 2
+  laserTime: 1
   movingSpeed: 1
   maxHealth: 6
