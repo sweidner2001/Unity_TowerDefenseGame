@@ -556,6 +556,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f3b66b634aab6f459bbeb84533453d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &315008194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315008177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040e0ec7535614644aae736fe1384ed8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dynamitePrefab: {fileID: 2133364547272608480, guid: a68df5d405eb4db43b0e245d27e303bd, type: 3}
 --- !u!1001 &450543454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2125,6 +2138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dynamite
       objectReference: {fileID: 0}
+    - target: {fileID: 1704047070973754428, guid: bc5905fcd3cbd48479443b11c6dd5373, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5716651298728262491, guid: bc5905fcd3cbd48479443b11c6dd5373, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2780,7 +2797,7 @@ MonoBehaviour:
   stunTime: 0.2
   movingSpeed: 3
   maxHealth: 20
-  currentHealth: 3
+  currentHealth: 20
 --- !u!4 &1394208604
 Transform:
   m_ObjectHideFlags: 0
@@ -4795,6 +4812,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3582999191602854219, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Name
+      value: DynamiteLaunchPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 3976749147630587696, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.29
@@ -4849,12 +4870,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2010196545064014062, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7269784788530875696, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+    - {fileID: 6125111046210804289, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3086329911281557654, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       insertIndex: -1
       addedObject: {fileID: 315008186}
+    - targetCorrespondingSourceObject: {fileID: 3086329911281557654, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 315008194}
   m_SourcePrefab: {fileID: 100100000, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
 --- !u!1 &1546598076
 GameObject:

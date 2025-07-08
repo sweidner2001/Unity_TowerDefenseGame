@@ -20,6 +20,7 @@ public class Bow : MonoBehaviour
     // Level up: StatsManager + Sprites/Animation austauschen!
     public ConfigArcher ConfigArcher;
     private Transform enemyTransform;
+    private ConfigArrow arrowConfig;
 
 
 
@@ -108,7 +109,7 @@ public class Bow : MonoBehaviour
 
 
     //-------------- Projektil / Pfeil ------------------
-    private ConfigArrow arrowConfig;
+
     public Arrow CreateArrow()
     {
         Arrow arrow = Instantiate(arrowPrefab, arrowLaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();

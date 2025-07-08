@@ -3,15 +3,8 @@ using System.Collections;
 using UnityEngine;
 
 
-public enum DynamiteState
-{
-    Idle,           // Dynamit ist bereit
-    Flying,         // Dynamit fliegt zum Gegner
-    Exploding,      // Dynamit explodiert
-    Destroyed       // Dynamit wurde zerstört
-}
 
-public class Dynamite : MonoBehaviour
+public class Dynamite2 : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     protected Rigidbody2D rb;
@@ -70,7 +63,6 @@ public class Dynamite : MonoBehaviour
     //############################### Methoden ################################
     protected void DynamiteExplode()
     {
-        this.enemyTransform = null;
         state = DynamiteState.Exploding;
         animator.SetTrigger("startExplosion");
     }

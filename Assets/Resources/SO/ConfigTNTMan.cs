@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Assets.Resources.Interfaces;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "ConfigTNTMan", menuName = "Scriptable Objects/ConfigTNTMan")]
-public class ConfigTNTMan : ConfigSoldierBase
+public class ConfigTNTMan : ConfigSoldierBase, IKnockback
 {
 
     [Header("Attack")]
@@ -13,6 +14,13 @@ public class ConfigTNTMan : ConfigSoldierBase
 
     [Header("TNT Weapon")]
     [SerializeField] protected int damage = 1;
+
+    [Header("Enemy Knockback after attack")]
+    [SerializeField] protected bool knockbackEnabled = true;
+    [SerializeField] protected float knockbackForce = 1;            // wie stark wird der Gegner zurückgeschleudert 
+    [SerializeField] protected float knockbackTime = 0.15f;         // Wie lange wird der Gegner zurückgeschleudert, bis er wieder zum Stehen kommt
+    [SerializeField] protected float stunTime = 0.2f;               // Wie lange bleibt der Gegner anschließend noch stehen nach dem Zurückschleudern
+
 
 
     [Header("Movement")]
@@ -48,6 +56,34 @@ public class ConfigTNTMan : ConfigSoldierBase
         get => maxHealth;
         set => maxHealth = value;
     }
+
+
+
+    // Knockback
+    public bool KnockbackEnabled
+    {
+        get => knockbackEnabled;
+        set => knockbackEnabled = value;
+    }
+
+    public float KnockbackForce
+    {
+        get => knockbackForce;
+        set => knockbackForce = value;
+    }
+
+    public float KnockbackTime
+    {
+        get => knockbackTime;
+        set => knockbackTime = value;
+    }
+
+    public float StunTime
+    {
+        get => stunTime;
+        set => stunTime = value;
+    }
+
 
 
     // Attack (IAttack)

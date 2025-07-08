@@ -6,7 +6,7 @@ public class TNTMan : SoldierBase<ConfigTNTMan>
 {
     //######################## Membervariablen ##############################
     protected HomePoint homePoint;
-    protected CatBatmanLaser laser;
+    protected TNTManWeapon weapon;
 
 
 
@@ -15,7 +15,9 @@ public class TNTMan : SoldierBase<ConfigTNTMan>
     {
 
         base.Start();
-        this.Config = GetConfig();//Resources.Load<ConfigTorch>("Config/Torch/Torch_Std");
+        this.Config = GetConfig();
+        this.weapon = GetComponent<TNTManWeapon>();
+
         try
         {
             if (Config == null)
@@ -29,9 +31,6 @@ public class TNTMan : SoldierBase<ConfigTNTMan>
             //InitHomePoint();
             ChangeState(SoldierState.SeeNoEnemy);
 
-
-
-            this.laser = GetComponentInChildren<CatBatmanLaser>();
         }
         catch (Exception e)
         {
@@ -89,8 +88,8 @@ public class TNTMan : SoldierBase<ConfigTNTMan>
     {
         if (Config == null)
         {
-            string pfad = "Config/Cat/ConfigCatBatman_Std";
-            Config = Resources.Load<ConfigTNTMan>("Config/TNTMan/ConfigTNTMan_Std");
+            string pfad = "Config/TNTMan/TNTMan_Std";
+            Config = Resources.Load<ConfigTNTMan>(pfad);
 
             if (Config == null)
             {
@@ -189,9 +188,7 @@ public class TNTMan : SoldierBase<ConfigTNTMan>
         // Die weitere Logik befindet sich in der Animation und in Enemy_Combat.cs
         //Debug.Log("Attacking player now");
         this.Rb.linearVelocity = Vector2.zero;
-        this.laser.Attack(this.detectedEnemy);
-        ChangeState(SoldierState.Idle);
-
+        this.weapon.AttackEnemy(this.detectedEnemy);
     }
     public void ChaseEnemy()
     {
