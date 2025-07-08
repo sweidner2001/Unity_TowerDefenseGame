@@ -8,6 +8,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Size.x
+      value: 0.41177034
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2583301
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.00805872
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.19131325
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Direction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 758532874953770359, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -100,4 +120,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a99a932a2d688742a52bbb0cfdf7d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}

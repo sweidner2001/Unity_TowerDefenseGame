@@ -52,8 +52,9 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
 
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (this.attackCooldownTimer > 0)
             this.attackCooldownTimer -= Time.deltaTime;
 

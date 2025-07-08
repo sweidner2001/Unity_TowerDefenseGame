@@ -8,6 +8,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Size.x
+      value: 0.42601243
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2927823
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.011475198
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.2018963
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Direction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3976749147630587696, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -50,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6659885873791110499, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       propertyPath: m_Name
-      value: Torch_Soldier
+      value: SoldierTorch
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -80,7 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75605fd4d3912944b89a575252e80b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
 --- !u!114 &4013297537604677872
 MonoBehaviour:
   m_ObjectHideFlags: 0

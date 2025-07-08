@@ -8,6 +8,7 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
 
     //######################## Membervariablen ##############################
     public Rigidbody2D Rb { get; set; }
+    protected SpriteRenderer sr; // Wird für die Sortierung der Sprites benötigt
     protected Animator animator;
     protected Transform enemyDetectionPoint;
     protected Transform detectedEnemy;
@@ -47,9 +48,15 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
     //########################### Geerbte Methoden #############################
     protected virtual void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         Rb = GetComponentInParent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         enemyDetectionPoint = transform.Find("EnemyDetectionPoint");
+    }
+
+    protected virtual void Update()
+    {
+        sr.sortingOrder = Mathf.RoundToInt(-transform.position.y * 100);
     }
 
     public abstract TConfig GetConfig();

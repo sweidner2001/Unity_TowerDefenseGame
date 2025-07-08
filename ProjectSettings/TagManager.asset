@@ -58,13 +58,13 @@ TagManager:
   - name: Decoration
     uniqueID: 1722554283
     locked: 0
-  - name: Enemy & Soldiers on Bottom
+  - name: Tower + Soldiers on Bottom
     uniqueID: 2995691579
     locked: 0
-  - name: Towers
+  - name: ---
     uniqueID: 4058812693
     locked: 0
-  - name: Enemy & Soldier on Tower
+  - name: Soldier on Tower
     uniqueID: 3520456625
     locked: 0
   - name: Projectile
