@@ -161,6 +161,15 @@ public class Pawn : SoldierBase<ConfigPawn>
 
     protected bool CheckIfEnemyIsBehind()
     {
+        // Wenn sich der Gegner im Attack-Range befindet, dann trotzdem angreifen:
+        float enemyDistance = Vector2.Distance(this.transform.position, this.detectedEnemy.position);
+        if (enemyDistance <= this.Config.MaxAttackRange)
+        {
+            return false;
+        }
+
+
+        // Prüfen, ob der Gegner hinter dem Pawn steht:
         Vector2 checkpointDir = ((Vector2)targetPathCheckpoint - (Vector2)transform.position).normalized;
         Vector2 toEnemy = ((Vector2)this.detectedEnemy.position - (Vector2)transform.position).normalized;
 
