@@ -185,7 +185,7 @@ public class Arrow : MonoBehaviour
         if ((enemyLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
             OnEnemyArrowCollision?.Invoke(collision);
-            AttachToTarget(collision.gameObject.transform);
+            AttachToTarget(collision.collider.transform);
             Destroy(gameObject, this.Config.lifeSpanOnHittedObject);
         }
         else if ((obstacleLayer.value & (1 << collision.gameObject.layer)) > 0)
