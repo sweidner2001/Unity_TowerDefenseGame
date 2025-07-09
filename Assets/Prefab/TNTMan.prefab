@@ -8,6 +8,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Size.x
+      value: 0.47564495
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Size.y
+      value: 0.49516398
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.023878634
+      objectReference: {fileID: 0}
+    - target: {fileID: 350734633074933952, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.0333744
+      objectReference: {fileID: 0}
     - target: {fileID: 758532874953770359, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -94,7 +110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6659885873791110499, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       propertyPath: m_Name
-      value: TNTMan Variant
+      value: TNTMan
       objectReference: {fileID: 0}
     - target: {fileID: 8314843601033647106, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       propertyPath: m_IsActive

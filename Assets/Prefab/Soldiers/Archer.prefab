@@ -132,8 +132,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.008058727, y: -0.029382288}
-  m_Size: {x: 0.41177022, y: 0.6788031}
+  m_Offset: {x: 0.011098206, y: -0.040020555}
+  m_Size: {x: 0.40569127, y: 0.5298682}
   m_Direction: 0
 --- !u!114 &2474258636144911938
 MonoBehaviour:
@@ -208,7 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7269737a91c82384686bea77fc3876c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: 1704047070973754428, guid: cbd9dcfb9671b604fbef7cda16943d25, type: 3}
 --- !u!114 &3925994287398013552
 MonoBehaviour:
   m_ObjectHideFlags: 0

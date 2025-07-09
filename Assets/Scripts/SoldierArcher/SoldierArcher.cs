@@ -1,7 +1,8 @@
+using Assets.Scripts;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using Assets.Scripts;
+using static UnityEngine.Rendering.STP;
 
 
 
@@ -11,7 +12,6 @@ public class SoldierArcher : MonoBehaviour
 {
     //######################## Membervariablen ##############################
     // Pfeil + Bogen:
-    public GameObject arrowPrefab;
     private Bow bow;
 
     // Gegner Detektion: 
@@ -19,7 +19,7 @@ public class SoldierArcher : MonoBehaviour
     private Transform enemyTransform;                 // Transform-Attr. des detektierten Objektes
 
     private float attackTimer;
-    public ConfigArcher ConfigArcher { get; set; }
+    public ConfigArcher Config { get; set; }
 
 
 
@@ -28,14 +28,14 @@ public class SoldierArcher : MonoBehaviour
     {
         this.bow = GetComponentInChildren<Bow>();
         this.enemyDetectionPoint = transform.Find("EnemyDetectionPoint");
-        this.ConfigArcher = Resources.Load<ConfigArcher>("Config/Archer/Archer_Std");
+        this.Config = GetConfig();
 
-        if (ConfigArcher == null)
+        if (Config == null)
             throw new Exception("Variable ConfigArcher = null");
         if(enemyDetectionPoint == null)
             throw new Exception("Variable enemyDetectionPoint = null");
 
-        InitHealth(this.ConfigArcher.MaxHealth);
+        InitHealth(this.Config.MaxHealth);
     }
 
     void Update()
@@ -68,11 +68,29 @@ public class SoldierArcher : MonoBehaviour
         health.Init(maxHealth);
     }
 
+
+    public ConfigArcher GetConfig()
+    {
+        if (Config == null)
+        {
+            string pfad = "Config/Archer/Archer_Std";
+            this.Config = Resources.Load<ConfigArcher>(pfad);
+
+            if (this.Config == null)
+            {
+                throw new Exception($"Config {pfad} konnte nicht geladen werden!");
+            }
+        }
+        return this.Config;
+    }
+
+
+
     //~~~~~~~~~~~~~~~~~~~~~~~~~ Verhaltens Methoden ~~~~~~~~~~~~~~~~~~~~~~~~~~
     private void HandleEnemyDetection()
     {
         // Alle Gegner detektieren:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.enemyDetectionPoint.position, this.ConfigArcher.PlayerDetectionRange, this.ConfigArcher.DetectionLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(this.enemyDetectionPoint.position, this.Config.PlayerDetectionRange, this.Config.DetectionLayer);
 
         if (hits.Length > 0)
         {
@@ -94,7 +112,7 @@ public class SoldierArcher : MonoBehaviour
     public void Attack()
     {
         this.bow.Attack_Enemy(this.enemyTransform);
-        this.attackTimer = this.ConfigArcher.AttackCooldown;
+        this.attackTimer = this.Config.AttackCooldown;
     }
 
 
@@ -134,7 +152,7 @@ public class SoldierArcher : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.ConfigArcher.PlayerDetectionRange);
+        Gizmos.DrawWireSphere(this.enemyDetectionPoint.position, this.Config.PlayerDetectionRange);
     }
 
 }
