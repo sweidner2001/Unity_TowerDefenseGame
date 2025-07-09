@@ -1943,6 +1943,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2002415001392398075, guid: 81534baff2be1e241a029da275def342, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114663587149061142, guid: 81534baff2be1e241a029da275def342, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3801857275477649306, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_Name
       value: Torch_Soldier
