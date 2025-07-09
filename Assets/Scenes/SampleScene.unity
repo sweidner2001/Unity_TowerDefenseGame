@@ -445,7 +445,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &229668004
 Animator:
   serializedVersion: 7
@@ -818,11 +818,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175833337019985678, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.662
       objectReference: {fileID: 0}
     - target: {fileID: 5175833337019985678, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6132523757998002200, guid: ec5633b15e1f1224cb7f54a06c21fed2, type: 3}
       propertyPath: m_Color.a
@@ -5303,11 +5303,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8135686091029024920, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.662
       objectReference: {fileID: 0}
     - target: {fileID: 8135686091029024920, guid: 81534baff2be1e241a029da275def342, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2967408693558506675, guid: 81534baff2be1e241a029da275def342, type: 3}

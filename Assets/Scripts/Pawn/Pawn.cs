@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using System;
+using UnityEditor;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
 
@@ -158,7 +159,19 @@ public class Pawn : SoldierBase<ConfigPawn>
 
 
 
+    protected bool CheckIfEnemyIsBehind()
+    {
+        Vector2 checkpointDir = ((Vector2)targetPathCheckpoint - (Vector2)transform.position).normalized;
+        Vector2 toEnemy = ((Vector2)this.detectedEnemy.position - (Vector2)transform.position).normalized;
 
+        // Prüfen, ob der Gegner "hinter" dem Pawn steht (Winkel > 90°)
+        //	> 0: Beide zeigen grob in die gleiche Richtung(Winkel < 90°)
+        //	< 0: Sie zeigen in entgegengesetzte Richtungen(Winkel > 90°)
+        //	= 0: Sie stehen genau senkrecht zueinander(Winkel = 90°)
+        float dot = Vector2.Dot(checkpointDir, toEnemy);
+        bool enemyIsBehind = dot < 0;
+        return enemyIsBehind;
+    }
 
 
     //~~~~~~~~~~~~~~~~~~~~~~~ Zustandswechsel ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,9 +187,15 @@ public class Pawn : SoldierBase<ConfigPawn>
         //**************** Gegner gefunden ****************
         if (hits.Length > 0)
         {
-
             this.detectedEnemy = hits[0].transform;
-            Vector2 enemyDirection = (this.detectedEnemy.position - this.transform.position).normalized;
+
+            // Wenn Gegner hinter dem Pawn steht, weiter zum Checkpoint laufen
+            if (CheckIfEnemyIsBehind())
+            {
+                ChangeState(SoldierState.SeeNoEnemy);
+                return;
+            }
+
 
             //-------------- Gegner angreifen ------------------
             // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
@@ -216,6 +235,7 @@ public class Pawn : SoldierBase<ConfigPawn>
 
     //protected void TriggerAttackAnimation(Vector2 enemyDirection)
     //{
+    //    Vector2 enemyDirection = (this.detectedEnemy.position - this.transform.position).normalized;
     //    if (enemyDirection.y > Mathf.Abs(enemyDirection.x) * 0.5f)
     //        animator.SetTrigger("AttackUp");
     //    else if (-enemyDirection.y > Mathf.Abs(enemyDirection.x) * 0.5f)
