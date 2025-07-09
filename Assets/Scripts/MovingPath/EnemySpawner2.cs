@@ -6,9 +6,14 @@ public class EnemySpawner2 : MonoBehaviour
     private float spawnTimer = 0f;
     private float spanwInterval = 2f;
     public GameObject Prefeb;
-    public Transform SpawnTransform;
+    public Transform createdObjekts;
 
     // Update is called once per frame
+
+    private void Start()
+    {
+        createdObjekts = this.transform.parent.Find("CreatedObjects");
+    }
     void Update()
     {
         spawnTimer -= Time.deltaTime;
@@ -21,8 +26,8 @@ public class EnemySpawner2 : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        GameObject spawnedObject = Instantiate(Prefeb);
-        spawnedObject.transform.position = this.transform.parent.position;
+        GameObject spawnedObject = Instantiate(Prefeb, this.transform.parent.position, Quaternion.identity, createdObjekts);
+        //GameObject spawnedObject = Instantiate(Prefeb, this.transform.parent.position, Quaternion.identity);
     }
 
 }
