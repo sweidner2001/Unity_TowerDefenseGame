@@ -78,6 +78,9 @@ public class MovingPath : MonoBehaviour
     //********************** Gizmos **********************
     private void OnDrawGizmos()
     {
+        if (Checkpoints == null)
+            return;
+
         for (int i = 1; i < Checkpoints.Count; i++)
         {
             Gizmos.color = Color.gray;
