@@ -36,21 +36,21 @@ public class Pawn : SoldierBase<ConfigPawn>
             Debug.LogWarning(e.ToString());
         }
 
+        movingPath = MovingPath.Instance;
 
-        
-        
+        currentPathCheckpointIdx = 0;
+        targetPathCheckpoint = movingPath.GetWaypointPosition(0);
     }
 
     private void Awake()
     {
-        movingPath = MovingPath.Instance;
+        
     }
 
 
     private void OnEnable()
     {
-        currentPathCheckpointIdx = 0;
-        targetPathCheckpoint = movingPath.GetWaypointPosition(0);
+
     }
 
 
