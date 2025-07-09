@@ -17,10 +17,11 @@ MonoBehaviour:
   maxAttackRange: 0.7
   detectionLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 256
   weaponRange: 0.5
   damage: 1
-  knockbackEnabled: 0
+  burningSeconds: 2
+  enableKnockbackClassic: 1
   knockbackForce: 3
   knockbackTime: 0.15
   stunTime: 0.2

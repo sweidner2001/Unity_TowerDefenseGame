@@ -21,7 +21,7 @@ MonoBehaviour:
   damage: 1
   damageRadius: 0.7
   damageInRadiusZoneFaktor: 2
-  knockbackEnabled: 1
+  enableKnockbackClassic: 1
   knockbackForce: 2
   knockbackTime: 0.15
   stunTime: 0.2

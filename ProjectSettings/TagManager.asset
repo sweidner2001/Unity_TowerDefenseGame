@@ -8,6 +8,7 @@ TagManager:
   - HealthBar
   - Checkpoint
   - MovingPath
+  - Soldier
   layers:
   - Default
   - TransparentFX
