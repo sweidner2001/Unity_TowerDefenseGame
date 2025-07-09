@@ -84,7 +84,7 @@ public class TNTManWeapon : MonoBehaviour
 
     private void HandleDynamiteExplosionShockwave(Transform dynamiteExplosionPoint, Collider2D collisionObj)
     {
-        if (!this.ConfigTNTMan.KnockbackEnabled)
+        if (!this.ConfigTNTMan.EnableKnockbackClassic)
         {
             return;
         }
@@ -94,14 +94,14 @@ public class TNTManWeapon : MonoBehaviour
         {
             if (enemy.gameObject == collisionObj.gameObject)
             {
-                    enemy.gameObject.GetComponentInChildren<Knockback>()?.KnockbackCharacter(this.transform,
+                    enemy.gameObject.GetComponentInChildren<Knockback>()?.KnockbackClassic(this.transform,
                                                                                                  this.ConfigTNTMan.KnockbackForce,
                                                                                                  this.ConfigTNTMan.KnockbackTime,
                                                                                                  this.ConfigTNTMan.StunTime);
             }
             else
             {
-                    enemy.gameObject.GetComponentInChildren<Knockback>()?.KnockbackCharacter(this.transform,
+                    enemy.gameObject.GetComponentInChildren<Knockback>()?.KnockbackClassic(this.transform,
                                                                                              this.ConfigTNTMan.KnockbackForce * this.ConfigTNTMan.DamageInRadiusZoneFaktor,
                                                                                              this.ConfigTNTMan.KnockbackTime * this.ConfigTNTMan.DamageInRadiusZoneFaktor,
                                                                                              this.ConfigTNTMan.StunTime);

@@ -67,6 +67,10 @@ public class PawnWeapon : MonoBehaviour
 
     }
 
+    public Collider2D[] GetEnemiesInZone(Transform dynamiteExplosionPoint, float damageRadius)
+    {
+        return Physics2D.OverlapCircleAll(dynamiteExplosionPoint.position, damageRadius, this.config.DetectionLayer);
+    }
 
     /// <summary>
     /// Fügt den Gegner Schaden zu
@@ -74,19 +78,19 @@ public class PawnWeapon : MonoBehaviour
     public void AttackWeapon()
     {
         // Alle Objekte die in Waffen-Reichweite sind:
-        Collider2D[] hits = Physics2D.OverlapCircleAll(this.attackPoint.position, this.config.WeaponRange, this.config.DetectionLayer);
+        Collider2D[] enemies = GetEnemiesInZone(this.attackPoint, this.config.WeaponRange);
 
-        // 1 Gegner Schaden zu fügen:
-        if (hits.Length > 0)
+        foreach (Collider2D enemy in enemies)
         {
-            hits[0].GetComponent<PlayerHealth>()?.ChangeHealth(-this.config.Damage);
-            hits[0].GetComponentInChildren<Health>()?.ChangeHealth(-this.config.Damage);
-            if (this.config.KnockbackEnabled)
+            enemy.GetComponent<PlayerHealth>()?.ChangeHealth(-this.config.Damage);
+            enemy.GetComponentInChildren<Health>()?.ChangeHealth(-this.config.Damage);
+            if (this.config.EnableKnockbackShake)
             {
-                hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
-                                                                    this.config.KnockbackForce,
-                                                                    this.config.KnockbackTime,
-                                                                    this.config.StunTime);
+                enemy.GetComponent<Knockback>()?.KnockbackShake(this.transform,
+                                                                this.config.KnockbackWidth,
+                                                                this.config.KnockbackHeight,
+                                                                this.config.KnockbackTime,
+                                                                this.config.StunTime);
             }
         }
     }

@@ -3,7 +3,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ConfigTorch", menuName = "Scriptable Objects/ConfigTorch")]
-public class ConfigTorch : ConfigSoldierBase, IKnockback
+public class ConfigTorch : ConfigSoldierBase, IKnockbackClassic
 {
 
     [Header("Attack")]
@@ -20,7 +20,7 @@ public class ConfigTorch : ConfigSoldierBase, IKnockback
 
 
     [Header("Enemy Knockback after attack")]
-    [SerializeField] protected bool knockbackEnabled = true;
+    [SerializeField] protected bool enableKnockbackClassic = true;
     [SerializeField] protected float knockbackForce = 3;            // wie stark wird der Gegner zurückgeschleudert 
     [SerializeField] protected float knockbackTime = 0.15f;         // Wie lange wird der Gegner zurückgeschleudert, bis er wieder zum Stehen kommt
     [SerializeField] protected float stunTime = 0.2f;               // Wie lange bleibt der Gegner anschließend noch stehen nach dem Zurückschleudern
@@ -60,10 +60,10 @@ public class ConfigTorch : ConfigSoldierBase, IKnockback
     }
 
     // Knockback
-    public bool KnockbackEnabled
+    public bool EnableKnockbackClassic
     {
-        get => knockbackEnabled;
-        set => knockbackEnabled = value;
+        get => enableKnockbackClassic;
+        set => enableKnockbackClassic = value;
     }
 
     public float KnockbackForce

@@ -86,9 +86,9 @@ public class SoldierWarriorWeapon : MonoBehaviour
         {
             hits[0].GetComponent<PlayerHealth>()?.ChangeHealth(-this.config.Damage);
             hits[0].GetComponentInChildren<Health>()?.ChangeHealth(-this.config.Damage);
-            if (this.config.KnockbackEnabled)
+            if (this.config.EnableKnockbackClassic)
             {
-                hits[0].GetComponent<Knockback>()?.KnockbackCharacter(this.transform,
+                hits[0].GetComponent<Knockback>()?.KnockbackClassic(this.transform,
                                                                     this.config.KnockbackForce,
                                                                     this.config.KnockbackTime,
                                                                     this.config.StunTime);

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ConfigPawn", menuName = "Scriptable Objects/ConfigPawn")]
-public class ConfigPawn : ConfigSoldierBase, IKnockback
+public class ConfigPawn : ConfigSoldierBase, IKnockbackShake
 {
 
     [Header("Attack")]
@@ -18,10 +18,11 @@ public class ConfigPawn : ConfigSoldierBase, IKnockback
 
 
     [Header("Enemy Knockback after attack")]
-    [SerializeField] protected bool knockbackEnabled = true;
-    [SerializeField] protected float knockbackForce = 3;            // wie stark wird der Gegner zur�ckgeschleudert 
-    [SerializeField] protected float knockbackTime = 0.15f;         // Wie lange wird der Gegner zur�ckgeschleudert, bis er wieder zum Stehen kommt
-    [SerializeField] protected float stunTime = 0.2f;               // Wie lange bleibt der Gegner anschlie�end noch stehen nach dem Zur�ckschleudern
+    [SerializeField] protected bool enableKnockbackShake = true;
+    [SerializeField] protected float knockbackHeight = 3;            
+    [SerializeField] protected float knockbackWidth = 0.15f;         
+    [SerializeField] protected float knockbackTime = 0.2f;           
+    [SerializeField] protected float stunTime = 0.2f;
 
     [Header("Movement")]
     [SerializeField] protected float movingSpeed = 0.6f;
@@ -51,17 +52,23 @@ public class ConfigPawn : ConfigSoldierBase, IKnockback
 
     }
 
-    // Knockback
-    public bool KnockbackEnabled
+    // IKnockbackShake
+    public bool EnableKnockbackShake
     {
-        get => knockbackEnabled;
-        set => knockbackEnabled = value;
+        get => enableKnockbackShake;
+        set => enableKnockbackShake = value;
     }
 
-    public float KnockbackForce
+    public float KnockbackHeight
     {
-        get => knockbackForce;
-        set => knockbackForce = value;
+        get => knockbackHeight;
+        set => knockbackHeight = value;
+    }
+
+    public float KnockbackWidth
+    {
+        get => knockbackWidth;
+        set => knockbackWidth = value;
     }
 
     public float KnockbackTime
@@ -75,6 +82,7 @@ public class ConfigPawn : ConfigSoldierBase, IKnockback
         get => stunTime;
         set => stunTime = value;
     }
+
 
 
     // Health

@@ -2,7 +2,7 @@ using Assets.Resources.Interfaces;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ConfigArcher", menuName = "Scriptable Objects/ConfigArcher")]
-public class ConfigArcher : ConfigSoldierBase, IKnockback
+public class ConfigArcher : ConfigSoldierBase, IKnockbackClassic
 {
     [Header("Archer Attack")]
     [SerializeField] protected float playerDetectionRange = 4f;
@@ -15,7 +15,7 @@ public class ConfigArcher : ConfigSoldierBase, IKnockback
 
 
     [Header("Enemy Knockback after attack")]
-    [SerializeField] protected bool knockbackEnabled = true;
+    [SerializeField] protected bool enableKnockbackClassic = true;
     [SerializeField] protected float knockbackForce = 1;            // wie stark wird der Gegner zurückgeschleudert 
     [SerializeField] protected float knockbackTime = 0.15f;         // Wie lange wird der Gegner zurückgeschleudert, bis er wieder zum Stehen kommt
     [SerializeField] protected float stunTime = 0.2f;               // Wie lange bleibt der Gegner anschließend noch stehen nach dem Zurückschleudern
@@ -48,10 +48,10 @@ public class ConfigArcher : ConfigSoldierBase, IKnockback
   
 
     // Knockback
-    public bool KnockbackEnabled
+    public bool EnableKnockbackClassic
     {
-        get => knockbackEnabled;
-        set => knockbackEnabled = value;
+        get => enableKnockbackClassic;
+        set => enableKnockbackClassic = value;
     }
 
     public float KnockbackForce

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ConfigWarrior", menuName = "Scriptable Objects/ConfigWarrior")]
-public class ConfigWarrior : ConfigSoldierBase, IKnockback
+public class ConfigWarrior : ConfigSoldierBase, IKnockbackClassic
 {
 
     [Header("Attack")]
@@ -18,7 +18,7 @@ public class ConfigWarrior : ConfigSoldierBase, IKnockback
 
 
     [Header("Enemy Knockback after attack")]
-    [SerializeField] protected bool knockbackEnabled = true;
+    [SerializeField] protected bool enableKnockbackClassic = true;
     [SerializeField] protected float knockbackForce = 3;            // wie stark wird der Gegner zur�ckgeschleudert 
     [SerializeField] protected float knockbackTime = 0.15f;         // Wie lange wird der Gegner zur�ckgeschleudert, bis er wieder zum Stehen kommt
     [SerializeField] protected float stunTime = 0.2f;               // Wie lange bleibt der Gegner anschlie�end noch stehen nach dem Zur�ckschleudern
@@ -52,10 +52,10 @@ public class ConfigWarrior : ConfigSoldierBase, IKnockback
     }
 
     // Knockback
-    public bool KnockbackEnabled
+    public bool EnableKnockbackClassic
     {
-        get => knockbackEnabled;
-        set => knockbackEnabled = value;
+        get => enableKnockbackClassic;
+        set => enableKnockbackClassic = value;
     }
 
     public float KnockbackForce
