@@ -52,7 +52,7 @@ public class CatBatman : SoldierBase<ConfigCat>
             this.attackCooldownTimer -= Time.deltaTime;
 
         // Attacke soll zu ende laufen
-        if (this.State == SoldierState.Knockback || this.State == SoldierState.Attack || this.State == SoldierState.Dead)
+        if (this.State == SoldierState.Knockback || this.State == SoldierState.Attack || this.State == SoldierState.Dead || this.State == SoldierState.Survived)
         {
             return;
         }
@@ -71,6 +71,7 @@ public class CatBatman : SoldierBase<ConfigCat>
                     Attack();
                     break;
                 case SoldierState.SeeNoEnemy:
+                    GoToNextWayCheckpoint();
                     GoBackToTower();
                     break;
             }
@@ -132,7 +133,13 @@ public class CatBatman : SoldierBase<ConfigCat>
         {
 
             this.detectedEnemy = hits[0].transform;
-            Vector2 enemyDirection = (this.detectedEnemy.position - this.transform.position).normalized;
+
+            // Wenn Gegner hinter dem Pawn steht, weiter zum Checkpoint laufen
+            if (CheckIfEnemyIsBehind())
+            {
+                ChangeState(SoldierState.SeeNoEnemy);
+                return;
+            }
 
             //-------------- Gegner angreifen ------------------
             // wenn sich ein Gegner in der Attack-Range befindet und der Cooldown abgelaufen ist 
@@ -169,16 +176,7 @@ public class CatBatman : SoldierBase<ConfigCat>
         //**************** keinen Gegner gefunden ****************
         else
         {
-            if (this.homePoint != null && this.State != SoldierState.OnTower)
-            {
-                ChangeState(SoldierState.SeeNoEnemy);
-            }
-            else if (this.State != SoldierState.OnTower)
-            {
-                // Stehen bleiben, kein Gegner gefunden und kein HomePoint zugewiesen
-                this.Rb.linearVelocity = Vector2.zero;
-                ChangeState(SoldierState.Idle);
-            }
+            ChangeState(SoldierState.SeeNoEnemy);
         }
     }
 

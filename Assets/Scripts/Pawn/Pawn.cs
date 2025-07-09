@@ -36,10 +36,7 @@ public class Pawn : SoldierBase<ConfigPawn>
             Debug.LogWarning(e.ToString());
         }
 
-        movingPath = MovingPath.Instance;
 
-        currentPathCheckpointIdx = 0;
-        targetPathCheckpoint = movingPath.GetWaypointPosition(0);
     }
 
     private void Awake()
@@ -127,60 +124,8 @@ public class Pawn : SoldierBase<ConfigPawn>
 
 
 
-    protected MovingPath movingPath;
-    protected Vector2 targetPathCheckpoint;
-    protected int currentPathCheckpointIdx;
 
 
-
-
-
-    protected void GoToNextWayCheckpoint()
-    {
-        MoveToPosition(targetPathCheckpoint);
-        if (Vector2.Distance(transform.position, targetPathCheckpoint) < 0.1f)
-        {
-            if(currentPathCheckpointIdx < movingPath.Checkpoints.Count -1)
-            {
-                currentPathCheckpointIdx++;
-                this.targetPathCheckpoint = movingPath.GetWaypointPosition(currentPathCheckpointIdx);
-
-            } 
-            else
-            {
-                // wir sind am Ziel!
-                this.Rb.linearVelocity = Vector2.zero;
-                ChangeState(SoldierState.Survived);
-                //gameObject.SetActive(false);
-
-            }
-        }
-    }
-
-
-
-    protected bool CheckIfEnemyIsBehind()
-    {
-        // Wenn sich der Gegner im Attack-Range befindet, dann trotzdem angreifen:
-        float enemyDistance = Vector2.Distance(this.transform.position, this.detectedEnemy.position);
-        if (enemyDistance <= this.Config.MaxAttackRange)
-        {
-            return false;
-        }
-
-
-        // Prüfen, ob der Gegner hinter dem Pawn steht:
-        Vector2 checkpointDir = ((Vector2)targetPathCheckpoint - (Vector2)transform.position).normalized;
-        Vector2 toEnemy = ((Vector2)this.detectedEnemy.position - (Vector2)transform.position).normalized;
-
-        // Prüfen, ob der Gegner "hinter" dem Pawn steht (Winkel > 90°)
-        //	> 0: Beide zeigen grob in die gleiche Richtung(Winkel < 90°)
-        //	< 0: Sie zeigen in entgegengesetzte Richtungen(Winkel > 90°)
-        //	= 0: Sie stehen genau senkrecht zueinander(Winkel = 90°)
-        float dot = Vector2.Dot(checkpointDir, toEnemy);
-        bool enemyIsBehind = dot < 0;
-        return enemyIsBehind;
-    }
 
 
     //~~~~~~~~~~~~~~~~~~~~~~~ Zustandswechsel ~~~~~~~~~~~~~~~~~~~~~~~~~~

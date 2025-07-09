@@ -334,6 +334,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2149189720009038289, guid: 351510400ac717d4ea0cdc54925294ba, type: 3}
   m_PrefabInstance: {fileID: 5206218310859001701}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &104456420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
+  m_PrefabInstance: {fileID: 982904021921647481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &114437076
 GameObject:
   m_ObjectHideFlags: 0
@@ -2244,6 +2249,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1849078308}
+  - {fileID: 1232752059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1028761281 stripped
@@ -2531,6 +2537,37 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!1 &1232752058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1232752059}
+  m_Layer: 0
+  m_Name: CreatedObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1232752059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232752058}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 857867169}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1244791994
 GameObject:
   m_ObjectHideFlags: 0
@@ -5398,6 +5435,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1849078308}
   - component: {fileID: 1849078309}
+  - component: {fileID: 1849078310}
+  - component: {fileID: 1849078311}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -5427,13 +5466,79 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1849078307}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cac26c70ff3116d4ea0b381870999516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Prefeb: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
-  SpawnTransform: {fileID: 0}
+  createdObjekts: {fileID: 0}
+--- !u!114 &1849078310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849078307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44def89202f2beb4b8376fe560e03f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoint: {fileID: 0}
+  subWaves:
+  - delayBeforeStart: 1
+    spawns:
+    - enemyPrefab: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
+      count: 3
+      spawnInterval: 1
+    - enemyPrefab: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
+      count: 3
+      spawnInterval: 0.5
+  - delayBeforeStart: 20
+    spawns:
+    - enemyPrefab: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
+      count: 1
+      spawnInterval: 1
+    - enemyPrefab: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
+      count: 3
+      spawnInterval: 0.5
+--- !u!114 &1849078311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849078307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3fe64254bae1254397d57855f0dc61c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waves:
+  - subWaves:
+    - enemySubWaves:
+      - enemyPrefab: {fileID: 104456420}
+        count: -16
+        delay: 0
+      subWaveDelay: 0
+    - enemySubWaves:
+      - enemyPrefab: {fileID: 104456420}
+        count: -16
+        delay: 0
+      subWaveDelay: 0
+  - subWaves:
+    - enemySubWaves:
+      - enemyPrefab: {fileID: 104456420}
+        count: -16
+        delay: 0
+      subWaveDelay: 0
+    - enemySubWaves:
+      - enemyPrefab: {fileID: 104456420}
+        count: -16
+        delay: 0
+      subWaveDelay: 0
+  spawnPoints: []
 --- !u!4 &1851628424 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6889948472384529865, guid: 81534baff2be1e241a029da275def342, type: 3}
@@ -5574,6 +5679,10 @@ PrefabInstance:
     - target: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
       propertyPath: m_Name
       value: Pawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5781,11 +5890,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3921139544158151279, guid: 688cdf3874db1c54aaa6b9161b2fe343, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.17
+      value: -7.28
       objectReference: {fileID: 0}
     - target: {fileID: 3921139544158151279, guid: 688cdf3874db1c54aaa6b9161b2fe343, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.73
+      value: -4.19
       objectReference: {fileID: 0}
     - target: {fileID: 3921139544158151279, guid: 688cdf3874db1c54aaa6b9161b2fe343, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5846,11 +5955,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 587293358435444526, guid: b597f29bf6d10234ba00a16bd78bdcb4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.21
+      value: -7.47
       objectReference: {fileID: 0}
     - target: {fileID: 587293358435444526, guid: b597f29bf6d10234ba00a16bd78bdcb4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.9
+      value: -3.27
       objectReference: {fileID: 0}
     - target: {fileID: 587293358435444526, guid: b597f29bf6d10234ba00a16bd78bdcb4, type: 3}
       propertyPath: m_LocalPosition.z
