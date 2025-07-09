@@ -19797,10 +19797,7 @@ PrefabInstance:
       addedObject: {fileID: 4465489090251920182}
     - targetCorrespondingSourceObject: {fileID: 3086329911281557654, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5851900636811994032}
-    - targetCorrespondingSourceObject: {fileID: 3086329911281557654, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6509416223456182793}
+      addedObject: {fileID: 6067580412685405317}
   m_SourcePrefab: {fileID: 100100000, guid: b62d3c822ba03f14f82091b52a7a0b53, type: 3}
 --- !u!4 &295705452586005982 stripped
 Transform:
@@ -19824,34 +19821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865533b3fccb87d4da9120882f5e952a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &5851900636811994032
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3138506839684730313}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!70 &6509416223456182793
+--- !u!70 &6067580412685405317
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19885,6 +19855,6 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.07935668, y: -0.0033768364}
-  m_Size: {x: 0.2057772, y: 0.18213888}
+  m_Offset: {x: 0.08130826, y: -0.0050821854}
+  m_Size: {x: 0.19996898, y: 0.14102109}
   m_Direction: 1

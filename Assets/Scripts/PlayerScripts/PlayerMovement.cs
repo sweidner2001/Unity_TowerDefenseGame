@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     public Animator animator;
+    protected SpriteRenderer sr;
 
     public bool isKnockedBAck { get; set; }
 
@@ -22,12 +23,14 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         this.rb = GetComponentInParent<Rigidbody2D>();
     }
 
 
     private void Update()
     {
+        sr.sortingOrder = Mathf.RoundToInt(-transform.position.y * 100);
         if (Input.GetKey(KeyCode.K)) // Input.GetButtonDown("UserAttack")
         {
             player_Combat.Attack();

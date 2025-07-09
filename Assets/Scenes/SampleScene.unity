@@ -5248,10 +5248,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 649635380408151081, guid: 688cdf3874db1c54aaa6b9161b2fe343, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 1806910365266483006, guid: 688cdf3874db1c54aaa6b9161b2fe343, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -5300,13 +5296,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5851900636811994032, guid: 688cdf3874db1c54aaa6b9161b2fe343, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6716631824910868540, guid: 688cdf3874db1c54aaa6b9161b2fe343, type: 3}
       propertyPath: m_Name
       value: CatBatman
-      objectReference: {fileID: 0}
-    - target: {fileID: 6716631824910868540, guid: 688cdf3874db1c54aaa6b9161b2fe343, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
