@@ -34,9 +34,23 @@ public class Pawn : SoldierBase<ConfigPawn>
         {
             Debug.LogWarning(e.ToString());
         }
+
+
+        
+        
+    }
+
+    private void Awake()
+    {
+        movingPath = MovingPath.Instance;
     }
 
 
+    private void OnEnable()
+    {
+        currentPathCheckpointIdx = 0;
+        targetPathCheckpoint = movingPath.GetWaypointPosition(0);
+    }
 
 
     // Update is called once per frame
@@ -47,7 +61,7 @@ public class Pawn : SoldierBase<ConfigPawn>
             this.attackCooldownTimer -= Time.deltaTime;
 
         // Attacke soll zu ende laufen
-        if (this.State == SoldierState.Knockback || this.State == SoldierState.Attack || this.State == SoldierState.Dead)
+        if (this.State == SoldierState.Knockback || this.State == SoldierState.Attack || this.State == SoldierState.Dead || this.State == SoldierState.Survived)
         {
             return;
         }
@@ -66,6 +80,7 @@ public class Pawn : SoldierBase<ConfigPawn>
                     Attack();
                     break;
                 case SoldierState.SeeNoEnemy:
+                    GoToNextWayCheckpoint();
                     GoBackToTower();
                     break;
             }
@@ -103,6 +118,46 @@ public class Pawn : SoldierBase<ConfigPawn>
         }
         health.Init(maxHealth);
     }
+
+
+
+
+
+
+
+
+    protected MovingPath movingPath;
+    protected Vector2 targetPathCheckpoint;
+    protected int currentPathCheckpointIdx;
+
+
+
+
+
+    protected void GoToNextWayCheckpoint()
+    {
+        MoveToPosition(targetPathCheckpoint);
+        if (Vector2.Distance(transform.position, targetPathCheckpoint) < 0.1f)
+        {
+            if(currentPathCheckpointIdx < movingPath.Checkpoints.Count -1)
+            {
+                currentPathCheckpointIdx++;
+                this.targetPathCheckpoint = movingPath.GetWaypointPosition(currentPathCheckpointIdx);
+
+            } 
+            else
+            {
+                // wir sind am Ziel!
+                this.Rb.linearVelocity = Vector2.zero;
+                ChangeState(SoldierState.Survived);
+                //gameObject.SetActive(false);
+
+            }
+        }
+    }
+
+
+
 
 
 
@@ -154,16 +209,7 @@ public class Pawn : SoldierBase<ConfigPawn>
         //**************** keinen Gegner gefunden ****************
         else
         {
-            if (this.homePoint != null && this.State != SoldierState.OnTower)
-            {
-                ChangeState(SoldierState.SeeNoEnemy);
-            }
-            else if (this.State != SoldierState.OnTower)
-            {
-                // Stehen bleiben, kein Gegner gefunden und kein HomePoint zugewiesen
-                this.Rb.linearVelocity = Vector2.zero;
-                ChangeState(SoldierState.Idle);
-            }
+            ChangeState(SoldierState.SeeNoEnemy);
         }
     }
 

@@ -23,7 +23,9 @@ namespace Assets.Scripts
         Attack,
         Knockback,
         OnTower,
-        Dead
+        Dead,
+        Survived,
+
     }
 
 

@@ -24,6 +24,7 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
         { SoldierState.Attack, "isAttacking" },
         { SoldierState.OnTower, "isIdling" },
         { SoldierState.Dead, "isDead" },
+        { SoldierState.Survived, "isIdling" },
     };
 
     private SoldierState _state;
@@ -148,6 +149,14 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
         Rb.linearVelocity = direction * Config.MovingSpeed;
         FlipCharakterIfNecessary(Rb.linearVelocity.x);
     }
+
+    public virtual void MoveToPosition(Vector3 destinationPosition)
+    {
+        Vector2 direction = (destinationPosition - transform.position).normalized;
+        Rb.linearVelocity = direction * Config.MovingSpeed;
+        FlipCharakterIfNecessary(Rb.linearVelocity.x);
+    }
+
 
 
 
