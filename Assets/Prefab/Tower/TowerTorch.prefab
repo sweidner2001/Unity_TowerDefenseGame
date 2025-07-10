@@ -121,7 +121,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4467738220233190129}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318403d01e7f19c4d87444274fd3e5c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerBuy: {fileID: 0}
+  towerToBuy_WithoutHomePoint: {fileID: 0}
   towerTorch: {fileID: 0}
   towerWarrior: {fileID: 0}
   towerArcher: {fileID: 0}
