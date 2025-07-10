@@ -9,6 +9,7 @@ public abstract class ConfigSoldierBase : ScriptableObject, IHealth, IMove, IAtt
 
     // IHealth
     public abstract int MaxHealth { get; set; }
+    [field: SerializeField] public int CoinsOnDeath { get; set; } = 0;
 
     // IAttack
     public abstract float PlayerDetectionRange { get; set; }

@@ -25,7 +25,7 @@ public class Pawn : SoldierBase<ConfigPawn>
             if (enemyDetectionPoint == null)
                 throw new Exception("Variable enemyDetectionPoint = null");
 
-            InitHealth(this.Config.MaxHealth);
+            InitHealth(this.Config.MaxHealth, this.Config.CoinsOnDeath);
             this.homePoint = GetComponent<HomePoint>();
             this.homePoint?.Init();
             ChangeState(SoldierState.SeeNoEnemy);
@@ -104,7 +104,7 @@ public class Pawn : SoldierBase<ConfigPawn>
     }
 
 
-    protected void InitHealth(int maxHealth)
+    protected void InitHealth(int maxHealth, int coinsOnDeath)
     {
         // Health-Objekt initialisieren:
         Health health = GetComponent<Health>();
@@ -113,7 +113,7 @@ public class Pawn : SoldierBase<ConfigPawn>
             Debug.LogError("Health-Komponente nicht gefunden!");
             return;
         }
-        health.Init(maxHealth);
+        health.Init(maxHealth, coinsOnDeath);
     }
 
 

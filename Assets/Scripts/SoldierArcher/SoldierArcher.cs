@@ -57,7 +57,7 @@ public class SoldierArcher : MonoBehaviour
 
     //################################ Methoden ###################################
 
-    private void InitHealth(int maxHealth)
+    private void InitHealth(int maxHealth, int coinsOnDeath=0)
     {
         // Health-Objekt initialisieren:
         Health health = GetComponent<Health>();
@@ -66,7 +66,7 @@ public class SoldierArcher : MonoBehaviour
             Debug.LogError("Health-Komponente nicht gefunden!");
             return;
         }
-        health.Init(maxHealth);
+        health.Init(maxHealth, coinsOnDeath);
     }
 
 

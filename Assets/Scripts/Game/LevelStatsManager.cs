@@ -18,7 +18,7 @@ public class LevelStatsManager : MonoBehaviour
         else
             Instance = this;
 
-        ResetValues();
+        //ResetValues();
     }
 
 

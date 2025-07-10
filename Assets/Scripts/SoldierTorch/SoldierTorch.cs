@@ -103,7 +103,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
     }
 
 
-    protected void InitHealth(int maxHealth)
+    protected void InitHealth(int maxHealth, int coinsOnDeath=0)
     {
         // Health-Objekt initialisieren:
         Health health = GetComponent<Health>();
@@ -112,7 +112,7 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
             Debug.LogError("Health-Komponente nicht gefunden!");
             return;
         }
-        health.Init(maxHealth);
+        health.Init(maxHealth, coinsOnDeath);
     }
 
 

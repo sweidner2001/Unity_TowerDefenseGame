@@ -7,7 +7,8 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    [SerializeField] protected Animator healthTextAnim;
+    [SerializeField] protected Animator uiTextHealthAnim;
+    [SerializeField] protected Animator uiTextRestEnemiesAnim;
     [SerializeField] protected TMP_Text uiTextHealth;
     [SerializeField] protected TMP_Text uiTextCoins;
     [SerializeField] protected TMP_Text uiTextRestEnemies;
@@ -30,7 +31,7 @@ public class UIManager : MonoBehaviour
 
     public void UIUpdateHealth(int maxHelath, float currentHealth)
     {
-        healthTextAnim?.Play("TextUpdate");
+        uiTextHealthAnim?.Play("TextUpdate");
         uiTextHealth.text = $"HP: {maxHelath} / {Math.Round(currentHealth, 1)}";
     }
 
@@ -42,6 +43,7 @@ public class UIManager : MonoBehaviour
 
     public void UIUpdateRestEnemies(int restEnemies)
     {
+        uiTextRestEnemiesAnim?.Play("TextUpdate");
         uiTextRestEnemies.text = $"{restEnemies}";
     }
 }

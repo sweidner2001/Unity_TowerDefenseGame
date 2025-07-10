@@ -91,7 +91,7 @@ public class SoldierWarrior : SoldierBase<ConfigWarrior>
     }
 
 
-    protected void InitHealth(int maxHealth)
+    protected void InitHealth(int maxHealth, int coinsOnDeath=0)
     {
         // Health-Objekt initialisieren:
         Health health = GetComponent<Health>();
@@ -100,7 +100,7 @@ public class SoldierWarrior : SoldierBase<ConfigWarrior>
             Debug.LogError("Health-Komponente nicht gefunden!");
             return;
         }
-        health.Init(maxHealth);
+        health.Init(maxHealth, coinsOnDeath);
     }
 
 

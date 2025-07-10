@@ -14,6 +14,7 @@ public class Health : MonoBehaviour
     protected int maxHealth;
     protected HealthBar healthBar;
     protected bool isHealthBarEnabled = false;
+    protected int coinsOnDeath = 0;
 
     public float CurrentHealth
     {
@@ -48,11 +49,12 @@ public class Health : MonoBehaviour
 
 
     //########################### Methoden #############################
-    public void Init(int maxHealth)
+    public void Init(int maxHealth, int coinsOnDeath=0)
     {
         this.maxHealth = maxHealth;
         this.CurrentHealth = maxHealth;
         this.healthBar?.UpdateHealthBar(maxHealth, maxHealth);
+        this.coinsOnDeath = coinsOnDeath;
     }
 
 
@@ -67,6 +69,7 @@ public class Health : MonoBehaviour
             //Destroy(this.transform.parent.gameObject);
             this.GetComponent<HomePoint>()?.ChangeHomePointState(false);
             this.GetComponent<ISoldierBase>()?.Die();
+
         }
         //else if (this.CurrentHealth >= this.maxHealth)
         //{
@@ -83,6 +86,8 @@ public class Health : MonoBehaviour
     public void DestroyCharakter()
     {
         Destroy(this.transform.parent.gameObject);
+        if(this.coinsOnDeath > 0)
+            LevelStatsManager.Instance.EnemyDie(this.coinsOnDeath);
     }
 
     //protected void EnableHealthBar(bool visible)

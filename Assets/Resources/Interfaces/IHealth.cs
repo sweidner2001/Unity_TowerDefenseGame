@@ -9,5 +9,6 @@ namespace Assets.Resources.Interfaces
     public interface IHealth
     {
         public int MaxHealth { get; set; }
+        public int CoinsOnDeath { get; set; }
     }
 }

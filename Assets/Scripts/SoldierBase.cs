@@ -146,6 +146,7 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
                 this.Rb.linearVelocity = Vector2.zero;
                 ChangeState(SoldierState.Survived);
                 gameObject.SetActive(false);
+                LevelStatsManager.Instance.EnemySurvived();
 
             }
         }
