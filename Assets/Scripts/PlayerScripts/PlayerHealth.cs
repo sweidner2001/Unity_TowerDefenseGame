@@ -1,5 +1,8 @@
+using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -7,6 +10,9 @@ public class PlayerHealth : MonoBehaviour
     //public int currentHealth;
     //public int maxHealth;
     protected HealthBar healthBar;
+    //protected UIManager uiManager;
+    //[SerializeField] protected TMP_Text uiHealthText;
+    //[SerializeField] protected Animator healthTextAnim;
 
 
     //########################### Geerbte Methoden #############################
@@ -24,6 +30,8 @@ public class PlayerHealth : MonoBehaviour
             return;
         }
         this.healthBar.UpdateHealthBar(PlayerStatsManager.Instance.currentHealth, PlayerStatsManager.Instance.maxHealth);
+
+        UIUpdate();
     }
 
     // Update is called once per frame
@@ -32,11 +40,20 @@ public class PlayerHealth : MonoBehaviour
         
     }
 
+    private void UIUpdate()
+    {
+        UIManager.Instance.UIUpdateHealth(PlayerStatsManager.Instance.maxHealth, PlayerStatsManager.Instance.currentHealth);
+    }
+
 
     //########################### Methoden #############################
     public void ChangeHealth(float amount)
     {
         PlayerStatsManager.Instance.currentHealth += amount;
+
+        if (PlayerStatsManager.Instance.currentHealth < 0)
+            PlayerStatsManager.Instance.currentHealth = 0;
+        UIUpdate();
 
 
         // Charakter sterben lassen:

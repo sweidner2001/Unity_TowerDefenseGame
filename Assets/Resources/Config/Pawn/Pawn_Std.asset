@@ -25,5 +25,5 @@ MonoBehaviour:
   knockbackWidth: 0.15
   knockbackTime: 0.4
   stunTime: 0.15
-  movingSpeed: 1
+  movingSpeed: 0.5
   maxHealth: 15
