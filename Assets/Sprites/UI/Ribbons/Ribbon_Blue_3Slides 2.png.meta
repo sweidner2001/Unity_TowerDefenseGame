@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3f2eccdf82269e94e98b174cfeb5fe70
+guid: eebccf4bc02af1c4097ca1d7a99e30c5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5186603844909537218
-    second: G_Idle_(NoShadow)_0
+      213: 8053000477239663896
+    second: Ribbon_Blue_3Slides_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,8 +51,8 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 45, y: 20, z: 45, w: 3}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: G_Idle_(NoShadow)_0
+      name: Ribbon_Blue_3Slides_0
       rect:
         serializedVersion: 2
-        x: 47
-        y: 31
-        width: 45
-        height: 47
+        x: 2
+        y: 2
+        width: 188
+        height: 62
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e38ed79684b7508b0800000000000000
-      internalID: -5186603844909537218
+      spriteID: 81ddbe5744102cf60800000000000000
+      internalID: 8053000477239663896
       vertices: []
       indices: 
       edges: []
@@ -139,7 +139,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      G_Idle_(NoShadow)_0: -5186603844909537218
+      Ribbon_Blue_3Slides_0: 8053000477239663896
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
