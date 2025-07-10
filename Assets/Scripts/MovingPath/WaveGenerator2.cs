@@ -71,7 +71,7 @@ public class WaveGenerator2 : MonoBehaviour
     void SpawnEnemy(GameObject enemyPrefab)
     {
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
     }
 
     // Optional: Für Debugging oder UI-Anzeige

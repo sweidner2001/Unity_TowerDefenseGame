@@ -334,11 +334,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2149189720009038289, guid: 351510400ac717d4ea0cdc54925294ba, type: 3}
   m_PrefabInstance: {fileID: 5206218310859001701}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &104456420 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
-  m_PrefabInstance: {fileID: 982904021921647481}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &114437076
 GameObject:
   m_ObjectHideFlags: 0
@@ -5551,7 +5546,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1849078307}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44def89202f2beb4b8376fe560e03f08, type: 3}
   m_Name: 
@@ -5589,27 +5584,12 @@ MonoBehaviour:
   waves:
   - subWaves:
     - enemySubWaves:
-      - enemyPrefab: {fileID: 104456420}
-        count: -16
-        delay: 0
-      subWaveDelay: 0
-    - enemySubWaves:
-      - enemyPrefab: {fileID: 104456420}
-        count: -16
-        delay: 0
-      subWaveDelay: 0
-  - subWaves:
-    - enemySubWaves:
-      - enemyPrefab: {fileID: 104456420}
-        count: -16
-        delay: 0
-      subWaveDelay: 0
-    - enemySubWaves:
-      - enemyPrefab: {fileID: 104456420}
-        count: -16
-        delay: 0
-      subWaveDelay: 0
-  spawnPoints: []
+      - enemyPrefab: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
+        count: 3
+        delay: 1
+      subWaveDelay: 3
+  spawnPoints:
+  - {fileID: 1849078308}
 --- !u!4 &1851628424 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6889948472384529865, guid: 81534baff2be1e241a029da275def342, type: 3}
