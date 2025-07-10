@@ -5561,6 +5561,9 @@ MonoBehaviour:
     - enemyPrefab: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
       count: 3
       spawnInterval: 0.5
+    - enemyPrefab: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
+      count: 3
+      spawnInterval: 0.5
   - delayBeforeStart: 20
     spawns:
     - enemyPrefab: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
@@ -5582,12 +5585,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - subWaves:
-    - enemySubWaves:
-      - enemyPrefab: {fileID: 8501194624840926925, guid: 95dbd9259e718ec40accb2997462a17a, type: 3}
-        count: 3
-        delay: 1
-      subWaveDelay: 3
+  - {fileID: 11400000, guid: 3fc5a69cfa07f8142a51d29abae619ec, type: 2}
+  - {fileID: 11400000, guid: 64e04e1638e962345af8eb54095c546b, type: 2}
   spawnPoints:
   - {fileID: 1849078308}
 --- !u!4 &1851628424 stripped

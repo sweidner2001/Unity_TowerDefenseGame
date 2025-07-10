@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemySpawner2 : MonoBehaviour
+public class EnemySpawner2_old : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private float spawnTimer = 0f;

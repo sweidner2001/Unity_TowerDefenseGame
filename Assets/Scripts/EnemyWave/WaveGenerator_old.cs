@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Transform))]
-public class WaveGenerator : MonoBehaviour
+public class WaveGenerator_old : MonoBehaviour
 {
     [System.Serializable]
     public class EnemySpawnData

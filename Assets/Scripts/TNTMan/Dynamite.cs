@@ -186,7 +186,6 @@ public class Dynamite : MonoBehaviour
         }
 
         // Zeit ist abgelaufen und Pfeil hat keinen Gegner getroffen
-        Debug.Log("Arrow: Flight time is over, but no enemy was hit. Arrow will attach to tilemap.");
         DynamiteExplode();
 
     }
