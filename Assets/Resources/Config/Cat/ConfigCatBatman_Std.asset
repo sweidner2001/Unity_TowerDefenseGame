@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349347e49b1009048bbfc094fe5a70db, type: 3}
   m_Name: ConfigCatBatman_Std
   m_EditorClassIdentifier: 
+  <CoinsOnDeath>k__BackingField: 4
   playerDetectionRange: 2.5
   attackCooldown: 2
   maxAttackRange: 1.4

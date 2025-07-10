@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7765446af545d7742bc9f4a881365bc5
+guid: 2291dd811d3ef5f4180701f0f4f8756a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7084676914507504553
-    second: Ribbon_Blue_Connection_Left_Pressed_0
+      213: 8305658182788461582
+    second: Tile-Sets (64-64)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -74,7 +74,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ribbon_Blue_Connection_Left_Pressed_0
+      name: Tile-Sets (64-64)_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 9
-        width: 61
-        height: 50
+        x: 0
+        y: 0
+        width: 384
+        height: 320
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 754ae5ae1eb2ead90800000000000000
-      internalID: -7084676914507504553
+      spriteID: e043ceaac10a34370800000000000000
+      internalID: 8305658182788461582
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Ribbon_Blue_Connection_Left_Pressed_0: -7084676914507504553
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

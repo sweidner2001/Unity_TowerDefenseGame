@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ca3f969ea3d234e9bae6a985abf12a, type: 3}
   m_Name: Pawn_Std
   m_EditorClassIdentifier: 
+  <CoinsOnDeath>k__BackingField: 6
   playerDetectionRange: 2.5
   attackCooldown: 2
   maxAttackRange: 0.5
@@ -25,5 +26,5 @@ MonoBehaviour:
   knockbackWidth: 0.15
   knockbackTime: 0.4
   stunTime: 0.15
-  movingSpeed: 0.5
-  maxHealth: 15
+  movingSpeed: 1
+  maxHealth: 10
