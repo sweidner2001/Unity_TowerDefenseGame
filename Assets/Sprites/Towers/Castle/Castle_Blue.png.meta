@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6940108b6acdd434280090f2db84edc5
+guid: 317b4b7e7efd2a944a681e514c5706cc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3370451049799072056
-    second: Tower_Destroyed_0
+      213: -3146623167323606182
+    second: Castle_Blue_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tower_Destroyed_0
+      name: Castle_Blue_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 25
-        width: 127
-        height: 88
+        x: 11
+        y: 5
+        width: 298
+        height: 207
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 839bd145f5f36ce20800000000000000
-      internalID: 3370451049799072056
+      spriteID: a5379ad96e2f454d0800000000000000
+      internalID: -3146623167323606182
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Tower_Destroyed_0: 3370451049799072056
+      Castle_Blue_0: -3146623167323606182
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

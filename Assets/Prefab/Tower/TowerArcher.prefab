@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1694373988074345496}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.6, y: 0.03, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -153,15 +153,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3826187492717964218, guid: 78c1331b99891a14885717a2e4f08ddf, type: 3}
       propertyPath: m_Name
-      value: Archer
+      value: SoldierArcher
       objectReference: {fileID: 0}
     - target: {fileID: 4405476053392829903, guid: 78c1331b99891a14885717a2e4f08ddf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.708
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4405476053392829903, guid: 78c1331b99891a14885717a2e4f08ddf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.741
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4405476053392829903, guid: 78c1331b99891a14885717a2e4f08ddf, type: 3}
       propertyPath: m_LocalPosition.z

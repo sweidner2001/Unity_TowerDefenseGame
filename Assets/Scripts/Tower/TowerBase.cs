@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TowerBase : MonoBehaviour
 {
-    public GameObject towerBuy;
+    public GameObject towerToBuy_WithoutHomePoint;
     public GameObject towerTorch;
     public GameObject towerWarrior;
     public GameObject towerArcher;
@@ -15,7 +15,7 @@ public class TowerBase : MonoBehaviour
         //SpriteRenderer sr = GetComponent<SpriteRenderer>();
         //sr.sortingOrder = Mathf.RoundToInt(-transform.position.y * 100);
 
-        ReplaceTower(towerArcher);
+        ReplaceTower(towerTorch);
     }
 
     // Update is called once per frame
@@ -29,6 +29,7 @@ public class TowerBase : MonoBehaviour
 
     public void ReplaceTower(GameObject newTowerPrefab)
     {
+
         GameObject newTower = Instantiate(newTowerPrefab, transform.position, transform.rotation, transform.parent);
 
         // Alle Childs von TowerBuy auf das neue Objekt verschieben
