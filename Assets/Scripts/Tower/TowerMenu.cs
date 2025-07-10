@@ -16,9 +16,17 @@ public class TowerMenu : MonoBehaviour, IPointerExitHandler,
         for (int i = 0; i < buttons.Length; i++)
         {
             int captured = i; // lokale Kopie für die Lambda
-            buttons[i].onClick.AddListener(() =>
+            buttons[0].onClick.AddListener(() =>
             {
-                towerBase.BuildTower(captured);
+                towerBase.OnButtonClickArcher();
+            });
+            buttons[1].onClick.AddListener(() =>
+            {
+                towerBase.OnButtonClickTorch();
+            });
+            buttons[2].onClick.AddListener(() =>
+            {
+                towerBase.OnButtonClickWarrior();
             });
         }
     }
