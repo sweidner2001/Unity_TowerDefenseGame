@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
 
@@ -95,7 +96,10 @@ public class SoldierArcher : MonoBehaviour
         if (hits.Length > 0)
         {
             this.bow.ChangeState(FireWeaponState.SeeEnemy);
-            this.enemyTransform = hits[0].transform;
+            
+            // Falls nicht, neuen Gegner zuweisen
+            if (!hits.Any(h => h.transform == this.enemyTransform))
+                this.enemyTransform = hits[0].transform;
             
             // Player zum Gegner drehen + Bogen auf Gegner richten:
             Vector2 flipDirection = (this.enemyTransform.position - this.transform.position).normalized;

@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
@@ -85,6 +86,10 @@ public class CatBatmanLaser : MonoBehaviour
             enemyTransform.GetComponent<Health>()?.ChangeHealth(-damagePerTick);
             appliedDamage += damagePerTick;
 
+            if (enemyTransform.GetComponent<ISoldierBase>()?.State == SoldierState.Dead)
+            {
+                break;
+            }
             currentLaserTime += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }

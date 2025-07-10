@@ -39,7 +39,6 @@ public class SoldierTorch : SoldierBase<ConfigTorch>
             InitHealth(this.Config.MaxHealth);
             this.homePoint = GetComponent<HomePoint>();
             this.homePoint?.Init();
-            //InitHomePoint();
             ChangeState(SoldierState.SeeNoEnemy);
         }
         catch (Exception e)

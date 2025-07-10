@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -100,6 +101,9 @@ public class Burning : MonoBehaviour
     }
 
 
+
+
+
     protected void UpdateBurningEffekt(float burningSeconds, float damage)
     {
         // Stoppe die alte Coroutine und starte eine neue mit den neuen Werten
@@ -110,7 +114,7 @@ public class Burning : MonoBehaviour
         burningCoroutine = StartCoroutine(BurningCoroutine(burningSeconds, damage));
     }
 
-    private IEnumerator BurningCoroutine(float burningSeconds, float damage)
+    protected IEnumerator BurningCoroutine(float burningSeconds, float damage)
     {
         // Variablen:
         float currentBurningTime = 0f;
@@ -123,7 +127,7 @@ public class Burning : MonoBehaviour
         while (currentBurningTime < burningSeconds)
         {
             // Abbruch, wenn das Feuer gelöscht wurde:
-            if (!this.burning) 
+            if (!this.burning || GetComponent<ISoldierBase>()?.State == SoldierState.Dead) 
                 yield break;
 
             // Schaden zufügen:
@@ -139,6 +143,29 @@ public class Burning : MonoBehaviour
         SetMissingDamage(damage - appliedDamage);
         StopBurning();
     }
+
+
+
+    protected void SetMissingDamage(float missingDamage)
+    {
+        if (Mathf.Abs(missingDamage) > 0.1f)
+        {
+            GetComponent<PlayerHealth>()?.ChangeHealth(-missingDamage);
+            GetComponent<Health>()?.ChangeHealth(-missingDamage);
+        }
+    }
+
+    protected void StartBurningEffect()
+    {
+        this.ChangeEffectState(EffectState.OnBurning);
+    }
+
+    public void StopBurning()
+    {
+        this.ChangeEffectState(EffectState.StoppEffect);
+    }
+
+
 
 
     protected void ChangeEffectState(EffectState state)
@@ -159,24 +186,5 @@ public class Burning : MonoBehaviour
                 obj.gameObject.SetActive(true);
         }
         this.StateEffect = state;
-    }
-
-    protected void SetMissingDamage(float missingDamage)
-    {
-        if (Mathf.Abs(missingDamage) > 0.1f)
-        {
-            GetComponent<PlayerHealth>()?.ChangeHealth(-missingDamage);
-            GetComponent<Health>()?.ChangeHealth(-missingDamage);
-        }
-    }
-
-    protected void StartBurningEffect()
-    {
-        this.ChangeEffectState(EffectState.OnBurning);
-    }
-
-    public void StopBurning()
-    {
-        this.ChangeEffectState(EffectState.StoppEffect);
     }
 }

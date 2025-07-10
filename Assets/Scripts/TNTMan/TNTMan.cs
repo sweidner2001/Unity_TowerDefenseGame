@@ -28,7 +28,6 @@ public class TNTMan : SoldierBase<ConfigTNTMan>
             InitHealth(this.Config.MaxHealth);
             this.homePoint = GetComponent<HomePoint>();
             this.homePoint?.Init();
-            //InitHomePoint();
             ChangeState(SoldierState.SeeNoEnemy);
 
         }

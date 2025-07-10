@@ -15,10 +15,10 @@ public class Health : MonoBehaviour
     protected HealthBar healthBar;
     protected bool isHealthBarEnabled = false;
 
-    protected float CurrentHealth
+    public float CurrentHealth
     {
         get => _currentHealth;
-        set => _currentHealth = value > this.maxHealth ? this.maxHealth : value;
+        protected set => _currentHealth = value > this.maxHealth ? this.maxHealth : Math.Max(value, 0);
     }
 
 
@@ -66,17 +66,17 @@ public class Health : MonoBehaviour
             // Charakter sterben lassen:
             //Destroy(this.transform.parent.gameObject);
             this.GetComponent<HomePoint>()?.ChangeHomePointState(false);
-            this.GetComponent<ISoldierBase>()?.ChangeState(SoldierState.Dead);
+            this.GetComponent<ISoldierBase>()?.Die();
         }
-        else if (this.CurrentHealth >= this.maxHealth)
-        {
-            //EnableHealthBar(false);
-            this.CurrentHealth = this.maxHealth;
-        } 
-        else if(isHealthBarEnabled == false)
-        {
-            //EnableHealthBar(true);
-        }
+        //else if (this.CurrentHealth >= this.maxHealth)
+        //{
+        //    //EnableHealthBar(false);
+        //    this.CurrentHealth = this.maxHealth;
+        //} 
+        //else if(isHealthBarEnabled == false)
+        //{
+        //    //EnableHealthBar(true);
+        //}
         this.healthBar?.UpdateHealthBar(this.CurrentHealth, this.maxHealth);
     }
 

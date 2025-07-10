@@ -176,10 +176,18 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
 
     public virtual void ChangeState(SoldierState newState)
     {
-        if(State == SoldierState.Dead)
-            return; // Keine Änderung des States, daher nichts tun
-        
+        // Keine Zustandsänderung, wenn bereits tot oder überlebt
+        if(State == SoldierState.Dead || State == SoldierState.Survived)
+        {
+            return; 
+        }
         State = newState;
+    }
+
+    public virtual void Die()
+    {
+        ChangeState(SoldierState.Dead);
+        this.Rb.linearVelocity = Vector2.zero;
     }
 
     //public virtual void Attack()
@@ -187,18 +195,18 @@ public abstract class SoldierBase<TConfig> : MonoBehaviour, ISoldierBase where T
     //    rb.linearVelocity = Vector2.zero;
     //}
 
-    //public virtual void ChaseEnemy()
-    //{
-    //    if (detectedEnemy != null)
-    //        Move(detectedEnemy);
-    //}
+        //public virtual void ChaseEnemy()
+        //{
+        //    if (detectedEnemy != null)
+        //        Move(detectedEnemy);
+        //}
 
-    //public virtual void GoBackToTower()
-    //{
-    //}
+        //public virtual void GoBackToTower()
+        //{
+        //}
 
 
-    //~~~~~~~~~~~~~~~~~~~~~~~ Movement ~~~~~~~~~~~~~~~~~~~~~~~
+        //~~~~~~~~~~~~~~~~~~~~~~~ Movement ~~~~~~~~~~~~~~~~~~~~~~~
     public virtual void Move(Transform destinationTransform)
     {
         Vector2 direction = (destinationTransform.position - transform.position).normalized;

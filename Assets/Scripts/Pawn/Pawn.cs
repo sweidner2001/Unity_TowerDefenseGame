@@ -26,9 +26,8 @@ public class Pawn : SoldierBase<ConfigPawn>
                 throw new Exception("Variable enemyDetectionPoint = null");
 
             InitHealth(this.Config.MaxHealth);
-            //this.homePoint = GetComponent<HomePoint>();
-            //this.homePoint?.Init();
-            //InitHomePoint();
+            this.homePoint = GetComponent<HomePoint>();
+            this.homePoint?.Init();
             ChangeState(SoldierState.SeeNoEnemy);
         }
         catch (Exception e)
