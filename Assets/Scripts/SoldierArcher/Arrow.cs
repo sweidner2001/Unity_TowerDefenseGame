@@ -70,6 +70,8 @@ public class Arrow : MonoBehaviour
 
     private void RotateArrowBeforeAttack()
     {
+        if (this.enemyTransform == null)
+            return;
         float angle = Arrow.GetBowRotationAngle(this.transform.position, this.enemyTransform.position, this.Config);
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }

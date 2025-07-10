@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
-
+using UnityEngine.UI;
 
 
 public enum EnemyType
@@ -36,8 +36,8 @@ public class WaveGenerator : MonoBehaviour
         Config = GetConfig();
         enemyTypePrefapMapping = Config.GetEnemyTypePrefapMapping();
         containerCreatedObjekts = this.transform.parent.Find("CreatedObjects");
-        StartNextWave();
 
+        UIManager.Instance.UIUpdateCurrentRound(waves.Length, currentWaveIndex + 1);
     }
 
 
@@ -71,15 +71,24 @@ public class WaveGenerator : MonoBehaviour
 
 
     //************************* Bedienelemente: ***************************
-    public bool StartNextWave()
+    public void StartNextWave()
     {
-        if (!isSpawning && currentWaveIndex < waves.Length)
+        if(isSpawning)
         {
+            Debug.LogWarning("Welle wird bereits gespawnt, bitte warten...");
+        }
+        else if(currentWaveIndex >= waves.Length)
+        {
+            Debug.LogWarning("Keine Wellen mehr Übrig!");
+        }
+        else if(!isSpawning && currentWaveIndex < waves.Length)
+        {
+            // Button deaktiveren:
+            UIManager.Instance.UIEnablePlayButton(false);
+
             StartCoroutine(SpawnWave(waves[currentWaveIndex]));
             currentWaveIndex++;
-            return true;
         }
-        return false;
     }
 
     // Optional: Für Debugging oder UI-Anzeige
@@ -117,6 +126,10 @@ public class WaveGenerator : MonoBehaviour
         }
 
         isSpawning = false;
+
+        // Button aktivieren:
+        UIManager.Instance.UIEnablePlayButton(true);
+        UIManager.Instance.UIUpdateCurrentRound(waves.Length, currentWaveIndex + 1);
     }
 
     void SpawnEnemy(GameObject enemyPrefab)
