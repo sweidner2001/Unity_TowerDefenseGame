@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pickup_coin_bronze_09_0: 4099004927030084695
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

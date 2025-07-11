@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subWaves:
   - enemyWaves:
-    - enemyType: 1
+    - enemyType: 0
       count: 4
       delay: 0.5
     subWaveDelay: 5
   - enemyWaves:
-    - enemyType: 1
+    - enemyType: 2
       count: 4
       delay: 0.5
     subWaveDelay: 0
